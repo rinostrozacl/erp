@@ -10,7 +10,7 @@
                     <i class="fas fa-home"></i> Bienvenido
                 </div>
                 <div class="card-body">
-                    <a href="http://erp.local/login"  class="button btn-success">Iniciar Sesión</a>
+                    <a href="/login"  class="button btn-success">Iniciar Sesión</a>
                     <br>Username: admin@admin.com
                     <br>Password: secret
                 </div>
