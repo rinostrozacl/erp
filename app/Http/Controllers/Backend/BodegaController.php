@@ -14,19 +14,20 @@ class BodegaController extends Controller
      */
     public function producto_index()
     {
-        return view('backend.bodega');
+         
+        return view('backend.bodega.lista');
     }
     public function entrada_index()
     {
-        return view('backend.bodega');
+        return view('backend.bodega.lista');
     }
     public function salida_index()
     {
-        return view('backend.bodega');
+        return view('backend.bodega.lista');
     }
     public function inventario_index()
     {
-        return view('backend.bodega');
+        return view('backend.bodega.lista');
     }
 }
 

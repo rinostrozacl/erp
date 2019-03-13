@@ -20,7 +20,7 @@
 
     <div class="row mb-4">
         <div class="col">
-
+            <example-component></example-component>
         </div><!--col-->
     </div><!--row-->
 
