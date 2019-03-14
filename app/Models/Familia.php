@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 class Familia extends Model
@@ -6,14 +6,14 @@ class Familia extends Model
 	protected $table = 'familia';
 	public function linea() 
 	{
-		return $this->belongsTo('App\Linea', 'linea_id'); 
+		return $this->belongsTo('App\Models\Linea', 'linea_id');
 	}
 	public function inventario() 
 	{
-		return $this->hasMany('App\Inventario', 'familia_id'); 
+		return $this->hasMany('App\Models\Inventario', 'familia_id');
 	}
 	public function producto() 
 	{
-		return $this->hasMany('App\Producto', 'familia_id'); 
+		return $this->hasMany('App\Models\Producto', 'familia_id');
 	}
 }
