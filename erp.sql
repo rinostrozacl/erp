@@ -17,7 +17,6 @@ CREATE DATABASE IF NOT EXISTS `erp` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `erp`;
 
 -- Volcando estructura para tabla erp.cache
-DROP TABLE IF EXISTS `cache`;
 CREATE TABLE IF NOT EXISTS `cache` (
   `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -30,7 +29,6 @@ CREATE TABLE IF NOT EXISTS `cache` (
 /*!40000 ALTER TABLE `cache` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.cliente
-DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE IF NOT EXISTS `cliente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -46,76 +44,32 @@ CREATE TABLE IF NOT EXISTS `cliente` (
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.compra
-DROP TABLE IF EXISTS `compra`;
 CREATE TABLE IF NOT EXISTS `compra` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `proveedor_id` int(11) NOT NULL,
   `valor_neto` int(11) DEFAULT NULL,
   `valor_iva` int(11) DEFAULT NULL,
-  `valot_total` int(11) DEFAULT NULL,
-  `is_recepcionado` int(11) DEFAULT NULL,
+  `valo_total` int(11) DEFAULT NULL,
   `is_pagado` int(11) DEFAULT NULL,
+  `movimiento_id` int(11) NOT NULL,
+  `tipo_doc_compra_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `doc_tipo_compra_id` int(11) NOT NULL,
-  `ingreso_id` int(11) NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_compra_proveedor1_idx` (`proveedor_id`),
-  KEY `fk_compra_doc_tipo_compra1_idx` (`doc_tipo_compra_id`),
-  KEY `fk_compra_ingreso1_idx` (`ingreso_id`),
-  CONSTRAINT `fk_compra_doc_tipo_compra1` FOREIGN KEY (`doc_tipo_compra_id`) REFERENCES `doc_tipo_compra` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_compra_ingreso1` FOREIGN KEY (`ingreso_id`) REFERENCES `movimiento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_compra_proveedor1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_compra_movimiento1_idx` (`movimiento_id`),
+  KEY `fk_compra_tipo_doc_compra1_idx` (`tipo_doc_compra_id`),
+  CONSTRAINT `fk_compra_movimiento1` FOREIGN KEY (`movimiento_id`) REFERENCES `movimiento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_compra_proveedor1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_compra_tipo_doc_compra1` FOREIGN KEY (`tipo_doc_compra_id`) REFERENCES `tipo_doc_compra` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla erp.compra: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `compra` DISABLE KEYS */;
 /*!40000 ALTER TABLE `compra` ENABLE KEYS */;
 
--- Volcando estructura para tabla erp.compra_detalle
-DROP TABLE IF EXISTS `compra_detalle`;
-CREATE TABLE IF NOT EXISTS `compra_detalle` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `producto_id` int(11) NOT NULL,
-  `compra_id` int(11) NOT NULL,
-  `valor_neto` varchar(100) DEFAULT NULL,
-  `valor_iva` varchar(100) DEFAULT NULL,
-  `valot_total` varchar(100) DEFAULT NULL,
-  `cantidad_comprada` varchar(100) DEFAULT NULL,
-  `cantidad_disponible` varchar(100) DEFAULT NULL,
-  `is_recepcionado` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_compra_detalle_producto1_idx` (`producto_id`),
-  KEY `fk_compra_detalle_compra1_idx` (`compra_id`),
-  CONSTRAINT `fk_compra_detalle_compra1` FOREIGN KEY (`compra_id`) REFERENCES `compra` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_compra_detalle_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla erp.compra_detalle: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `compra_detalle` DISABLE KEYS */;
-/*!40000 ALTER TABLE `compra_detalle` ENABLE KEYS */;
-
--- Volcando estructura para tabla erp.doc_tipo_compra
-DROP TABLE IF EXISTS `doc_tipo_compra`;
-CREATE TABLE IF NOT EXISTS `doc_tipo_compra` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla erp.doc_tipo_compra: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `doc_tipo_compra` DISABLE KEYS */;
-/*!40000 ALTER TABLE `doc_tipo_compra` ENABLE KEYS */;
-
 -- Volcando estructura para tabla erp.familia
-DROP TABLE IF EXISTS `familia`;
 CREATE TABLE IF NOT EXISTS `familia` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -133,7 +87,6 @@ CREATE TABLE IF NOT EXISTS `familia` (
 /*!40000 ALTER TABLE `familia` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.inventario
-DROP TABLE IF EXISTS `inventario`;
 CREATE TABLE IF NOT EXISTS `inventario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(100) DEFAULT NULL,
@@ -161,7 +114,6 @@ CREATE TABLE IF NOT EXISTS `inventario` (
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.inventario_unidad
-DROP TABLE IF EXISTS `inventario_unidad`;
 CREATE TABLE IF NOT EXISTS `inventario_unidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `inventario_id` int(11) NOT NULL,
@@ -182,7 +134,6 @@ CREATE TABLE IF NOT EXISTS `inventario_unidad` (
 /*!40000 ALTER TABLE `inventario_unidad` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.jobs
-DROP TABLE IF EXISTS `jobs`;
 CREATE TABLE IF NOT EXISTS `jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `queue` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -200,7 +151,6 @@ CREATE TABLE IF NOT EXISTS `jobs` (
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.linea
-DROP TABLE IF EXISTS `linea`;
 CREATE TABLE IF NOT EXISTS `linea` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -215,7 +165,6 @@ CREATE TABLE IF NOT EXISTS `linea` (
 /*!40000 ALTER TABLE `linea` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.marca
-DROP TABLE IF EXISTS `marca`;
 CREATE TABLE IF NOT EXISTS `marca` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -230,7 +179,6 @@ CREATE TABLE IF NOT EXISTS `marca` (
 /*!40000 ALTER TABLE `marca` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.migrations
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -252,7 +200,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.model_has_permissions
-DROP TABLE IF EXISTS `model_has_permissions`;
 CREATE TABLE IF NOT EXISTS `model_has_permissions` (
   `permission_id` int(10) unsigned NOT NULL,
   `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -267,7 +214,6 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
 /*!40000 ALTER TABLE `model_has_permissions` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.model_has_roles
-DROP TABLE IF EXISTS `model_has_roles`;
 CREATE TABLE IF NOT EXISTS `model_has_roles` (
   `role_id` int(10) unsigned NOT NULL,
   `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -286,22 +232,24 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 /*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.movimiento
-DROP TABLE IF EXISTS `movimiento`;
 CREATE TABLE IF NOT EXISTS `movimiento` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` varchar(100) DEFAULT NULL,
   `cantidad` varchar(100) DEFAULT NULL,
   `movimiento_tipo_id` int(11) NOT NULL,
-  `ubicacion_id` int(11) NOT NULL,
+  `ubicacion_origen_id` int(11) NOT NULL,
+  `ubicacion_destino_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ingreso_ingreso_tipo1_idx` (`movimiento_tipo_id`),
-  KEY `fk_ingreso_ubicacion1_idx` (`ubicacion_id`),
+  KEY `fk_ingreso_ubicacion1_idx` (`ubicacion_origen_id`),
+  KEY `fk_movimiento_ubicacion1_idx` (`ubicacion_destino_id`),
   CONSTRAINT `fk_ingreso_ingreso_tipo1` FOREIGN KEY (`movimiento_tipo_id`) REFERENCES `movimiento_tipo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ingreso_ubicacion1` FOREIGN KEY (`ubicacion_id`) REFERENCES `ubicacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_ingreso_ubicacion1` FOREIGN KEY (`ubicacion_origen_id`) REFERENCES `ubicacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_movimiento_ubicacion1` FOREIGN KEY (`ubicacion_destino_id`) REFERENCES `ubicacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla erp.movimiento: ~0 rows (aproximadamente)
@@ -309,11 +257,9 @@ CREATE TABLE IF NOT EXISTS `movimiento` (
 /*!40000 ALTER TABLE `movimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.movimiento_tipo
-DROP TABLE IF EXISTS `movimiento_tipo`;
 CREATE TABLE IF NOT EXISTS `movimiento_tipo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
-  `is_ingreso` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
@@ -325,7 +271,6 @@ CREATE TABLE IF NOT EXISTS `movimiento_tipo` (
 /*!40000 ALTER TABLE `movimiento_tipo` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.parametros
-DROP TABLE IF EXISTS `parametros`;
 CREATE TABLE IF NOT EXISTS `parametros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -341,7 +286,6 @@ CREATE TABLE IF NOT EXISTS `parametros` (
 /*!40000 ALTER TABLE `parametros` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.password_histories
-DROP TABLE IF EXISTS `password_histories`;
 CREATE TABLE IF NOT EXISTS `password_histories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
@@ -362,7 +306,6 @@ INSERT INTO `password_histories` (`id`, `user_id`, `password`, `created_at`, `up
 /*!40000 ALTER TABLE `password_histories` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.password_resets
-DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -375,7 +318,6 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.periodo_contable
-DROP TABLE IF EXISTS `periodo_contable`;
 CREATE TABLE IF NOT EXISTS `periodo_contable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mes` varchar(100) DEFAULT NULL,
@@ -391,7 +333,6 @@ CREATE TABLE IF NOT EXISTS `periodo_contable` (
 /*!40000 ALTER TABLE `periodo_contable` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.permissions
-DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -408,7 +349,6 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.producto
-DROP TABLE IF EXISTS `producto`;
 CREATE TABLE IF NOT EXISTS `producto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -418,6 +358,8 @@ CREATE TABLE IF NOT EXISTS `producto` (
   `unidad_medida_id` int(11) NOT NULL,
   `familia_id` int(11) NOT NULL,
   `marca_id` int(11) NOT NULL,
+  `stock_disponible` int(11) DEFAULT NULL,
+  `stock_critico` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
@@ -434,8 +376,25 @@ CREATE TABLE IF NOT EXISTS `producto` (
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 
+-- Volcando estructura para tabla erp.producto_ubicacion
+CREATE TABLE IF NOT EXISTS `producto_ubicacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `producto_id` int(11) NOT NULL,
+  `ubicacion_id` int(11) NOT NULL,
+  `stock_disponible` int(11) DEFAULT NULL,
+  `stock_critico` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_producto_has_ubicacion_ubicacion1_idx` (`ubicacion_id`),
+  KEY `fk_producto_has_ubicacion_producto1_idx` (`producto_id`),
+  CONSTRAINT `fk_producto_has_ubicacion_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_producto_has_ubicacion_ubicacion1` FOREIGN KEY (`ubicacion_id`) REFERENCES `ubicacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla erp.producto_ubicacion: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `producto_ubicacion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `producto_ubicacion` ENABLE KEYS */;
+
 -- Volcando estructura para tabla erp.proveedor
-DROP TABLE IF EXISTS `proveedor`;
 CREATE TABLE IF NOT EXISTS `proveedor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -454,7 +413,6 @@ CREATE TABLE IF NOT EXISTS `proveedor` (
 /*!40000 ALTER TABLE `proveedor` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.roles
-DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -475,7 +433,6 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.role_has_permissions
-DROP TABLE IF EXISTS `role_has_permissions`;
 CREATE TABLE IF NOT EXISTS `role_has_permissions` (
   `permission_id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
@@ -494,7 +451,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 /*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.sessions
-DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
@@ -510,7 +466,6 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.social_accounts
-DROP TABLE IF EXISTS `social_accounts`;
 CREATE TABLE IF NOT EXISTS `social_accounts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
@@ -530,13 +485,12 @@ CREATE TABLE IF NOT EXISTS `social_accounts` (
 /*!40000 ALTER TABLE `social_accounts` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.ubicacion
-DROP TABLE IF EXISTS `ubicacion`;
 CREATE TABLE IF NOT EXISTS `ubicacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL COMMENT 'Nombre de la sucursal',
   `direccion` varchar(100) DEFAULT NULL COMMENT 'Direccion de la sucursal',
-  `is_venta` int(11) DEFAULT NULL COMMENT 'Determina si en esta sucursal se permite vender',
-  `is_bodega` int(11) DEFAULT NULL COMMENT 'Determina si en esta sucursal se almacenan los productos',
+  `is_compra` int(11) DEFAULT NULL COMMENT 'Determina si en esta sucursal se permite vender',
+  `is_venta` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
@@ -548,12 +502,13 @@ CREATE TABLE IF NOT EXISTS `ubicacion` (
 /*!40000 ALTER TABLE `ubicacion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.unidad
-DROP TABLE IF EXISTS `unidad`;
 CREATE TABLE IF NOT EXISTS `unidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ubicacion_id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL,
-  `valor_venta` varchar(100) DEFAULT NULL,
+  `valor_neto_venta` bigint(20) DEFAULT NULL,
+  `valor_neto_costo` bigint(20) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
@@ -569,7 +524,6 @@ CREATE TABLE IF NOT EXISTS `unidad` (
 /*!40000 ALTER TABLE `unidad` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.unidad_medida
-DROP TABLE IF EXISTS `unidad_medida`;
 CREATE TABLE IF NOT EXISTS `unidad_medida` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -585,7 +539,6 @@ CREATE TABLE IF NOT EXISTS `unidad_medida` (
 /*!40000 ALTER TABLE `unidad_medida` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.unidad_movimiento
-DROP TABLE IF EXISTS `unidad_movimiento`;
 CREATE TABLE IF NOT EXISTS `unidad_movimiento` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `movimiento_id` int(11) NOT NULL,
@@ -605,7 +558,6 @@ CREATE TABLE IF NOT EXISTS `unidad_movimiento` (
 /*!40000 ALTER TABLE `unidad_movimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -639,7 +591,6 @@ INSERT INTO `users` (`id`, `uuid`, `first_name`, `last_name`, `email`, `avatar_t
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Volcando estructura para tabla erp.venta
-DROP TABLE IF EXISTS `venta`;
 CREATE TABLE IF NOT EXISTS `venta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ventacol` varchar(100) DEFAULT NULL,
@@ -662,33 +613,7 @@ CREATE TABLE IF NOT EXISTS `venta` (
 /*!40000 ALTER TABLE `venta` DISABLE KEYS */;
 /*!40000 ALTER TABLE `venta` ENABLE KEYS */;
 
--- Volcando estructura para tabla erp.venta_detalle
-DROP TABLE IF EXISTS `venta_detalle`;
-CREATE TABLE IF NOT EXISTS `venta_detalle` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `valor_unitario` varchar(100) DEFAULT NULL,
-  `cantidad_vendida` varchar(100) DEFAULT NULL,
-  `valor_neto` varchar(100) DEFAULT NULL,
-  `valor_iva` varchar(100) DEFAULT NULL,
-  `valot_total` varchar(100) DEFAULT NULL,
-  `venta_id` int(11) NOT NULL,
-  `producto_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_venta_detalle_venta1_idx` (`venta_id`),
-  KEY `fk_venta_detalle_producto1_idx` (`producto_id`),
-  CONSTRAINT `fk_venta_detalle_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_venta_detalle_venta1` FOREIGN KEY (`venta_id`) REFERENCES `venta` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla erp.venta_detalle: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `venta_detalle` DISABLE KEYS */;
-/*!40000 ALTER TABLE `venta_detalle` ENABLE KEYS */;
-
 -- Volcando estructura para tabla erp.venta_estado
-DROP TABLE IF EXISTS `venta_estado`;
 CREATE TABLE IF NOT EXISTS `venta_estado` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
