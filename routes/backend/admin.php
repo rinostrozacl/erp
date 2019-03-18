@@ -13,6 +13,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
  */
 Route::get('bodega/producto', 'BodegaController@producto_index')->name('bodega.producto');
 Route::get('bodega/entrada', [BodegaController::class, 'entrada_index'])->name('bodega.entrada');
+Route::post('bodega/entrada', [BodegaController::class, 'entrada_item'])->name('bodega.entrada.item');
+Route::post('bodega/entrada/guardar', [BodegaController::class, 'nuevoMovimiento'])->name('bodega.entrada.guardar');
 Route::get('bodega/salida', [BodegaController::class, 'salida_index'])->name('bodega.salida');
 Route::get('bodega/inventario', [BodegaController::class, 'inventario_index'])->name('bodega.inventario');
 
