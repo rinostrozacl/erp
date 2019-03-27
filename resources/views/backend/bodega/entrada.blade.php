@@ -7,9 +7,15 @@
     @include('backend.auth.user.includes.breadcrumb-links')
 @endsection
 
-<meta name="_token" content="{{ csrf_token() }}"/>
+@section('meta')
+    <meta name="_token" content="{{ csrf_token() }}"/>
+@endsection
+
+
 
 @section('content')
+
+
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -48,42 +54,7 @@
                             </div><!--card-body-->
                     </div><!--card-->
 
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>Listado de productos</strong>
-                        </div>
-                        <div class="card-body">
 
-
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label" for="hf-email">Ingrese el código del producto</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="">
-                                </div>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table" id="tabla_item">
-                                    <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nombre</th>
-                                        <th>Familia</th>
-                                        <th>Línea</th>
-                                        <th>Cantidad</th>
-                                        <th>Acción</th>
-
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div> <!--table-responsive-->
-
-                        </div><!--card-body-->
-                    </div><!--card-->
 
 
                     <div class="card" id="ocultoentrada" name="ocultoentrada" style="display: none;">
@@ -93,14 +64,26 @@
                         <div class="card-body">
                             <div class="form-group row">
                                 <label for="vat" class="col-sm-3">ORIGEN</label>
-                                <select class="form-control col-sm-3" id="origen_entrada" name="origen_entrada" disabled>
-                                        <option value="1">PROVEEDOR</option>
+                                <select class="form-control col-sm-3" id="origen_entrada" name="origen_entrada">
+                                    <option value="0">Seleccione origen</option>
+
+                                    @foreach($bag['ubicacion_entrada_origen'] as $ubicacion_entrada_origen)
+
+                                        <option value="{{$ubicacion_entrada_origen->id}}">{{$ubicacion_entrada_origen->nombre}}</option>
+
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group row">
                                 <label for="street" class="col-sm-3">DESTINO</label>
-                                <select class="form-control col-sm-3" id="destino_entrada" name="destino_entrada" disabled>
-                                    <option value="1">BODEGA</option>
+                                <select class="form-control col-sm-3" id="destino_entrada" name="destino_entrada">
+                                    <option value="0">Seleccione destino</option>
+
+                                    @foreach($bag['ubicacion_entrada_destino'] as $ubicacion_entrada_destino)
+
+                                        <option value="{{$ubicacion_entrada_destino->id}}">{{$ubicacion_entrada_destino->nombre}}</option>
+
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -177,9 +160,9 @@
                                 <select class="form-control col-sm-3" id="origen_traslado" name="origen_traslado">
                                     <option value="0">Seleccione origen</option>
 
-                                    @foreach($bag['ubicacion'] as $u)
+                                    @foreach($bag['ubicacion_traslado_origen'] as $ubicacion_traslado_origen)
 
-                                        <option value="{{$u->id}}">{{$u->nombre}}</option>
+                                        <option value="{{$ubicacion_traslado_origen->id}}">{{$ubicacion_traslado_origen->nombre}}</option>
 
                                     @endforeach
 
@@ -188,11 +171,11 @@
                             <div class="form-group row">
                                 <label for="street" class="col-sm-3">DESTINO</label>
                                 <select class="form-control col-sm-3" id="destino_traslado" name="destino_traslado">
-                                    <option value="0">Seleccione origen</option>
+                                    <option value="0">Seleccione destino</option>
 
-                                    @foreach($bag['ubicacion'] as $u)
+                                    @foreach($bag['ubicacion_traslado_destino'] as $ubicacion_traslado_destino)
 
-                                        <option value="{{$u->id}}">{{$u->nombre}}</option>
+                                        <option value="{{$ubicacion_traslado_destino->id}}">{{$ubicacion_traslado_destino->nombre}}</option>
 
                                     @endforeach
 
@@ -217,9 +200,9 @@
                                 <select class="form-control col-sm-3" id="origen_salida" name="origen_salida">
                                     <option value="0">Seleccione origen</option>
 
-                                    @foreach($bag['ubicacion'] as $u)
+                                    @foreach($bag['ubicacion_salida_origen'] as $ubicacion_salida_origen)
 
-                                        <option value="{{$u->id}}">{{$u->nombre}}</option>
+                                        <option value="{{$ubicacion_salida_origen->id}}">{{$ubicacion_salida_origen->nombre}}</option>
 
                                     @endforeach
 
@@ -228,11 +211,11 @@
                             <div class="form-group row">
                                 <label for="street" class="col-sm-3">DESTINO</label>
                                 <select class="form-control col-sm-3" id="destino_salida" name="destino_salida">
-                                    <option value="0">Seleccione origen</option>
+                                    <option value="0">Seleccione destino</option>
 
-                                    @foreach($bag['ubicacion'] as $u)
+                                    @foreach($bag['ubicacion_salida_destino'] as $ubicacion_salida_destino)
 
-                                        <option value="{{$u->id}}">{{$u->nombre}}</option>
+                                        <option value="{{$ubicacion_salida_destino->id}}">{{$ubicacion_salida_destino->nombre}}</option>
 
                                     @endforeach
 
@@ -245,6 +228,44 @@
                             <button class="btn btn-md btn-danger" type="reset">
                                 <i class="fa fa-ban"></i>Cancelar</button>
                         </div>
+                    </div><!--card-->
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Listado de productos</strong>
+                        </div>
+                        <div class="card-body">
+
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="hf-email">Ingrese el código del producto</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table" id="tabla_item">
+                                    <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Familia</th>
+                                        <th>Línea</th>
+                                        <th>Cantidad</th>
+                                        <th>Acción</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div> <!--table-responsive-->
+
+                        </div><!--card-body-->
                     </div><!--card-->
 
 
@@ -315,11 +336,13 @@
                         }
 
                         if(respuesta.correcto == 2){
-                            alert("Aqui paso");
+                            console.log("Holi, lo arrelglè");
                             var producto = respuesta.producto_id;
+                            var cantidad = respuesta.cantidad;
 
-                            $("input[name='cantidad["+ producto +"]']").val(4);
-                            alert("Aqui tambien paso " +producto );
+                            $("input[name='cantidad["+ producto +"]']").val(cantidad);
+                            $('#codigoproducto').val("");
+                            console.log(":3 " );
                         }
 
                     }

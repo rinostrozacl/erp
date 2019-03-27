@@ -36,7 +36,12 @@ class BodegaController extends Controller
         $bag['tipo_movimiento']= MovimientoTipo::all();
         $bag['tipo_doc']= DocTipoCompra::all();
         $bag['proveedor']= Proveedor::all();
-        $bag['ubicacion']= Ubicacion::all();
+        $bag['ubicacion_entrada_origen']= Ubicacion::where("is_entrada_origen", 1)->get();
+        $bag['ubicacion_entrada_destino']= Ubicacion::where("is_entrada_destino", 1)->get();
+        $bag['ubicacion_traslado_origen']= Ubicacion::where("is_traslado_origen", 1)->get();
+        $bag['ubicacion_traslado_destino']= Ubicacion::where("is_traslado_destino", 1)->get();
+        $bag['ubicacion_salida_origen']= Ubicacion::where("is_salida_origen", 1)->get();
+        $bag['ubicacion_salida_destino']= Ubicacion::where("is_salida_destino", 1)->get();
 
         return view('backend.bodega.entrada', ['bag' => $bag]);
 
@@ -61,12 +66,13 @@ class BodegaController extends Controller
             $total = $request->session()->get('total');
             $request->session()->put("total", $total+1);
 
-            if ($request->session()->exists($producto->id)) { //si el producto ya fue escaneado
-               $cantidad_producto = $request->session()->get($producto->id);
-                $cantidad_producto += 1;
-                $request->session()->put($producto->id, $cantidad_producto);
+            if ($request->session()->exists("prod_".$producto->id)) { //si el producto ya fue escaneado
+               $cantidad_producto = $request->session()->get("prod_".$producto->id);
+                $cantidad_producto = $cantidad_producto +  1;
+                $request->session()->put("prod_".$producto->id, $cantidad_producto);
                 $respuesta["correcto"] = 2; //indicativo que debo sumar en la vista
                 $respuesta["producto_id"]= $producto->id;
+                $respuesta["cantidad"]= $cantidad_producto;
 
 
 
@@ -75,10 +81,10 @@ class BodegaController extends Controller
             } else { //el producto no fue escaneado, genero un nuevo registro con un valor 1 por defecto
 
                 //dd("No existe ._.");
-                $request->session()->put($producto->id, '1');
+                $request->session()->put("prod_".$producto->id, 1);
                 $respuesta["tr"] = '
                    <tr>
-                        <td>' . $producto->codigo_ean13 . ' <input type="hidden"  id="productos_id" name="productos_id['.$producto->id.']" value="' . $producto->id . '" /> </td>
+                        <td>' . $producto->codigo_ean13 . ' <input type="hidden"  id="productos" name="productos_id['.$producto->id.']" value="' . $producto->id . '" /> </td>
                         <td>' . $producto->nombre . '  </td>
                         <td>' . $producto->familia->nombre . '</td>
                         <td>' . $producto->familia->linea->nombre . '</td>
@@ -117,8 +123,8 @@ class BodegaController extends Controller
 
 
             $movimiento->movimiento_tipo_id = 1;
-            $movimiento->ubicacion_origen_id = 1;
-            $movimiento->ubicacion_destino_id = 2;
+            $movimiento->ubicacion_origen_id = $request->origen_entrada;
+            $movimiento->ubicacion_destino_id = $request->destino_entrada;
             $movimiento->save();
 
             $compra = new Compra();
