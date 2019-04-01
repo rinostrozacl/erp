@@ -12,7 +12,7 @@ Breadcrumbs::for('admin.bodega.producto', function ($trail) {
 });
 
 Breadcrumbs::for('admin.bodega.entrada', function ($trail) {
-    $trail->push(__('Ingreso de productos a bodega'), route('admin.bodega.entrada'));
+    $trail->push(__('Movimientos'), route('admin.bodega.entrada'));
 });
 
 Breadcrumbs::for('admin.bodega.salida', function ($trail) {

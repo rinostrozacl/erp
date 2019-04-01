@@ -20,6 +20,10 @@
     <!-- Otherwise apply the normal LTR layouts -->
     {{ style(mix('css/backend.css')) }}
 
+    <link rel="stylesheet" href="/js/bootstrap-select-1.13.7/dist/css/bootstrap-select.min.css">
+
+
+
     @stack('after-styles')
 </head>
 
@@ -55,6 +59,8 @@
     {!! script(mix('js/manifest.js')) !!}
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
+
+    <script src="/js/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js"></script>
     @stack('after-scripts')
 </body>
 </html>
