@@ -25,5 +25,16 @@ Breadcrumbs::for('admin.bodega.inventario', function ($trail) {
 });
 
 
+Breadcrumbs::for('admin.general.marca', function ($trail) {
+    $trail->push(__('Marcas'), route('admin.general.marca'));
+});
+
+Breadcrumbs::for('admin.general.marca.form', function ($trail) {
+    $trail->push(__('Marcas'), route('admin.general.marca.form'));
+});
+
+
+
+
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';
