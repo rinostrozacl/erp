@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\BodegaController;
+use App\Http\Controllers\Backend\General\MarcaController;
 /*
  * All route names are prefixed with 'admin.'.
  */
@@ -21,12 +22,27 @@ Route::get('bodega/inventario', [BodegaController::class, 'inventario_index'])->
 /*
  * Fin sub menu bodega
  */
+/*
+ * Inicio menu general
+ */
+Route::get('general/marca', [MarcaController::class, 'index'])->name('general.marca');
+Route::get('general/marca/tabla', [MarcaController::class, 'getTabla'])->name('general.marca.tabla');
+Route::get('general/marca/form/{id?}', [MarcaController::class, 'getEdit'])->name('general.marca.form');
+Route::post('general/marca/form', [MarcaController::class, 'postUpdate'])->name('general.marca.form.update');
+Route::post('general/marca/activar', [MarcaController::class, 'postActivar'])->name('general.marca.activar');
+Route::post('general/marca/eliminar', [MarcaController::class, 'postEliminar'])->name('general.marca.eliminar');
 
+/*
+ * Fin sub menu general
+ */
 
 
 /*
  * Inicio sub menu Sala de ventas
  */
+
+
+
 
 /*
  * Fin sub menu Sala de ventas
