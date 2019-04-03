@@ -1,9 +1,13 @@
 <?php namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Ubicacion extends Model
 {
-	protected $table = 'ubicacion';
+    use SoftDeletes;
+
+    protected $table = 'ubicacion';
 	public function movimiento() 
 	{
 		return $this->hasMany('App\Models\Movimiento', 'ubicacion_id');
