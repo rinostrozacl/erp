@@ -3,6 +3,11 @@
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\BodegaController;
 use App\Http\Controllers\Backend\General\MarcaController;
+
+use App\Http\Controllers\Backend\Bodega\ProductoController;
+use App\Http\Controllers\Backend\Bodega\InventarioController;
+use App\Http\Controllers\Backend\ComboController;
+
 use App\Http\Controllers\Backend\General\FamiliaController;
 use App\Http\Controllers\Backend\General\LineaController;
 use App\Http\Controllers\Backend\General\UbicacionController;
@@ -11,12 +16,6 @@ use App\Http\Controllers\Backend\General\DocTipoCompraController;
 use App\Http\Controllers\Backend\General\DocTipoVentaController;
 use App\Http\Controllers\Backend\General\ClienteController;
 use App\Http\Controllers\Backend\Informe\MovimientoController;
-
-
-
-
-
-
 
 /*
  * All route names are prefixed with 'admin.'.
@@ -27,12 +26,23 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 /*
  * Inicio sub menu bodega
  */
-Route::get('bodega/producto', 'BodegaController@producto_index')->name('bodega.producto');
+Route::get('bodega/producto', [ProductoController::class, 'index'])->name('bodega.producto');
+Route::get('bodega/producto/tabla', [ProductoController::class, 'getTabla'])->name('bodega.producto.tabla');
+Route::get('bodega/producto/tabla/detalle/{id?}', [ProductoController::class, 'getDetailsData'])->name('bodega.producto.tabla.detalle');
+Route::post('bodega/producto/activar', [ProductoController::class, 'postActivar'])->name('bodega.producto.activar');
+Route::post('bodega/producto/eliminar', [ProductoController::class, 'postEliminar'])->name('bodega.producto.eliminar');
+Route::get('general/producto/form/{id?}', [ProductoController::class, 'getForm'])->name('bodega.producto.form');
+Route::post('general/producto/form', [ProductoController::class, 'postUpdate'])->name('bodega.producto.form.update');
+
+
 Route::get('bodega/entrada', [BodegaController::class, 'entrada_index'])->name('bodega.entrada');
 Route::post('bodega/entrada', [BodegaController::class, 'entrada_item'])->name('bodega.entrada.item');
 Route::post('bodega/entrada/guardar', [BodegaController::class, 'nuevoMovimiento'])->name('bodega.entrada.guardar');
 Route::get('bodega/salida', [BodegaController::class, 'salida_index'])->name('bodega.salida');
-Route::get('bodega/inventario', [BodegaController::class, 'inventario_index'])->name('bodega.inventario');
+
+
+Route::get('bodega/inventario', [InventarioController::class, 'index'])->name('bodega.inventario');
+Route::get('bodega/inventario/tabla', [InventarioController::class, 'getTabla'])->name('bodega.inventario.tabla');
 
 /*
  * Fin sub menu bodega
@@ -124,6 +134,15 @@ Route::get('informe/movimiento/form/{id?}', [MovimientoController::class, 'getEd
 
 /*
  * Fin sub menu general
+ */
+
+/*
+ * Inicio Funciones globales
+ */
+
+Route::get('global/combo/FamiliaByLinea/{id?}', [ComboController::class, 'getFamiliaByLinea'])->name('global.combo.familiabylinea');
+/*
+ * Fin Funciones globales
  */
 
 
