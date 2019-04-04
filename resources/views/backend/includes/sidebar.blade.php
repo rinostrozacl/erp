@@ -27,15 +27,10 @@
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/bodega/entrada*')) }}" href="{{ route('admin.bodega.entrada') }}">
-                            Entrada de productos
+                            Movimiento de productos
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/bodega/salida*')) }}" href="{{ route('admin.bodega.salida') }}">
-                            Salida de productos
-                        </a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/bodega/inventario*')) }}" href="{{ route('admin.bodega.inventario') }}">
@@ -67,8 +62,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/user*')) }}" href="{{ route('admin.auth.user.index') }}">
-                            Historial de salidas
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
+                            Historial de movimientos
                         </a>
                     </li>
                 </ul>
@@ -81,6 +76,65 @@
 
 
             @if ($logged_in_user->isAdmin())
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
+                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}" href="#">
+                        <i class="nav-icon icon-user"></i> General
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/cliente')) }}" href="{{ route('admin.general.cliente') }}">
+                                Cliente
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/marca')) }}" href="{{ route('admin.general.marca') }}">
+                                Marca
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/linea')) }}" href="{{ route('admin.general.linea') }}">
+                                Línea
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/familia')) }}" href="{{ route('admin.general.familia') }}">
+                                Familia
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/ubicacion')) }}" href="{{ route('admin.general.ubicacion') }}">
+                                Ubicación
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/proveedor')) }}" href="{{ route('admin.general.proveedor') }}">
+                                Proveedor
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/doctipocompra')) }}" href="{{ route('admin.general.doctipocompra') }}">
+                                Tipo Doc Compra
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/doctipoventa')) }}" href="{{ route('admin.general.doctipoventa') }}">
+                                Tipo Doc Venta
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}" href="#">
                         <i class="nav-icon icon-user"></i>  Acceso
