@@ -67,7 +67,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/movimientos')) }}" href="{{ route('admin.general.movimientos') }}">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
                             Historial de movimientos
                         </a>
                     </li>

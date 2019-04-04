@@ -10,7 +10,7 @@ use App\Http\Controllers\Backend\General\ProveedorController;
 use App\Http\Controllers\Backend\General\DocTipoCompraController;
 use App\Http\Controllers\Backend\General\DocTipoVentaController;
 use App\Http\Controllers\Backend\General\ClienteController;
-use App\Http\Controllers\Backend\General\MovimientoController;
+use App\Http\Controllers\Backend\Informe\MovimientoController;
 
 
 
@@ -118,12 +118,9 @@ Route::post('general/cliente/eliminar', [ClienteController::class, 'postEliminar
 
 // Movimientos
 
-Route::get('general/movimientos', [MovimientoController::class, 'index'])->name('general.movimientos');
-Route::get('general/movimientos/tabla', [MovimientoController::class, 'getTabla'])->name('general.movimientos.tabla');
-Route::get('general/movimientos/form/{id?}', [MovimientoController::class, 'getEdit'])->name('general.movimientos.form');
-Route::post('general/movimientos/form', [MovimientoController::class, 'postUpdate'])->name('general.movimientos.form.update');
-Route::post('general/movimientos/activar', [MovimientoController::class, 'postActivar'])->name('general.movimientos.activar');
-Route::post('general/movimientos/eliminar', [MovimientoController::class, 'postEliminar'])->name('general.movimientos.eliminar');
+Route::get('informe/movimiento', [MovimientoController::class, 'index'])->name('informe.movimiento');
+Route::get('informe/movimiento/tabla', [MovimientoController::class, 'getTabla'])->name('informe.movimiento.tabla');
+Route::get('informe/movimiento/form/{id?}', [MovimientoController::class, 'getEdit'])->name('informe.movimiento.form');
 
 /*
  * Fin sub menu general

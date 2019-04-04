@@ -91,12 +91,12 @@ Breadcrumbs::for('admin.general.cliente.form', function ($trail) {
     $trail->push(__('Clientes'), route('admin.general.cliente.form'));
 });
 
-Breadcrumbs::for('admin.general.movimientos', function ($trail) {
-    $trail->push(__('Movimientos'), route('admin.general.movimientos'));
+Breadcrumbs::for('admin.informe.movimiento', function ($trail) {
+    $trail->push(__('Movimientos'), route('admin.informe.movimiento'));
 });
 
-Breadcrumbs::for('admin.general.movimientos.form', function ($trail) {
-    $trail->push(__('Movimientos'), route('admin.general.movimientos.form'));
+Breadcrumbs::for('admin.informe.movimiento.form', function ($trail) {
+    $trail->push(__('Movimientos'), route('admin.informe.movimiento.form'));
 });
 
 
