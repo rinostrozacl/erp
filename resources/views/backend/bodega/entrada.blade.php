@@ -141,12 +141,7 @@
                             </div>
 
                         </div><!--card-body-->
-                        <div class="card-footer">
-                            <button class="btn btn-md btn-success" type="button" id="btn_guardar">
-                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
-                            <button class="btn btn-md btn-danger" type="reset">
-                                <i class="fa fa-ban"></i>Cancelar</button>
-                        </div>
+
                     </div><!--card-->
 
 
@@ -182,12 +177,7 @@
                                 </select>
                             </div>
                         </div><!--card-body-->
-                        <div class="card-footer">
-                            <button class="btn btn-md btn-success" type="button" id="btn_guardar">
-                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
-                            <button class="btn btn-md btn-danger" type="reset">
-                                <i class="fa fa-ban"></i>Cancelar</button>
-                        </div>
+
                     </div><!--card-->
 
                     <div class="card" id="ocultosalida" style="display: none;">
@@ -222,12 +212,7 @@
                                 </select>
                             </div>
                         </div><!--card-body-->
-                        <div class="card-footer">
-                            <button class="btn btn-md btn-success" type="button" id="btn_guardar">
-                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
-                            <button class="btn btn-md btn-danger" type="reset">
-                                <i class="fa fa-ban"></i>Cancelar</button>
-                        </div>
+
                     </div><!--card-->
 
 
@@ -254,7 +239,9 @@
                                         <th>Familia</th>
                                         <th>Línea</th>
                                         <th>Cantidad</th>
-                                        <th>Acción</th>
+                                        <th>Neto compra (UN)</th>
+                                        <th>Neto venta (UN)</th>
+                                        {{--<th>Acción</th>--}}
 
                                     </tr>
                                     </thead>
@@ -266,6 +253,12 @@
                             </div> <!--table-responsive-->
 
                         </div><!--card-body-->
+                        <div class="card-footer">
+                            <button class="btn btn-md btn-success" type="button" id="btn_guardar">
+                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
+                            <button class="btn btn-md btn-danger" type="reset">
+                                <i class="fa fa-ban"></i>Cancelar</button>
+                        </div>
                     </div><!--card-->
 
 
@@ -375,6 +368,17 @@
 
                 }
             });
+
+        });
+
+
+        jQuery('#tabla_item tbody').on( "click", ".bt-eliminar",function(){
+            //e.preventDefault();
+            var boton=  jQuery(this);
+            var id=  boton.data('id');
+            //alert('aa'+ id);
+
+            $(this).closest('tr').remove();
 
         });
 

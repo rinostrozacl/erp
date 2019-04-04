@@ -128,7 +128,7 @@
 
                         <div class="card">
                             <div class="card-header">Detalle
-                                <span class="badge badge-pill badge-danger float-right">{{$movimiento->cantidad  ?? ''}}</span>
+                                {{--<span class="badge badge-pill badge-danger float-right">{{$movimiento->cantidad  ?? ''}}</span>--}}
                             </div>
 
                             <div class="card-body">
