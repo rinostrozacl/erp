@@ -104,6 +104,14 @@ Breadcrumbs::for('admin.informe.movimiento.form', function ($trail) {
     $trail->push(__('Movimientos'), route('admin.informe.movimiento.form'));
 });
 
+Breadcrumbs::for('admin.informe.stock', function ($trail) {
+    $trail->push(__('Informe de stock'), route('admin.informe.stock'));
+});
+
+Breadcrumbs::for('admin.informe.stock.form', function ($trail) {
+    $trail->push(__('Informe de stock'), route('admin.informe.stock.form'));
+});
+
 
 
 

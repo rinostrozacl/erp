@@ -16,6 +16,8 @@ use App\Http\Controllers\Backend\General\DocTipoCompraController;
 use App\Http\Controllers\Backend\General\DocTipoVentaController;
 use App\Http\Controllers\Backend\General\ClienteController;
 use App\Http\Controllers\Backend\Informe\MovimientoController;
+use App\Http\Controllers\Backend\Informe\StockController;
+
 
 /*
  * All route names are prefixed with 'admin.'.
@@ -131,6 +133,13 @@ Route::post('general/cliente/eliminar', [ClienteController::class, 'postEliminar
 Route::get('informe/movimiento', [MovimientoController::class, 'index'])->name('informe.movimiento');
 Route::get('informe/movimiento/tabla', [MovimientoController::class, 'getTabla'])->name('informe.movimiento.tabla');
 Route::get('informe/movimiento/form/{id?}', [MovimientoController::class, 'getEdit'])->name('informe.movimiento.form');
+
+
+// Stock
+
+Route::get('informe/stock', [StockController::class, 'index'])->name('informe.stock');
+Route::get('informe/stock/tabla', [StockController::class, 'getTabla'])->name('informe.stock.tabla');
+Route::get('informe/stock/form/{id?}', [StockController::class, 'getEdit'])->name('informe.stock.form');
 
 /*
  * Fin sub menu general
