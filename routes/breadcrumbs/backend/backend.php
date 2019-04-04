@@ -10,6 +10,11 @@ Breadcrumbs::for('admin.dashboard', function ($trail) {
 Breadcrumbs::for('admin.bodega.producto', function ($trail) {
     $trail->push(__('Administrador de productos'), route('admin.bodega.producto'));
 });
+Breadcrumbs::for('admin.bodega.producto.form', function ($trail) {
+    $trail->push(__('Administrador de productos'), route('admin.bodega.producto.form'));
+});
+
+
 
 Breadcrumbs::for('admin.bodega.entrada', function ($trail) {
     $trail->push(__('Movimientos'), route('admin.bodega.entrada'));

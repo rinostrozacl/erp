@@ -27,15 +27,10 @@
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/bodega/entrada*')) }}" href="{{ route('admin.bodega.entrada') }}">
-                            Entrada de productos
+                            Movimiento de productos
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/bodega/salida*')) }}" href="{{ route('admin.bodega.salida') }}">
-                            Salida de productos
-                        </a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/bodega/inventario*')) }}" href="{{ route('admin.bodega.inventario') }}">

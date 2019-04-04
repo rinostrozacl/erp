@@ -25,7 +25,8 @@
 
     <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
 
-
+    <link rel="stylesheet" href="/js/datatables.bootstrap.css">
+    @stack('styles')
     @stack('after-styles')
 </head>
 
@@ -65,6 +66,9 @@
 
     <script src="/js/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/handlebars.min.js"></script>
+    <script src="/js/bootbox.all.min.js"></script>
+
     @stack('after-scripts')
 
     <script type="text/javascript">
