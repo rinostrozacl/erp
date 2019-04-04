@@ -8,13 +8,19 @@ class Movimiento extends Model
 	{
 		return $this->belongsTo('App\Models\MovimientoTipo', 'movimiento_tipo_id');
 	}
-	public function ubicacion() 
+	public function ubicacion_origen()
 	{
-		return $this->belongsTo('App\Models\Ubicacion', 'ubicacion_id');
+		return $this->belongsTo('App\Models\Ubicacion', 'ubicacion_origen_id');
 	}
+
+    public function ubicacion_destino()
+    {
+        return $this->belongsTo('App\Models\Ubicacion', 'ubicacion_destino_id');
+    }
+
 	public function compra() 
 	{
-		return $this->hasMany('App\Models\Compra', 'ingreso_id');
+		return $this->hasOne('App\Models\Compra', 'movimiento_id');
 	}
 	public function unidad_movimiento() 
 	{
@@ -24,4 +30,8 @@ class Movimiento extends Model
 	{
 		return $this->hasMany('App\Models\Venta', 'movimiento_id');
 	}
+    public function usuario()
+    {
+        return $this->belongsTo('App\Models\Auth\User', 'user_id');
+    }
 }

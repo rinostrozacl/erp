@@ -1,9 +1,13 @@
 <?php namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Proveedor extends Model
 {
-	protected $table = 'proveedor';
+    use SoftDeletes;
+
+    protected $table = 'proveedor';
 	public function compra() 
 	{
 		return $this->hasMany('App\Models\Compra', 'proveedor_id');

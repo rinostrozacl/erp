@@ -10,7 +10,7 @@ class Compra extends Model
 	}
 	public function movimiento() 
 	{
-		return $this->belongsTo('App\Models\Movimiento', 'ingreso_id');
+		return $this->belongsTo('App\Models\Movimiento', 'movimiento_id');
 	}
 	public function proveedor() 
 	{
