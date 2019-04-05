@@ -24,6 +24,14 @@ Breadcrumbs::for('admin.bodega.salida', function ($trail) {
     $trail->push(__('Salida de productos de bodega'), route('admin.bodega.salida'));
 });
 
+Breadcrumbs::for('admin.bodega.inventario.realizar', function ($trail) {
+    $trail->push(__('Ejecutar inventario'), route('admin.bodega.inventario.realizar'));
+});
+
+
+Breadcrumbs::for('admin.bodega.inventario.nuevo', function ($trail) {
+    $trail->push(__('Realizacion nuevo Inventario'), route('admin.bodega.inventario.nuevo'));
+});
 
 Breadcrumbs::for('admin.bodega.inventario', function ($trail) {
     $trail->push(__('Realizacion de Inventario'), route('admin.bodega.inventario'));
@@ -102,6 +110,22 @@ Breadcrumbs::for('admin.informe.movimiento', function ($trail) {
 
 Breadcrumbs::for('admin.informe.movimiento.form', function ($trail) {
     $trail->push(__('Movimientos'), route('admin.informe.movimiento.form'));
+});
+
+Breadcrumbs::for('admin.informe.stock', function ($trail) {
+    $trail->push(__('Informe de stock'), route('admin.informe.stock'));
+});
+
+Breadcrumbs::for('admin.informe.stock.form', function ($trail) {
+    $trail->push(__('Informe de stock'), route('admin.informe.stock.form'));
+});
+
+Breadcrumbs::for('admin.informe.stockcritico', function ($trail) {
+    $trail->push(__('Informe de stock crítico'), route('admin.informe.stockcritico'));
+});
+
+Breadcrumbs::for('admin.informe.stockcritico.form', function ($trail) {
+    $trail->push(__('Informe de stock crítico'), route('admin.informe.stockcritico.form'));
 });
 
 
