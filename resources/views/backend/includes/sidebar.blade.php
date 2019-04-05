@@ -62,6 +62,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/stockcritico')) }}" href="{{ route('admin.informe.stockcritico') }}">
+                            Informe de stock crítico
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
                             Historial de movimientos
                         </a>
