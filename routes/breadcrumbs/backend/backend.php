@@ -112,6 +112,14 @@ Breadcrumbs::for('admin.informe.stock.form', function ($trail) {
     $trail->push(__('Informe de stock'), route('admin.informe.stock.form'));
 });
 
+Breadcrumbs::for('admin.informe.stockcritico', function ($trail) {
+    $trail->push(__('Informe de stock crítico'), route('admin.informe.stockcritico'));
+});
+
+Breadcrumbs::for('admin.informe.stockcritico.form', function ($trail) {
+    $trail->push(__('Informe de stock crítico'), route('admin.informe.stockcritico.form'));
+});
+
 
 
 

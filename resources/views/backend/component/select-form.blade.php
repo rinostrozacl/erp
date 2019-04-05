@@ -1,4 +1,4 @@
-<select class="form-control" id="{{$name}}" name="{{$name}}">
+<select class="form-control {{$class ?? ''}}" id="{{$name}}" name="{{$name}}">
     <option value="0">Seleccione</option>
     @foreach($lista as $item)
         @php

@@ -17,6 +17,8 @@ use App\Http\Controllers\Backend\General\DocTipoVentaController;
 use App\Http\Controllers\Backend\General\ClienteController;
 use App\Http\Controllers\Backend\Informe\MovimientoController;
 use App\Http\Controllers\Backend\Informe\StockController;
+use App\Http\Controllers\Backend\Informe\StockCriticoController;
+
 
 
 /*
@@ -140,6 +142,13 @@ Route::get('informe/movimiento/form/{id?}', [MovimientoController::class, 'getEd
 Route::get('informe/stock', [StockController::class, 'index'])->name('informe.stock');
 Route::get('informe/stock/tabla', [StockController::class, 'getTabla'])->name('informe.stock.tabla');
 Route::get('informe/stock/form/{id?}', [StockController::class, 'getEdit'])->name('informe.stock.form');
+
+
+// Stock
+
+Route::get('informe/stockcritico', [StockCriticoController::class, 'index'])->name('informe.stockcritico');
+Route::get('informe/stockcritico/tabla', [StockCriticoController::class, 'getTabla'])->name('informe.stockcritico.tabla');
+Route::get('informe/stockcritico/form/{id?}', [StockCriticoController::class, 'getEdit'])->name('informe.stockcritico.form');
 
 /*
  * Fin sub menu general
