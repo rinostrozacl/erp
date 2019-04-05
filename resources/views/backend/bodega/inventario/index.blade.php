@@ -14,18 +14,28 @@
 
 @endpush
 @section('content')
-    <div class="card">
+    <div class="card" id="tablas">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-5">
-                    <h4 class="card-title mb-0">
+                    <h4 class="card-title mb-2">
                       Herramienta de inventarios <small class="text-muted"> </small>
                     </h4>
+                    <p class="mb-0">
+                       <b>Inventarios abiertos:</b> Se deben ingresar los productos.
+                    </p>
+                    <p class="mb-0">
+                        <b>Inventarios cerrados:</b> Han terminado el proceso de inventariado, se cotejan las diferencias.
+                    </p>
+                    <p>
+                        <b>Inventarios Archivados:</b> Solo disponible para consulta a modo de historico.
+                    </p>
                 </div><!--col-->
 
                 <div class="col-sm-7">
+
                     <div class="btn-toolbar float-right" role="toolbar" aria-label="@lang('labels.general.toolbar_btn_groups')">
-                        <a href="{{ route('admin.bodega.producto.form') }}" class="btn btn-success ml-1" data-toggle="tooltip" title="@lang('labels.general.create_new')"><i class="fas fa-plus-circle"></i> Nuevo</a>
+                        <a href="{{ route('admin.bodega.inventario.nuevo') }}" class="btn btn-success ml-1" data-toggle="tooltip" title="@lang('labels.general.create_new')"><i class="fas fa-plus-circle"></i> Nuevo</a>
                     </div><!--btn-toolbar-->
 
                 </div><!--col-->
@@ -33,6 +43,9 @@
 
             <div class="row mt-4">
                 <div class="col">
+                    <h5  class="pt-1" >
+                        Inventarios abiertos <small class="text-muted">Los inventarios abiertos corresponden a inventarios que deben realizarse actualmente. </small>
+                    </h5>
                     <div class="table-responsive">
                         <table class="table" id="datatable">
                             <thead>
@@ -53,6 +66,59 @@
                     </div>
                 </div><!--col-->
             </div><!--row-->
+
+            <div class="row mt-4">
+                <div class="col">
+                    <h5  class="pt-1" >
+                        Inventarios cerrados <small class="text-muted">Los inventarios cerrados corresponden a inventarios realizados, en los cuales pueden verse las diferencias encontradas. </small>
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table" id="datatable2">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Fecha ingreso</th>
+                                <th>Ubicacion</th>
+                                <th>Producto</th>
+                                <th>Familia</th>
+                                <th>Linea</th>
+                                <th>@lang('labels.general.actions')</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!--col-->
+            </div><!--row-->
+
+            <div class="row mt-4">
+                <div class="col">
+                    <h5  class="pt-1" >
+                        Inventarios archivados <small class="text-muted"> Los inventarios archivados correnponden a informacion historica de inventarios</small>
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table" id="datatable3">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Fecha ingreso</th>
+                                <th>Ubicacion</th>
+                                <th>Producto</th>
+                                <th>Familia</th>
+                                <th>Linea</th>
+                                <th>@lang('labels.general.actions')</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!--col-->
+            </div><!--row-->
+
             <div class="row">
                 <div class="col-7">
 
@@ -76,7 +142,7 @@
             var tabla= $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{route('admin.general.marca.tabla')}}',
+                ajax: '{{route('admin.bodega.inventario.tabla')}}',
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'usuario', name: 'usuario'},
@@ -91,35 +157,58 @@
 
 
 
-            jQuery('#datatable tbody').on( "click", ".bt-desactivar",function(){
+
+            var tabla2= $('#datatable2').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('admin.bodega.inventario.tabla2')}}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'usuario', name: 'usuario'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'ubicacion', name: 'ubicacion'},
+                    {data: 'producto', name: 'producto'},
+                    {data: 'familia', name: 'familia'},
+                    {data: 'linea', name: 'linea'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+
+            var tabla3= $('#datatable3').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('admin.bodega.inventario.tabla3')}}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'usuario', name: 'usuario'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'ubicacion', name: 'ubicacion'},
+                    {data: 'producto', name: 'producto'},
+                    {data: 'familia', name: 'familia'},
+                    {data: 'linea', name: 'linea'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+
+
+
+
+
+            jQuery('#tablas ').on( "click", ".bt-cerrar",function(){
                 //e.preventDefault();
                 var boton=  jQuery(this);
                 var id=  boton.data('id');
                 //alert('aa'+ id);
-
-
-                if(boton.hasClass('btn-primary')){
-                    boton.removeClass('btn-primary');
-                    boton.addClass('btn-secondary');
-                    boton.find('span').html("Activar")
-
-                }else{
-                    boton.removeClass('btn-secondary');
-                    boton.addClass('btn-primary');
-                    boton.find('span').html("Desactivar")
-                }
-
                 jQuery.ajax({
-                    url: "{{ route('admin.general.marca.activar') }}",
+                    url: "{{ route('admin.bodega.inventario.cerrar') }}",
                     method: 'post',
                     data: { id: id},
                     success: function(data){
-                        jQuery.each(data.errors, function(key, value){
-                            jQuery('.alert-danger').show();
-                            jQuery('.alert-danger').append('<p>'+value+'</p>');
-                        });
                         if(data.estado==1){
-                            alert(data.msg);
+                            bootbox.alert(data.msg,function () {
+                                tabla.ajax.reload();
+                                tabla2.ajax.reload();
+                            });
                         }
 
                     }
@@ -127,25 +216,40 @@
                 });
             });
 
-            jQuery('#datatable tbody').on( "click", ".bt-eliminar",function(){
+
+
+
+
+            jQuery('#tablas').on( "click", ".bt-archivar",function(){
                 //e.preventDefault();
                 var boton=  jQuery(this);
                 var id=  boton.data('id');
                 //alert('aa'+ id);
                 jQuery.ajax({
-                    url: "{{ route('admin.general.marca.eliminar') }}",
+                    url: "{{ route('admin.bodega.inventario.archivar') }}",
                     method: 'post',
                     data: { id: id},
                     success: function(data){
                         if(data.estado==1){
-                            alert(data.msg);
-                            tabla.ajax.reload();
+
+
+                            bootbox.confirm("Está seguro que desea archivarlo?", function(result) {
+                                if(result) {
+                                    alert(data.msg);
+                                    tabla2.ajax.reload();
+                                    tabla3.ajax.reload();
+                                }
+                            });
                         }
 
                     }
 
                 });
             });
+
+
+
+
         });
 
 

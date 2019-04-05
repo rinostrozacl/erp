@@ -24,4 +24,8 @@ class Inventario extends Model
 	{
 		return $this->hasMany('App\Models\InventarioUnidad', 'inventario_id');
 	}
+    public function usuario()
+    {
+        return $this->belongsTo('App\Models\Auth\User', 'user_id');
+    }
 }
