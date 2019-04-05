@@ -64,7 +64,7 @@ return [
             'results'    => 'Resultados de la búsqueda para :query',
         ],
 
-        'welcome' => 'Bienenvidos al Panel de Control',
+        'welcome' => 'Bienvenidos al Panel de Control',
     ],
 
     'emails' => [
