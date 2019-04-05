@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 
+use App\Models\Unidad;
+use App\Models\UnidadMovimiento;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -43,6 +45,10 @@ class BodegaController extends Controller
         $bag['ubicacion_salida_origen']= Ubicacion::where("is_salida_origen", 1)->get();
         $bag['ubicacion_salida_destino']= Ubicacion::where("is_salida_destino", 1)->get();
 
+
+        //session()->flush();
+
+        //dd($request);
         return view('backend.bodega.entrada', ['bag' => $bag]);
 
     }
@@ -89,7 +95,11 @@ class BodegaController extends Controller
                         <td>' . $producto->familia->nombre . '</td>
                         <td>' . $producto->familia->linea->nombre . '</td>
                         <td><input class="form-control" id="cantidad" type="text" name="cantidad['.$producto->id.']" value="1"></td>
-                        <td><button type="button" class="btn btn-danger btEliminar"  >Eliminar</button> </td>
+                        <td><input class="form-control" id="valor_neto_compra" type="text" name="valor_neto_compra['.$producto->id.']" value="1"></td>
+                        <td><input class="form-control" id="valor_neto_venta" type="text" name="valor_neto_venta['.$producto->id.']" value="1"></td>
+
+
+                        <!--<td><button type="button" class="btn btn-danger bt-eliminar"  >Eliminar</button> </td>-->
                    </tr>
                ';
                 $respuesta["correcto"] = 1;
@@ -118,9 +128,6 @@ class BodegaController extends Controller
             //al ser entrada, se procesa una compra
             //se suma stock disponible en producto
 
-            //$origen = $request->origen_entrada;
-            //$destino = $request->destino_entrada;
-
 
             $movimiento->movimiento_tipo_id = 1;
             $movimiento->ubicacion_origen_id = $request->origen_entrada;
@@ -138,7 +145,7 @@ class BodegaController extends Controller
                 $is_pagado = 0;
             }
             $compra->is_pagado = $is_pagado;
-            $compra->movimiento_id = 1;
+            $compra->movimiento_id = $movimiento->id;
             $compra->doc_tipo_compra_id = $request->select_tipo_documento;
             $compra->nro_documento = $request->nro_documento;
              $compra->save();
@@ -147,27 +154,40 @@ class BodegaController extends Controller
 
             foreach ($request->productos_id as $clave => $valor) {
 
+
                 $producto = Producto::find($valor)->first();
-                $stock_disponible = $producto->stock_disponible;
-                $producto->stock_disponible = $stock_disponible + $cantidades[$clave]; //stock total en producto
+                $producto->stock_disponible = $producto->stock_disponible + $cantidades[$clave]; //stock total en producto
                 $producto->save();
 
-                $stock_ubicacion = ProductoUbicacion::where("producto_id", $valor)->first();
-                $stock = $stock_ubicacion->stock_disponible;
-                $stock_ubicacion->stock_disponible = $stock + $cantidades[$clave]; //stock puntual en una ubicación
-               $stock_ubicacion->save();
 
-
-                $producto_ubicacion= ProductoUbicacion::where("ubicacion_id", $request->destino_entrada)->first();
+                $producto_ubicacion= ProductoUbicacion::where("ubicacion_id", $request->destino_entrada)->where("producto_id", $valor)->first();
 
                 if(!$producto_ubicacion){
                     $producto_ubicacion = new ProductoUbicacion();
                 }
 
                 $producto_ubicacion->producto_id=$valor;
-                $producto_ubicacion->ubicacion_id= $movimiento->ubicacion_destino_id;
-                $producto_ubicacion->stock_disponible= $stock_ubicacion->stock_disponible;
+                $producto_ubicacion->ubicacion_id= $request->destino_entrada;
+                $producto_ubicacion->stock_disponible= $producto_ubicacion->stock_disponible + $cantidades[$clave];
                 $producto_ubicacion->save();
+
+                //04-04-2019 se crea un registro en unidad y unidad_movimiento
+                $valores_neto_venta = $request->valor_neto_venta;
+                $valores_neto_compra = $request->valor_neto_compra;
+
+                $unidad = new Unidad();
+                $unidad->ubicacion_id = $movimiento->ubicacion_destino_id;
+                $unidad->producto_id = $valor;
+                $unidad->valor_neto_venta = $valores_neto_venta[$clave];
+                $unidad->valor_neto_compra = $valores_neto_compra[$clave];
+                $unidad->save();
+
+                $unidad_movimiento = new UnidadMovimiento();
+                $unidad_movimiento->movimiento_id = $movimiento->id;
+                $unidad_movimiento->unidad_id = $unidad->id;
+                $unidad_movimiento->save();
+
+
             }
 
         }elseif ($request->select_movimiento == 2){ //traslado
@@ -182,14 +202,12 @@ class BodegaController extends Controller
             foreach ($request->productos_id as $clave => $valor) {
 
                 $stock_origen = ProductoUbicacion::where("ubicacion_id", $request->origen_traslado)->where("producto_id", $valor)->first();
-                $stock_origen_disponible = $stock_origen->stock_disponible;
-                $stock_origen->stock_disponible = $stock_origen_disponible - $cantidades[$clave]; //stock puntual en una ubicación
-                 $stock_origen->save();
+                $stock_origen->stock_disponible = $stock_origen->stock_disponible - $cantidades[$clave]; //stock puntual en una ubicación
+                $stock_origen->save();
 
                 $stock_destino = ProductoUbicacion::where("ubicacion_id", $request->destino_traslado)->where("producto_id", $valor)->first();
-                $stock_destino_disponible = $stock_destino->stock_disponible;
-                $stock_destino->stock_disponible = $stock_destino_disponible + $cantidades[$clave]; //stock puntual en una ubicación
-                 $stock_destino->save();
+                $stock_destino->stock_disponible = $stock_destino->stock_disponible + $cantidades[$clave]; //stock puntual en una ubicación
+                $stock_destino->save();
 
             }
 
@@ -205,19 +223,21 @@ class BodegaController extends Controller
             foreach ($request->productos_id as $clave => $valor) {
 
                 $stock_origen = ProductoUbicacion::where("ubicacion_id", $request->origen_salida)->where("producto_id", $valor)->first();
-                $stock_disponible = $stock_origen->stock_disponible;
-                $stock_origen->stock_disponible = $stock_disponible - $cantidades[$clave]; //stock puntual en una ubicación
+                $stock_origen->stock_disponible = $stock_origen->stock_disponible - $cantidades[$clave]; //stock puntual en una ubicación
                 $stock_origen->save();
 
             }
 
-            if($destino == 6 || $destino == 7){
+            if($request->destino_salida == 6 || $request->destino_salida == 7){
                 $respuesta["salidas"] = "Producto utilizado en OT o Merma. Por programar";
             }
 
 
 
         }
+
+
+
 
         $respuesta["correcto"]=1;
 

@@ -73,7 +73,7 @@
                                 <input type="text" class="form-control" name="rut"  readonly value="{{$movimiento->usuario->first_name . " " . $movimiento->usuario->last_name  ?? ''}}">
                             </div><!--col-->
                         </div><!--form-group-->
-                        
+
                         @if ($movimiento->movimiento_tipo_id == 1)
 
                             <div class="form-group row">
@@ -123,12 +123,12 @@
                                     <input type="text" class="form-control" name="rut"  readonly value="{{$movimiento->compra->valor_total ?? ''}}">
                                 </div><!--col-->
                             </div><!--form-group-->
-                            
+
                         @endif
 
                         <div class="card">
                             <div class="card-header">Detalle
-                                {{--<span class="badge badge-pill badge-danger float-right">{{$movimiento->cantidad  ?? ''}}</span>--}}
+                                <span class="badge badge-pill badge-danger float-right">{{$movimiento->cantidad  ?? ''}}</span>
                             </div>
 
                             <div class="card-body">
@@ -145,7 +145,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    
+
                                     @foreach ($movimiento->unidad_movimiento as $um)
 
                                         <tr>

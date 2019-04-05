@@ -20,4 +20,8 @@ class Ubicacion extends Model
 	{
 		return $this->hasMany('App\Models\Unidad', 'ubicacion_id');
 	}
+    public function producto_ubicacion()
+    {
+        return $this->hasMany('App\Models\ProductoUbicacion', 'ubicacion_id');
+    }
 }

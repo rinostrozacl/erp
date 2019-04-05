@@ -72,12 +72,12 @@
               <i class="fa fa-comments"></i> Comments
               <span class="badge badge-warning">42</span>
             </a>--}}
-            <div class="dropdown-header text-center">
+            {{--<div class="dropdown-header text-center">
               <strong>Ajustes</strong>
             </div>
             <a class="dropdown-item" href="#">
               <i class="fa fa-user"></i> Profile
-            </a>
+            </a>--}}
             {{--<a class="dropdown-item" href="#">--}}
               {{--<i class="fa fa-wrench"></i> Settings--}}
             {{--</a>--}}
@@ -94,7 +94,7 @@
     </ul>
 
     <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
-        <span class="navbar-toggler-icon"></span>
+        {{--<span class="navbar-toggler-icon"></span>--}}
     </button>
     <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
         <span class="navbar-toggler-icon"></span>

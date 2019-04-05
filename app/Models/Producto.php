@@ -32,4 +32,8 @@ class Producto extends Model
 	{
 		return $this->hasMany('App\Models\VentaDetalle', 'producto_id');
 	}
+    public function producto_ubicacion()
+    {
+        return $this->hasOne('App\Models\ProductoUbicacion', 'producto_id');
+    }
 }
