@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Backend\Bodega;
 
 
 
+use App\Models\Unidad;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Inventario;
 use App\Models\Producto;
 use App\Models\Marca;
 use App\Models\Ubicacion;
+use App\Models\InventarioSobrante;
 use App\Models\ProductoUbicacion;
 use App\Models\UnidadMedida;
 use App\Models\Linea;
 use App\Models\Familia;
+use App\Models\InventarioUnidad;
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
@@ -35,75 +38,282 @@ class InventarioController extends Controller
 
     public function getTabla()
     {
-        $inventario = Inventario::all();
+        $inventario = Inventario::where('is_abierto',1)
+            ->where('is_archivado',0)
+            ->get();
         return Datatables::of($inventario)
             ->addColumn('action', function ($item) {
-                $bt='<a href="'.route('admin.bodega.producto.form',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Editar</a> ';
-                $bt.='<button  class="btn btn-sm  btn-block btn-danger bt-eliminar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit"></i><span> Eliminar</span></button> ';
-                if($item->activo==1){
-                    $bt.='<button class="btn btn-sm btn-block btn-primary  bt-desactivar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Desactivar</span></button> ';
-                }else{
-                    $bt.='<button class="btn btn-sm btn-block btn-secondary bt-desactivar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Activar</span></button> ';
-                }
+                $bt='<a href="'.route('admin.bodega.inventario.realizar',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Ingresar</a> ';
+                $bt.='<button class="btn btn-sm btn-block btn-secondary bt-cerrar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Cerrar</span></button> ';
                 return $bt;
             })->editColumn('id', '{{$id}}'
             )->addColumn('familia', function ($item) {
-                return 's';
+                if($item->familia_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->familia->nombre;
+                }
             })->addColumn('linea', function ($item) {
-                //return $item->familia->linea->nombre;
-                return 's';
+                if($item->linea_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->linea->nombre;
+                }
             })->addColumn('usuario', function ($item) {
-                return 's';
-                return $bt;
+                    return $item->usuario->full_name;
             })->addColumn('producto', function ($item) {
-                return 's';
+                if($item->producto_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->producto->nombre;
+                }
             })->addColumn('ubicacion', function ($item) {
-                return 's';
+                if($item->ubicacion_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->ubicacion->nombre;
+                }
             })->rawColumns(['action'])
             ->make(true);
-
     }
 
-
-
-    public function getDetailsData($id)
+    public function getTabla2()
     {
-        $detalle = ProductoUbicacion::where('producto_id',$id);
-
-        return Datatables::of($detalle)
-            ->addColumn('ubicacion', function ($item) {
-            return $item->ubicacion->nombre;
-            })->addColumn('direccion', function ($item) {
-                return $item->ubicacion->direccion;
-            })->make(true);
+        $inventario = Inventario::where('is_abierto',0)
+            ->where('is_archivado',0)
+            ->get();
+        return Datatables::of($inventario)
+            ->addColumn('action', function ($item) {
+                $bt='<a href="'.route('admin.bodega.producto.form',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Ver detalles</a> ';
+                $bt.='<button class="btn btn-sm btn-block btn-secondary bt-archivar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Archivar</span></button> ';
+                $bt.='<button class="btn btn-sm btn-block btn-primary  bt-cerrar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Abrir</span></button> ';
+                return $bt;
+            })->editColumn('id', '{{$id}}'
+            )->addColumn('familia', function ($item) {
+                if($item->familia_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->familia->nombre;
+                }
+            })->addColumn('linea', function ($item) {
+                if($item->linea_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->linea->nombre;
+                }
+            })->addColumn('usuario', function ($item) {
+                return $item->usuario->full_name;
+            })->addColumn('producto', function ($item) {
+                if($item->producto_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->producto->nombre;
+                }
+            })->addColumn('ubicacion', function ($item) {
+                if($item->ubicacion_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->ubicacion->nombre;
+                }
+            })->rawColumns(['action'])
+            ->make(true);
     }
 
-
-    public function getForm($id=0)
+    public function getTabla3()
     {
-        if($id>0){
-            $producto = Producto::find($id);
+        $inventario = Inventario::where('is_archivado',1)->get();
+        return Datatables::of($inventario)
+            ->addColumn('action', function ($item) {
+                $bt='<a href="'.route('admin.bodega.producto.form',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Ver detalles</a> ';
+                return $bt;
+            })->editColumn('id', '{{$id}}'
+            )->addColumn('familia', function ($item) {
+                if($item->familia_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->familia->nombre;
+                }
+            })->addColumn('linea', function ($item) {
+                if($item->linea_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->linea->nombre;
+                }
+            })->addColumn('usuario', function ($item) {
+                return $item->usuario->full_name;
+            })->addColumn('producto', function ($item) {
+                if($item->producto_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->producto->nombre;
+                }
+            })->addColumn('ubicacion', function ($item) {
+                if($item->ubicacion_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->ubicacion->nombre;
+                }
+            })->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function postCerrar(Request $request)
+    {
+        $resp=[];
+        $inventario = Inventario::findOrFail($request->id);
+        $resp['estado']=0;
+        if($inventario->is_abierto==1){
+            $inventario->is_abierto=0;
+            $resp['msg']="Inventario Cerrado";
+            $resp['estado']=1;
         }else{
-            $producto = new Producto();
+            $inventario->is_abierto=1;
+            $resp['msg']="Inventario Abierto";
+            $resp['estado']=1;
         }
+        $inventario->save();
+        return $resp;
+    }
 
-        $unidad_medidas = UnidadMedida::where('activo',1)->get();
+    public function postArchivar(Request $request)
+    {
+        $resp=[];
+        $inventario = Inventario::findOrFail($request->id);
+        $resp['estado']=0;
+        $inventario->is_archivado=1;
+        $resp['msg']="Inventario Archivado";
+        $resp['estado']=1;
+        $inventario->save();
+        return $resp;
+    }
+
+
+
+
+
+
+
+    public function getFormNuevo()
+    {
+
+        $productos = Producto::where('activo',1)->get();
         $marcas = Marca::where('activo',1)->get();
+        $ubicacion = Ubicacion::where('activo',1)->where('is_inventariable',1)->get();
+        $familias = Familia::where('activo',1)->where('linea_id',0)->get();
         $lineas = Linea::where('activo',1)->get();
-        if($id>0){
-            $familias = Familia::where('activo',1)->where('linea_id',$producto->familia->linea_id)->get();
-        }else{
-            $familias = Familia::where('activo',1)->get();
-        }
 
 
-        return view('backend.bodega.producto.form')
-            ->with('producto',$producto)
-            ->with('unidad_medidas',$unidad_medidas)
+        return view('backend.bodega.inventario.form-nuevo')
+            ->with('productos',$productos)
+            ->with('ubicacion',$ubicacion)
             ->with('lineas',$lineas)
             ->with('marcas',$marcas)
             ->with('familias',$familias);;
     }
+
+
+
+
+
+    public function postFormNuevo(Request $request)
+    {
+
+        $inventario = new Inventario();
+
+        $inventario->familia_id=$request->familia_id;
+        $inventario->linea_id=$request->linea_id;
+        $inventario->producto_id=$request->producto_id;
+        $inventario->ubicacion_id=$request->ubicacion_id;
+        $inventario->is_abierto=1;
+        $inventario->user_id=Auth::user()->id;
+        $inventario->save();
+        if($request->ubicacion_id==0){
+            $unidades=Unidad::all();
+        }else{
+            $unidades=Unidad::where('ubicacion_id',$request->ubicacion_id)->get();
+        }
+        if($request->producto_id>0){
+            $unidades=$unidades->where('producto_id',$request->producto_id);
+        }
+        if($request->familia_id>0){
+            $unidades=$unidades->where('producto.familia_id',$request->familia_id);
+        }
+        if($request->linea_id>0){
+            $unidades=$unidades->where('producto.familia.linea_id',$request->linea_id);
+        }
+        foreach ($unidades as $unidad) {
+            $inventario_unidad= new InventarioUnidad();
+            $inventario_unidad->unidad_id=$unidad->id;
+            $inventario_unidad->inventario_id=$inventario->id;
+            $inventario_unidad->existente=0;
+            $inventario_unidad->save();
+        }
+        //dd($unidades);
+        $msg='Registro Ingresado. ' .  $unidades->count() . ' unidades encontradas.';
+        return response()->json(['estado'=>1,'mensaje'=>$msg]);
+    }
+
+
+
+    public function postFormRealizarCodigo(Request $request)
+    {
+        $msg='';
+        $ingresados=0;
+        $estado=0;
+
+        if($request->valor==''){
+            $msg='Debe Ingresar el codigo';
+        }else if(Producto::where('codigo_ean13',$request->valor)->count()==0) {
+            $msg='No existe el codigo de producto';
+        }else{
+            $producto= Producto::where('codigo_ean13',$request->valor)->first();
+             $inventario_unidad= InventarioUnidad::where("existente",0)->get();
+             $inventario_unidad=$inventario_unidad->where("unidad.producto_id",$producto->id);
+             if($inventario_unidad->count()>0){
+                 //faltante
+                 $unidad= $inventario_unidad->first();
+                 $unidad->existente=1;
+                 $unidad->save();
+             }else{
+                $sobrante= new InventarioSobrante();
+                 $sobrante->inventario_id=$request->id;
+                 $sobrante->producto_id=$producto->id;
+                 $sobrante->save();
+                 //sobrante
+             }
+            $inventario = Inventario::find($request->id);
+            $inventario->ingresados++;
+            $inventario->save();
+            $ingresados=$inventario->ingresados;
+
+            $estado=1;
+        }
+        return response()->json(['estado'=>$estado,'mensaje'=>$msg,'ingresados'=>$ingresados]);
+    }
+
+
+    public function postFormRealizar(Request $request)
+    {
+        $msg='Inventario finalizado';
+        $ingresados=0;
+        $estado=1;
+        $inventario = Inventario::find($request->inventario_id);
+        $inventario->is_abierto=0;
+        $inventario->save();
+
+        return response()->json(['estado'=>$estado,'mensaje'=>$msg]);
+    }
+
+    public function getFormRealizar($id)
+    {
+
+
+        $inventario = Inventario::find($id);
+        return view('backend.bodega.inventario.form-ingresar')
+            ->with('inventario',$inventario);
+    }
+
+
 
 
 
@@ -144,23 +354,7 @@ class InventarioController extends Controller
         }
     }
 
-    public function postActivar(Request $request)
-    {
-        $resp=[];
-        $producto = Producto::findOrFail($request->id);
-        $resp['estado']=0;
-        if($producto->activo==1){
-            $producto->activo=0;
-            $resp['msg']="Se ha desactivado";
-            $resp['estado']=1;
-        }else{
-            $producto->activo=1;
-            $resp['msg']="Se ha activado";
-            $resp['estado']=1;
-        }
-        $producto->save();
-        return $resp;
-    }
+
 
 
     public function postEliminar(Request $request)

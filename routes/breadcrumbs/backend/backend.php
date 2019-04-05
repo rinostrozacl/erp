@@ -24,6 +24,14 @@ Breadcrumbs::for('admin.bodega.salida', function ($trail) {
     $trail->push(__('Salida de productos de bodega'), route('admin.bodega.salida'));
 });
 
+Breadcrumbs::for('admin.bodega.inventario.realizar', function ($trail) {
+    $trail->push(__('Ejecutar inventario'), route('admin.bodega.inventario.realizar'));
+});
+
+
+Breadcrumbs::for('admin.bodega.inventario.nuevo', function ($trail) {
+    $trail->push(__('Realizacion nuevo Inventario'), route('admin.bodega.inventario.nuevo'));
+});
 
 Breadcrumbs::for('admin.bodega.inventario', function ($trail) {
     $trail->push(__('Realizacion de Inventario'), route('admin.bodega.inventario'));
