@@ -48,8 +48,8 @@
                                 <div class="card-body">
 
                                     <div class="form-group row">
-                                        <label for="vat" class="col-sm-3">Ubicación</label>
-                                        <select class="form-control col-sm-6" id="ubicacion_id" name="ubicacion_id">
+                                        <label for="vat" class="col-sm-4">Ubicación</label>
+                                        <select class="form-control col-sm-7" id="ubicacion_id" name="ubicacion_id">
                                             <option value="0">Seleccione</option>
 
                                             @foreach($ubicacion as $u)
@@ -59,11 +59,69 @@
                                             @endforeach
                                         </select>
 
-                                        <div class="col-sm-3">
+                                        {{--<div class="col-sm-3">
                                             <button class="btn btn-md btn-success" type="submit" id="btn_filtrar">Filtrar</button>                                </div>
-                                    </div>
+                                        </div>--}}
 
-                                </div><!--form-group-->
+                                    </div><!--form-group-->
+
+                                    <div class="form-group row">
+
+                                    <label for="vat" class="col-sm-1">Línea</label>
+                                    {{--<select class="form-control col-sm-3" id="linea_id" name="linea_id">
+                                        <option value="0">Seleccione</option>
+
+                                        @foreach($linea as $l)
+
+                                            <option value="{{$l->id}}">{{$l->nombre}}</option>
+
+                                        @endforeach
+                                    </select>--}}
+
+                                    @component('backend.component.select-form',
+                            [
+                            'name' => 'linea_id',
+                            'lista' => $linea,
+                            'class' => 'col-sm-4',
+                            'valor_seleccionado' => 0,
+                            'msg_o' => "Todos",
+                            'elemento_editar' => null,
+                            'enlazado' => true,
+                            'enlazado_destino' => 'familia_id',
+                            'enlazado_ruta'=> route('admin.global.combo.familiabylinea'),
+                            ])
+                                    @endcomponent
+
+                                    <label for="vat" class="col-sm-1">Familia</label>
+                                    {{--<select class="form-control col-sm-3" id="familia_id" name="familia_id">
+                                        <option value="0">Seleccione</option>
+
+                                        @foreach($familia as $f)
+
+                                            <option value="{{$f->id}}">{{$f->nombre}}</option>
+
+                                        @endforeach
+                                    </select>--}}
+
+                                    @component('backend.component.select-form',
+                           [
+                           'name' => 'familia_id',
+                           'lista' => $familia,
+                           'class' => 'col-sm-4',
+                           'valor_seleccionado' => 0,
+                           'msg_o' => "Todos",
+                           'elemento_editar' => null,
+                           ])
+                                    @endcomponent
+
+
+
+
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-md btn-success" type="submit" id="btn_filtrar">Filtrar</button>                                </div>
+                                </div>
+
+                            </div><!--form-group-->
                             </div><!--card-body-->
                     </div><!--collapse-->
                     </form>
@@ -115,6 +173,8 @@
                     url: '{{route('admin.informe.stock.tabla')}}',
                     data: function (d) {
                         d.ubicacion_id = $('select[name=ubicacion_id]').val();
+                        d.familia_id = $('select[name=familia_id]').val();
+                        d.linea_id = $('select[name=linea_id]').val();
 
                     }
                 },
@@ -131,6 +191,7 @@
             });
 
             $('#form_filtros').on('submit', function(e) {
+                $('#btn_filtrar').removeAttr("disabled");
                 tabla.draw();
                 e.preventDefault();
             });
