@@ -55,10 +55,14 @@
 
                             <div class="col-md-10">
                                 @php
-                                    if($linea){
-                                        $activo= ($linea->activo==1)?'checked="checked"': '';
+                                    if(!$linea){
+                                        $activo= 'checked="checked"';
                                     }else{
-                                        $activo='';
+                                         if($linea){
+                                            $activo= ($linea->activo==1)?'checked="checked"': '';
+                                         }else{
+                                                $activo='';
+                                         }
                                     }
                                 @endphp
                                 <label class="switch switch-label switch-pill switch-primary mr-2">
