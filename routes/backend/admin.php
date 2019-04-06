@@ -56,7 +56,9 @@ Route::post('bodega/inventario/nuevo', [InventarioController::class, 'postFormNu
 Route::get('bodega/inventario/realizar/{id?}', [InventarioController::class, 'getFormRealizar'])->name('bodega.inventario.realizar');
 Route::post('bodega/inventario/realizar/codigo', [InventarioController::class, 'postFormRealizarCodigo'])->name('bodega.inventario.realizar.codigo');
 Route::post('bodega/inventario/realizar', [InventarioController::class, 'postFormRealizar'])->name('bodega.inventario.realizar.guardar');
-
+Route::get('bodega/inventario/resultado/{id?}', [InventarioController::class, 'getResultado'])->name('bodega.inventario.resultado');
+Route::get('bodega/inventario/tabla4/{id?}', [InventarioController::class, 'getTabla4'])->name('bodega.inventario.tabla4');
+Route::get('bodega/inventario/tabla5/{id?}', [InventarioController::class, 'getTabla5'])->name('bodega.inventario.tabla5');
 /*
  * Fin sub menu bodega
  */
