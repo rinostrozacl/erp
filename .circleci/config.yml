@@ -12,4 +12,7 @@ jobs:
           name: Deploy Over SSH
           command: |
             ssh-keyscan server.actus.cl >> ~/.ssh/known_hosts # Add live server IP to known hosts.
-            ssh actus@server.actus.cl "mkdir hola"
+            ssh actus@server.actus.cl "cd public_sub/erp/"
+            ssh actus@server.actus.cl "git fetch --all"
+            ssh actus@server.actus.cl "git reset --hard origin/master"
+            ssh actus@server.actus.cl "git pull origin master"
