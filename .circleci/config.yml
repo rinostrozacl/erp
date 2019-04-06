@@ -1,14 +1,8 @@
 version: 2
-
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1-node-browsers
-    working_directory: ~/laravel-boilerplate
+      - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
-      - run: sudo docker-php-ext-install zip
-      - run: sudo apt-get install -y libpng-dev
-      - run: sudo docker-php-ext-install gd
-      - run: sudo composer self-update
+      - run: echo "A first hello"
