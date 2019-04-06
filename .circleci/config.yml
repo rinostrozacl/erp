@@ -1,15 +1,8 @@
 version: 2
 jobs:
-  deploy:
-    machine:
-      enabled: true
+  build:
+    docker:
+      - image: circleci/ruby:2.4.1
     steps:
-      - run:
-          name: Deploy Over SSH
-          command: |
-            ssh $SSH_USER@$SSH_HOST "<remote deploy command>"
-workflows:
-  version: 2
-  dependencies_and_build:
-    jobs:
-      - deploy
+      - checkout
+      - run: echo "A first hello"
