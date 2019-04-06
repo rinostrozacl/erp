@@ -4,6 +4,10 @@ jobs:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
+      - add_ssh_keys
+      - run:
+          name: Keyscan Github (HACK)
+          command: ssh-keyscan -H erver.actus.cl >> ~/.ssh/known_hosts
       - run:
           name: Deploy Over SSH
           command: |
