@@ -36,7 +36,9 @@ Breadcrumbs::for('admin.bodega.inventario.nuevo', function ($trail) {
 Breadcrumbs::for('admin.bodega.inventario', function ($trail) {
     $trail->push(__('Realizacion de Inventario'), route('admin.bodega.inventario'));
 });
-
+Breadcrumbs::for('admin.bodega.inventario.resultado', function ($trail) {
+    $trail->push(__('Resultado de Inventario'), route('admin.bodega.inventario.resultado'));
+});
 
 Breadcrumbs::for('admin.general.marca', function ($trail) {
     $trail->push(__('Marcas'), route('admin.general.marca'));
