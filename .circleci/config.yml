@@ -4,5 +4,8 @@ jobs:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "A first hello"
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ssh-keyscan server.actus.cl >> ~/.ssh/known_hosts # Add live server IP to known hosts.
+            ssh actus@server.actus.cl "mkdir hola"
