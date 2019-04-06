@@ -84,7 +84,7 @@ class InventarioController extends Controller
             ->get();
         return Datatables::of($inventario)
             ->addColumn('action', function ($item) {
-                $bt='<a href="'.route('admin.bodega.producto.form',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Ver detalles</a> ';
+                $bt='<a href="'.route('admin.bodega.inventario.resultado',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Ver resultado</a> ';
                 $bt.='<button class="btn btn-sm btn-block btn-secondary bt-archivar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Archivar</span></button> ';
                 $bt.='<button class="btn btn-sm btn-block btn-primary  bt-cerrar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Abrir</span></button> ';
                 return $bt;
@@ -312,11 +312,39 @@ class InventarioController extends Controller
         return view('backend.bodega.inventario.form-ingresar')
             ->with('inventario',$inventario);
     }
+    public function getResultado($id)
+    {
 
 
+        $inventario = Inventario::find($id);
+        return view('backend.bodega.inventario.resultado')
+            ->with('inventario',$inventario);
+    }
 
 
-
+    public function getTabla4($id)
+    {
+        $inventario = InventarioUnidad::where('inventario_id',$id)->get();
+        return Datatables::of($inventario)
+           ->addColumn('producto', function ($item) {
+                /*if($item->linea_id==0){
+                    return 'Todos';
+                }else{
+                    return $item->linea->nombre;
+                }*/
+                return $item->unidad->producto->nombre . ' - ' . $item->unidad->producto->familia->nombre. ' - ' . $item->unidad->producto->familia->linea->nombre;
+            })
+            ->make(true);
+    }
+    public function getTabla5($id)
+    {
+        $inventario = InventarioSobrante::where('inventario_id',$id)->get();
+        return Datatables::of($inventario)
+            ->addColumn('producto', function ($item) {
+                return $item->producto->nombre  . ' - ' . $item->producto->familia->nombre. ' - ' . $item->producto->familia->linea->nombre;
+            })
+            ->make(true);
+    }
 
     public function postUpdate(Request $request)
     {
