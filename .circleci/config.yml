@@ -7,7 +7,7 @@ jobs:
       - add_ssh_keys
       - run:
           name: Keyscan Github (HACK)
-          command: ssh-keyscan -H erver.actus.cl >> ~/.ssh/known_hosts
+          command: ssh-keyscan -H server.actus.cl >> ~/.ssh/known_hosts
       - run:
           name: Deploy Over SSH
           command: |
