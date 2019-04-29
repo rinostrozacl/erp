@@ -87,11 +87,16 @@
 
                             <div class="col-md-10">
                                 @php
-                                    if($proveedor){
+
+                                if(!$proveedor){
+                                    $activo= 'checked="checked"';
+                                }else{
+                                     if($proveedor){
                                         $activo= ($proveedor->activo==1)?'checked="checked"': '';
-                                    }else{
+                                     }else{
                                         $activo='';
-                                    }
+                                     }
+                                }
                                 @endphp
                                 <label class="switch switch-label switch-pill switch-primary mr-2">
                                     <input type="checkbox" class="switch-input" name="activo"  {{$activo}}  value="1"><span class="switch-slider" data-checked="on" data-unchecked="off"></span>

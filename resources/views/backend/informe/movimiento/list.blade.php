@@ -139,6 +139,7 @@
             });
 
             $('#form_filtros').on('submit', function(e) {
+                $('#btn_filtrar').removeAttr("disabled");
                 tabla.draw();
                 e.preventDefault();
             });

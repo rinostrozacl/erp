@@ -82,10 +82,14 @@
 
                             <div class="col-md-10">
                                 @php
-                                    if($familia){
-                                        $activo= ($familia->activo==1)?'checked="checked"': '';
+                                    if(!$familia){
+                                        $activo= 'checked="checked"';
                                     }else{
-                                        $activo='';
+                                         if($familia){
+                                            $activo= ($familia->activo==1)?'checked="checked"': '';
+                                         }else{
+                                                $activo='';
+                                         }
                                     }
                                 @endphp
                                 <label class="switch switch-label switch-pill switch-primary mr-2">

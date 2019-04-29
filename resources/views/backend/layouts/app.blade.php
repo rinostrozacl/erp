@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
 
     <link rel="stylesheet" href="/js/datatables.bootstrap.css">
+    <link rel="stylesheet" href="/js/chosen/chosen.css">
     @stack('styles')
     @stack('after-styles')
 </head>
@@ -68,6 +69,7 @@
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/handlebars.min.js"></script>
     <script src="/js/bootbox.all.min.js"></script>
+    <script src="/js/chosen/chosen.jquery.min.js"></script>
 
     @stack('after-scripts')
 
@@ -78,6 +80,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+                $(".chosen-select").chosen();
             });
     </script>
     @stack('scripts')

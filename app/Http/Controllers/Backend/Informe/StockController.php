@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Backend\Informe;
 
 
 use App\Models\Auth\User;
-use App\Models\MovimientoTipo;
+use App\Models\Linea;
 use App\Models\Producto;
 use App\Models\Ubicacion;
-use App\Models\Unidad;
+use App\Models\Familia;
 use App\Models\UnidadMovimiento;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -29,19 +29,22 @@ class StockController extends Controller
     {
         $ubicacion = Ubicacion::all();
         $producto = Producto::all();
-        return view('backend.informe.stock.list')->with('producto',$producto)->with('ubicacion',$ubicacion);
+        $familia = Familia::all();
+        $linea = Linea::all();
+        return view('backend.informe.stock.list')->with('producto',$producto)->with('ubicacion',$ubicacion)->with('familia',$familia)->with('linea',$linea);
     }
     public function getTabla(Request $request)
     {
         $producto = Producto::all();
 
-        if ($request->ubicacion_id >0) {
-
-            $producto = Producto::whereHas('producto_ubicacion', function($q) use ($request)
-            {
-                $q->where('ubicacion_id', '=', $request->ubicacion_id);
-
-            })->get();
+        if($request->ubicacion_id != 0){
+            $producto = $producto->where('producto_ubicacion.ubicacion_id', $request->ubicacion_id);
+        }
+        if($request->familia_id>0){
+            $producto = $producto->where('familia_id',$request->familia_id);
+        }
+        if($request->linea_id>0){
+            $producto = $producto->where('familia.linea_id',$request->linea_id);
         }
 
         return Datatables::of($producto)

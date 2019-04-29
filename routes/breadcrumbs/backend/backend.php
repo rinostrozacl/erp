@@ -130,7 +130,21 @@ Breadcrumbs::for('admin.informe.stockcritico.form', function ($trail) {
     $trail->push(__('Informe de stock crítico'), route('admin.informe.stockcritico.form'));
 });
 
+Breadcrumbs::for('admin.caja.venta.nuevo', function ($trail) {
+    $trail->push(__('Nueva venta'), route('admin.caja.venta.nuevo'));
+});
 
+Breadcrumbs::for('admin.caja.pago.recibir', function ($trail) {
+    $trail->push(__('Recibir pago'), route('admin.caja.pago.recibir'));
+});
+
+Breadcrumbs::for('admin.caja.turno', function ($trail) {
+    $trail->push(__('Cambio de turno'), route('admin.caja.turno'));
+});
+
+Breadcrumbs::for('admin.caja.rendir', function ($trail) {
+    $trail->push(__('Rendir caja'), route('admin.caja.rendir'));
+});
 
 
 require __DIR__.'/auth.php';
