@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <a href="/login"  class="button btn-success">Iniciar Sesión</a>
                     <br>Username: admin@admin.com
-                    <br>Password: secret
+                    <br>Password: ERP.2018.admin
                 </div>
             </div><!--card-->
         </div><!--col-->
