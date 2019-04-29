@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\Informe\MovimientoController;
 use App\Http\Controllers\Backend\Informe\StockController;
 use App\Http\Controllers\Backend\Informe\StockCriticoController;
 
+use App\Http\Controllers\Backend\Caja\VentaController;
 
 
 /*
@@ -62,6 +63,27 @@ Route::get('bodega/inventario/tabla5/{id?}', [InventarioController::class, 'getT
 /*
  * Fin sub menu bodega
  */
+
+
+
+
+/*
+ * Inicio sub menu Venta
+ */
+Route::get('caja/venta/nueva', [VentaController::class, 'index'])->name('caja.venta.nuevo');
+Route::get('caja/venta/nueva/buscar', [VentaController::class, 'postTablaBusqueda'])->name('caja.venta.nuevo.tabla.buscar');
+Route::get('caja/pago/recibir', [CajaController::class, 'recibirPago'])->name('caja.pago.recibir');
+Route::get('caja/turno', [CajaController::class, 'cambioTurno'])->name('caja.turno');
+Route::get('caja/rendir', [CajaController::class, 'getRendicion'])->name('caja.rendir');
+
+
+
+
+/*
+ * Fin sub menu venta
+ */
+
+
 /*
  * Inicio menu general
  */
@@ -170,6 +192,9 @@ Route::get('informe/stockcritico/form/{id?}', [StockCriticoController::class, 'g
  */
 
 Route::get('global/combo/FamiliaByLinea/{id?}', [ComboController::class, 'getFamiliaByLinea'])->name('global.combo.familiabylinea');
+Route::get('global/info/ClienteById/{id?}', [ComboController::class, 'ClienteById'])->name('global.info.ClienteById');
+Route::get('global/info/ProductoById/{id?}', [ComboController::class, 'ProductoById'])->name('global.info.ProductoById');
+
 /*
  * Fin Funciones globales
  */

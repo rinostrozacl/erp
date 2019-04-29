@@ -44,7 +44,39 @@
             </li>
 
 
+            <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/caja*'), 'open') }}">
+                <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/caja*')) }}" href="#">
+                    <i class="nav-icon icon-user"></i> Caja
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/venta/nueva')) }}" href="{{ route('admin.caja.venta.nuevo') }}">
+                            Nueva Venta
+                        </a>
+                    </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/pago/recibir')) }}" href="{{ route('admin.caja.pago.recibir') }}">
+                            Recibir Pago
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/turno')) }}" href="{{ route('admin.caja.turno') }}">
+                            Cambio de turno
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/rendir')) }}" href="{{ route('admin.caja.rendir') }}">
+                            Rendir caja
+                        </a>
+                    </li>
+
+
+
+                </ul>
+            </li>
 
 
 
@@ -72,6 +104,18 @@
                             Historial de movimientos
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
+                            Historial de Ventas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
+                            Historial Turnos Caja
+                        </a>
+                    </li>
+
                 </ul>
             </li>
 

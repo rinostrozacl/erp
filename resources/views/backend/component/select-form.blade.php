@@ -27,12 +27,13 @@
                      url: "{{ $enlazado_ruta }}/"+id,
                     method: 'get',
                     success: function(data){
-                        //console.log(data);
+                        console.log(data);
                         $("#{{$enlazado_destino}}").html("");
-                        $("#{{$enlazado_destino}}").append('<option value="0">{{$msg_o ?? "Todos"}}</option>');
+                        $("#{{$enlazado_destino}}").append('<option value="0"> Todos</option>');
                         $.each(JSON.parse(data), function(id, name) {
                             $("#{{$enlazado_destino}}").append('<option value=' + name.id + '>' + name.nombre + '</option>');
                         });
+                        $("#{{$enlazado_destino}}").trigger("chosen:updated");
                     }
                 });
             });
