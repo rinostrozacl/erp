@@ -26,6 +26,14 @@ class ComboController extends Controller
         return $familias->toJson();
     }
 
+    public function getProductosByFamilia($id)
+    {
+        $productos = Producto::where('familia_id',$id)->get();
+
+        return $productos->toJson();
+    }
+
+
 
     public function ClienteById($id)
     {

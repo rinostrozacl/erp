@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <h4 class="card-title mb-0">
-                            Nuevo descuento para el cliente: {{$cliente->nombre}}
+                            Nuevo descuento para el cliente [{{$cliente->nombre}}] aplicable a un producto
                             <small class="text-muted"></small>
                         </h4>
                         <div class="alert alert-danger" style="display:none"></div>
@@ -53,6 +53,23 @@
                                    'lista' => $familias,
                                    'valor_seleccionado' => 0,
                                    'elemento_editar' => null,
+                                   'enlazado' => true,
+                                    'enlazado_destino' => 'producto_id',
+                                    'enlazado_ruta'=> route('admin.global.combo.ProductosByFamilia'),
+                                   ])
+                                @endcomponent
+                            </div><!--col-->
+                        </div><!--form-group-->
+
+                        <div class="form-group row">
+                            <label class="col-md-2 form-control-label" for="nombre">Producto</label>
+                            <div class="col-md-10">
+                                @component('backend.component.select-form',
+                                   [
+                                   'name' => 'producto_id',
+                                   'lista' => $productos,
+                                   'valor_seleccionado' => 0,
+                                   'elemento_editar' => null,
                                    ])
                                 @endcomponent
                             </div><!--col-->
@@ -67,6 +84,14 @@
                             </div><!--col-->
                         </div><!--form-group-->
 
+                        <div class="form-group row">
+                            <label class="col-md-2 form-control-label" for="nombre">Pesos</label>
+
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="pesos" >
+                            </div><!--col-->
+                        </div><!--form-group-->
+                        <input type="hidden"  name="cliente_id" value="{{$cliente->id}}" >
 
 
                     </div><!--col-->
@@ -96,13 +121,13 @@
 @push('scripts')
     <script type="text/javascript">
         jQuery(document).ready(function(){
-            jQuery('#formulario-editar').submit(function(e){
+            jQuery('#formulario').submit(function(e){
                 e.preventDefault();
                 jQuery('.alert-danger').hide();
                 jQuery.ajax({
-                    url: "{{ route('admin.general.cliente.form.update') }}",
+                    url: "{{ route('admin.general.cliente.descuento.nuevo.producto.save') }}",
                     method: 'post',
-                    data: $('#formulario-editar').serialize(),
+                    data: $('#formulario').serialize(),
                     success: function(data){
                         jQuery.each(data.errors, function(key, value){
                             jQuery('.alert-danger').show();

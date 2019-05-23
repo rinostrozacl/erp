@@ -1,15 +1,17 @@
 <?php namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-class CompraDetalle extends Model
+use Illuminate\Database\Eloquent\SoftDeletes;
+class DescuentoLinea extends Model
 {
-	protected $table = 'compra_detalle';
-	public function compra() 
-	{
-		return $this->belongsTo('App\Models\Compra', 'compra_id');
-	}
-	public function producto() 
-	{
-		return $this->belongsTo('App\Models\Producto', 'producto_id');
-	}
+    use SoftDeletes;
+	protected $table = 'descuento_linea';
+    public function linea()
+    {
+        return $this->belongsTo('App\Models\Linea', 'linea_id');
+    }
+    public function cliente()
+    {
+        return $this->belongsTo('App\Models\Cliente', 'cliente_id');
+    }
 }

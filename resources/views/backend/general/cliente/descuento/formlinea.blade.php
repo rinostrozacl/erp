@@ -7,23 +7,14 @@
 @endsection
 
 @section('content')
-    <form id="formulario-editar">
+    <form id="formulario">
 
-        @php
-            if($cliente){
-                $msg_bt= "Actualizar";
-                 $msg_h4= "Editar cliente";
-            }else{
-                 $msg_bt= "Guardar Nuevo regisro";
-                  $msg_h4= "Nuevo cliente";
-            }
-        @endphp
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-5">
                         <h4 class="card-title mb-0">
-                            {{$msg_h4}}
+                            Nuevo descuento para el cliente [{{$cliente->nombre}}] aplicable a una linea
                             <small class="text-muted"></small>
                         </h4>
                         <div class="alert alert-danger" style="display:none"></div>
@@ -35,56 +26,31 @@
                 <div class="row mt-4 mb-4">
                     <div class="col">
                         <div class="form-group row">
-                            <label class="col-md-2 form-control-label" for="id">ID</label>
+                            <label class="col-md-2 form-control-label" for="nombre">Línea</label>
 
                             <div class="col-md-10">
-                                <input type="text" class="form-control" name="id" readonly value="{{$cliente->id ?? ''}}">
+
+
+                                <select class="form-control chosen-select" id="linea_id" name="linea_id">
+                                    <option value="0">Seleccione línea</option>
+                                    @foreach($lineas as $linea)
+                                        <option value="{{$linea->id}}"  >{{$linea->nombre}}</option>
+                                    @endforeach
+                                </select>
+
                             </div><!--col-->
                         </div><!--form-group-->
-
-                        <div class="form-group row">
-                            <label class="col-md-2 form-control-label" for="nombre">Nombre</label>
-
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="nombre"   value="{{$cliente->nombre  ?? ''}}">
-                            </div><!--col-->
-                        </div><!--form-group-->
-
-                        <div class="form-group row">
-                            <label class="col-md-2 form-control-label" for="rut">RUT</label>
-
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" name="rut"   value="{{$cliente->rut  ?? ''}}">
-                            </div><!--col-->
-                        </div><!--form-group-->
-
 
 
                         <div class="form-group row">
-                            <label class="col-md-2 form-control-label" for="activo">Activo</label>
+                            <label class="col-md-2 form-control-label" for="nombre">Porcentaje</label>
 
                             <div class="col-md-10">
-                                @php
-
-                                    if(!$cliente){
-                                        $activo= 'checked="checked"';
-                                    }else{
-                                        if($cliente){
-                                            $activo= ($cliente->activo==1)?'checked="checked"': '';
-                                        }else{
-                                            $activo='';
-                                        }
-                                    }
-
-
-                                @endphp
-                                <label class="switch switch-label switch-pill switch-primary mr-2">
-                                    <input type="checkbox" class="switch-input" name="activo"  {{$activo}}  value="1"><span class="switch-slider" data-checked="on" data-unchecked="off"></span>
-                                </label>
-
+                                <input type="text" class="form-control" name="porcentaje" >
                             </div><!--col-->
                         </div><!--form-group-->
 
+                        <input type="hidden"  name="cliente_id" value="{{$cliente->id}}" >
 
                     </div><!--col-->
                 </div><!--row-->
@@ -93,12 +59,12 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col">
-                        <a class="btn btn-danger btn-sm" href="{{route('admin.general.cliente')}}">Cancelar</a>
+                        <a class="btn btn-danger btn-sm" href="{{route('admin.general.cliente.indexDescuentos', $cliente->id)}}">Cancelar</a>
                     </div><!--col-->
 
                     <div class="col text-right">
                         <button class="btn btn-success btn-sm pull-right" type="submit" id="guardar">
-                            {{$msg_bt}}
+                            Guardar nuevo descuento
                         </button>
 
                     </div><!--row-->
@@ -113,13 +79,13 @@
 @push('scripts')
     <script type="text/javascript">
         jQuery(document).ready(function(){
-            jQuery('#formulario-editar').submit(function(e){
+            jQuery('#formulario').submit(function(e){
                 e.preventDefault();
                 jQuery('.alert-danger').hide();
                 jQuery.ajax({
-                    url: "{{ route('admin.general.cliente.form.update') }}",
+                    url: "{{ route('admin.general.cliente.descuento.nuevo.linea.save') }}",
                     method: 'post',
-                    data: $('#formulario-editar').serialize(),
+                    data: $('#formulario').serialize(),
                     success: function(data){
                         jQuery.each(data.errors, function(key, value){
                             jQuery('.alert-danger').show();

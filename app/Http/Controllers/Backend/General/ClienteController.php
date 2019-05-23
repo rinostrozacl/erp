@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\Backend\General;
 
 
+use App\Models\DescuentoFamilia;
+use App\Models\DescuentoLinea;
+use App\Models\DescuentoProducto;
+use App\Models\Familia;
+use App\Models\Linea;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -35,11 +41,13 @@ class ClienteController extends Controller
                 }else{
                     $bt.='<button class="btn btn-xs btn-secondary bt-desactivar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Activar</span></button> ';
                 }
+                $bt.='<a href="'.route('admin.general.cliente.indexDescuentos',$item->id).'" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-edit"></i> Descuentos</a> ';
                 return $bt;
             })
             ->editColumn('id', 'ID: {{$id}}')
             ->make(true);
     }
+
 
 
 
@@ -51,7 +59,151 @@ class ClienteController extends Controller
     }
 
 
+    public function indexDescuento($id=0)
+    {
+        $cliente = Cliente::find($id);
 
+        return view('backend.general.cliente.descuento')->with('cliente',$cliente);
+    }
+
+
+    public function getTablaDescuentoLinea($id=0)
+    {
+        $clientes = DescuentoLinea::where('cliente_id',$id);
+        return Datatables::of($clientes)
+            ->addColumn('action', function ($item) {
+                $bt='<button  class="btn btn-xs btn-danger bt-eliminar-linea" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit"></i><span> Eliminar</span></button> ';
+                return $bt;
+            })->addColumn('linea', function ($item) {
+                return $item->linea->nombre;
+            })->editColumn('id', 'ID: {{$id}}')
+            ->make(true);
+    }
+    public function getTablaDescuentoFamilia($id=0)
+    {
+        $clientes = DescuentoFamilia::where('cliente_id',$id);
+        return Datatables::of($clientes)
+            ->addColumn('action', function ($item) {
+                $bt='<button  class="btn btn-xs btn-danger bt-eliminar-familia" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit"></i><span> Eliminar</span></button> ';
+                return $bt;
+            })->addColumn('familia', function ($item) {
+                return $item->familia->linea->nombre.' - '.$item->familia->nombre;
+            })->editColumn('id', 'ID: {{$id}}')
+            ->make(true);
+    }
+
+    public function getTablaDescuentoProducto($id=0)
+    {
+        $clientes = DescuentoProducto::where('cliente_id',$id);
+        return Datatables::of($clientes)
+            ->addColumn('action', function ($item) {
+                $bt='<button  class="btn btn-xs btn-danger bt-eliminar-producto" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit"></i><span> Eliminar</span></button> ';
+                return $bt;
+            })->addColumn('producto', function ($item) {
+                return  $item->producto->familia->linea->nombre . ' - ' . $item->producto->familia->nombre . ' - ' .$item->producto->nombre;
+            })->editColumn('id', 'ID: {{$id}}')
+            ->make(true);
+    }
+
+    public function getDescuentoNuevoLinea($id=0)
+    {
+        $cliente = Cliente::find($id);
+        $lineas = Linea::all();
+        return view('backend.general.cliente.descuento.formlinea')->with('cliente',$cliente)->with('lineas',$lineas);
+    }
+
+    public function getDescuentoNuevoFamilia($id=0)
+    {
+        $cliente = Cliente::find($id);
+        $lineas = Linea::where('activo',1)->get();
+        $familias = Familia::where('activo',1)->get();
+
+        return view('backend.general.cliente.descuento.formfamilia')
+            ->with('cliente',$cliente)
+            ->with('lineas',$lineas)
+            ->with('familias',$familias);;
+    }
+
+    public function getDescuentoNuevoProducto($id=0)
+    {
+        $cliente = Cliente::find($id);
+        $lineas = Linea::where('activo',1)->get();
+        $familias = Familia::where('activo',1)->get();
+        $productos = Producto::where('activo',1)->get();
+
+        return view('backend.general.cliente.descuento.formproducto')
+            ->with('cliente',$cliente)
+            ->with('lineas',$lineas)
+            ->with('familias',$familias)
+            ->with('productos',$productos);
+    }
+
+
+
+
+    public function postDescuentoNuevoLineaSave(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'linea_id' => 'required',
+            'porcentaje' => 'required'
+
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else{
+            $descuento = new DescuentoLinea();
+            $msg='Registro Ingresado';
+            $descuento->linea_id=$request->linea_id;
+            $descuento->cliente_id=$request->cliente_id;
+            $descuento->porcentaje=$request->porcentaje;
+            $descuento->save();
+            return response()->json(['estado'=>1,'mensaje'=>$msg]);
+        }
+    }
+
+    public function postDescuentoNuevoFamiliaSave(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'familia_id' => 'required',
+            'porcentaje' => 'required'
+
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else{
+            $descuento = new DescuentoFamilia();
+            $msg='Registro Ingresado';
+            $descuento->familia_id=$request->familia_id;
+            $descuento->cliente_id=$request->cliente_id;
+            $descuento->porcentaje=$request->porcentaje;
+            $descuento->save();
+            return response()->json(['estado'=>1,'mensaje'=>$msg]);
+        }
+    }
+
+
+    public function postDescuentoNuevoProductoSave(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'producto_id' => 'required'
+
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else{
+            $descuento = new DescuentoProducto();
+            $msg='Registro Ingresado';
+            $descuento->producto_id=$request->producto_id;
+            $descuento->cliente_id=$request->cliente_id;
+            $descuento->porcentaje=$request->porcentaje;
+            $descuento->pesos=$request->pesos;
+            $descuento->save();
+            return response()->json(['estado'=>1,'mensaje'=>$msg]);
+        }
+    }
 
     public function postUpdate(Request $request)
     {
@@ -111,6 +263,38 @@ class ClienteController extends Controller
         $resp['estado']=1;
         $cliente->save();
         $cliente->save();
+        return $resp;
+    }
+
+    public function postEliminarDescuentoLinea(Request $request)
+    {
+        $resp=[];
+        $descuento = DescuentoLinea::findOrFail($request->id);
+        $descuento->delete();
+        $resp['msg']="Registro eliminado";
+        $resp['estado']=1;
+        $descuento->save();
+        return $resp;
+    }
+
+    public function postEliminarDescuentoFamilia(Request $request)
+    {
+        $resp=[];
+        $descuento = DescuentoFamilia::findOrFail($request->id);
+        $descuento->delete();
+        $resp['msg']="Registro eliminado";
+        $resp['estado']=1;
+        $descuento->save();
+        return $resp;
+    }
+    public function postEliminarDescuentoProducto(Request $request)
+    {
+        $resp=[];
+        $descuento = DescuentoProducto::findOrFail($request->id);
+        $descuento->delete();
+        $resp['msg']="Registro eliminado";
+        $resp['estado']=1;
+        $descuento->save();
         return $resp;
     }
 }

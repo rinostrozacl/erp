@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <h4 class="card-title mb-0">
-                            Nuevo descuento para el cliente: {{$cliente->nombre}}
+                            Nuevo descuento para el cliente  [{{$cliente->nombre}}] aplicable a una familia
                             <small class="text-muted"></small>
                         </h4>
                         <div class="alert alert-danger" style="display:none"></div>
@@ -25,19 +25,36 @@
 
                 <div class="row mt-4 mb-4">
                     <div class="col">
+
+
                         <div class="form-group row">
-                            <label class="col-md-2 form-control-label" for="nombre">Línea</label>
-
+                            <label class="col-md-2 form-control-label" for="nombre">Linea</label>
                             <div class="col-md-10">
+                                @component('backend.component.select-form',
+                                    [
+                                    'name' => 'linea_id',
+                                    'lista' => $lineas,
+                                    'valor_seleccionado' => 0,
+                                    'elemento_editar' => null,
+                                    'enlazado' => true,
+                                    'enlazado_destino' => 'familia_id',
+                                    'enlazado_ruta'=> route('admin.global.combo.familiabylinea'),
+                                    ])
+                                @endcomponent
+                            </div><!--col-->
+                        </div><!--form-group-->
 
-
-                                <select class="form-control chosen-select" id="linea_id" name="linea_id">
-                                    <option value="0">Seleccione línea</option>
-                                    @foreach($lineas as $linea)
-                                        <option value="{{$linea->id}}"  >{{$linea->nombre}}</option>
-                                    @endforeach
-                                </select>
-
+                        <div class="form-group row">
+                            <label class="col-md-2 form-control-label" for="nombre">Familia</label>
+                            <div class="col-md-10">
+                                @component('backend.component.select-form',
+                                   [
+                                   'name' => 'familia_id',
+                                   'lista' => $familias,
+                                   'valor_seleccionado' => 0,
+                                   'elemento_editar' => null,
+                                   ])
+                                @endcomponent
                             </div><!--col-->
                         </div><!--form-group-->
 
@@ -50,7 +67,7 @@
                             </div><!--col-->
                         </div><!--form-group-->
 
-
+                        <input type="hidden"  name="cliente_id" value="{{$cliente->id}}" >
 
                     </div><!--col-->
                 </div><!--row-->
@@ -79,13 +96,13 @@
 @push('scripts')
     <script type="text/javascript">
         jQuery(document).ready(function(){
-            jQuery('#formulario-editar').submit(function(e){
+            jQuery('#formulario').submit(function(e){
                 e.preventDefault();
                 jQuery('.alert-danger').hide();
                 jQuery.ajax({
-                    url: "{{ route('admin.general.cliente.form.update') }}",
+                    url: "{{ route('admin.general.cliente.descuento.nuevo.familia.save') }}",
                     method: 'post',
-                    data: $('#formulario-editar').serialize(),
+                    data: $('#formulario').serialize(),
                     success: function(data){
                         jQuery.each(data.errors, function(key, value){
                             jQuery('.alert-danger').show();

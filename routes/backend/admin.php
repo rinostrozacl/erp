@@ -161,6 +161,25 @@ Route::get('general/cliente/form/{id?}', [ClienteController::class, 'getEdit'])-
 Route::post('general/cliente/form', [ClienteController::class, 'postUpdate'])->name('general.cliente.form.update');
 Route::post('general/cliente/activar', [ClienteController::class, 'postActivar'])->name('general.cliente.activar');
 Route::post('general/cliente/eliminar', [ClienteController::class, 'postEliminar'])->name('general.cliente.eliminar');
+Route::get('general/cliente/descuento/{id?}', [ClienteController::class, 'indexDescuento'])->name('general.cliente.indexDescuentos');
+Route::get('general/cliente/descuento/tabla1/{id?}', [ClienteController::class, 'getTablaDescuentoLinea'])->name('general.cliente.descuento.tabla1');
+Route::get('general/cliente/descuento/tabla2/{id?}', [ClienteController::class, 'getTablaDescuentoFamilia'])->name('general.cliente.descuento.tabla2');
+Route::get('general/cliente/descuento/tabla3/{id?}', [ClienteController::class, 'getTablaDescuentoProducto'])->name('general.cliente.descuento.tabla3');
+Route::get('general/cliente/descuento/nuevolinea/{id?}', [ClienteController::class, 'getDescuentoNuevoLinea'])->name('general.cliente.descuento.nuevo.linea');
+Route::get('general/cliente/descuento/nuevofamilia/{id?}', [ClienteController::class, 'getDescuentoNuevoFamilia'])->name('general.cliente.descuento.nuevo.familia');
+Route::get('general/cliente/descuento/nuevoproducto/{id?}', [ClienteController::class, 'getDescuentoNuevoProducto'])->name('general.cliente.descuento.nuevo.producto');
+
+
+Route::post('general/cliente/descuento/nuevolinea', [ClienteController::class, 'postDescuentoNuevoLineaSave'])->name('general.cliente.descuento.nuevo.linea.save');
+Route::post('general/cliente/descuento/nuevofamilia', [ClienteController::class, 'postDescuentoNuevoFamiliaSave'])->name('general.cliente.descuento.nuevo.familia.save');
+Route::post('general/cliente/descuento/nuevoproducto', [ClienteController::class, 'postDescuentoNuevoProductoSave'])->name('general.cliente.descuento.nuevo.producto.save');
+
+
+
+Route::post('general/cliente/descuento/eliminar/DescuentoLinea', [ClienteController::class, 'postEliminarDescuentoLinea'])->name('general.cliente.descuento.eliminar.DescuentoLinea');
+Route::post('general/cliente/descuento/eliminar/DescuentoFamilia', [ClienteController::class, 'postEliminarDescuentoFamilia'])->name('general.cliente.descuento.eliminar.DescuentoFamilia');
+Route::post('general/cliente/descuento/eliminar/DescuentoProducto', [ClienteController::class, 'postEliminarDescuentoProducto'])->name('general.cliente.descuento.eliminar.DescuentoProducto');
+
 
 
 // Movimientos
@@ -192,6 +211,7 @@ Route::get('informe/stockcritico/form/{id?}', [StockCriticoController::class, 'g
  */
 
 Route::get('global/combo/FamiliaByLinea/{id?}', [ComboController::class, 'getFamiliaByLinea'])->name('global.combo.familiabylinea');
+Route::get('global/combo/ProductosByFamilia/{id?}', [ComboController::class, 'getProductosByFamilia'])->name('global.combo.ProductosByFamilia');
 Route::get('global/info/ClienteById/{id?}', [ComboController::class, 'ClienteById'])->name('global.info.ClienteById');
 Route::get('global/info/ProductoById/{id?}', [ComboController::class, 'ProductoById'])->name('global.info.ProductoById');
 
