@@ -146,6 +146,19 @@ Breadcrumbs::for('admin.caja.rendir', function ($trail) {
     $trail->push(__('Rendir caja'), route('admin.caja.rendir'));
 });
 
+Breadcrumbs::for('admin.general.cliente.indexDescuentos', function ($trail) {
+    $trail->push(__('Descuentos'), route('admin.general.cliente.indexDescuentos'));
+});
+
+Breadcrumbs::for('admin.general.cliente.descuento.nuevo.linea', function ($trail) {
+    $trail->push(__('Descuentos'), route('admin.general.cliente.descuento.nuevo.linea'));
+});
+Breadcrumbs::for('admin.general.cliente.descuento.nuevo.familia', function ($trail) {
+    $trail->push(__('Descuentos'), route('admin.general.cliente.descuento.nuevo.familia'));
+});
+Breadcrumbs::for('admin.general.cliente.descuento.nuevo.producto', function ($trail) {
+    $trail->push(__('Descuentos'), route('admin.general.cliente.descuento.nuevo.producto'));
+});
 
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';
