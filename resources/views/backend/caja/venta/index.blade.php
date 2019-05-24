@@ -211,7 +211,7 @@
                             </div>
                         <h4>Productos encontrados</h4>
                         <div class="table-responsive">
-                            <table class="table" id="tabla_busqueda">
+                            <table class="table dataTable-small" id="tabla_busqueda">
                                 <thead>
                                 <tr>
                                     <th>Nombre</th>
@@ -222,6 +222,7 @@
                                     <th>Marca</th>
                                     <th>Stock</th>
                                     <th>Valor Neto</th>
+                                    <th>Descuento</th>
                                     <th>IVA</th>
                                     <th>Valor Total</th>
                                     <th></th>
@@ -237,20 +238,32 @@
                         </div> <!--table-responsive-->
                         <h4>Productos agregados</h4>
                             <div class="table-responsive">
-                                <table class="table" id="tabla_venta">
+                                <table class="table dataTable-small" id="tabla_venta">
                                     <thead>
                                     <tr>
                                         <th>Nombre</th>
                                         <th>cantidad</th>
                                         <th>Valor Neto</th>
-                                        <th>Total Neto</th>
-                                        <th> </th>
+                                        <th>SubTotal Neto</th>
+                                        <th>IVA</th>
+                                        <th>Total</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
 
                                     </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <th> </th>
+                                            <th id="total_cantidad"> </th>
+                                            <th id="total_neto"> </th>
+                                            <th id="total_subtotal_neto"> </th>
+                                            <th id="total_iva"> </th>
+                                            <th id="total_total"> </th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div> <!--table-responsive-->
 
@@ -279,6 +292,14 @@
 
 
     $(document).ready(function(){
+
+        var total_cantidad=0;
+        var total_neto=0;
+        var total_subtotal_neto=0;
+        var total_iva=0;
+        var total_total=0;
+
+
 
         $.ajaxSetup({
             headers: {
@@ -336,6 +357,7 @@
                 {data: 'marca', name: 'marca'},
                 {data: 'stock', name: 'stock'},
                 {data: 'valor_neto_venta', name: 'valor_neto_venta'},
+                {data: 'descuento', name: 'descuento'},
                 {data: 'valor_iva', name: 'valor_iva'},
                 {data: 'valor_total_venta', name: 'valor_total_venta'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
@@ -364,17 +386,37 @@
                     //console.log(respuesta);
 
 
-                        var cantidad=  $("#cantidad_"+id).val();
-                        var subtotal= cantidad*producto.valor_neto_venta;
-                        //alert("cilindro");
+                    var cantidad=  parseInt($("#cantidad_"+id).val());
+                    var subtotal= cantidad*producto.valor_neto_venta;
+                    var iva = Math.round(subtotal*0.19);
+                    var total = Math.round(subtotal*1.19);
+
+
+                    total_cantidad += cantidad;
+                    total_neto += producto.valor_neto_venta;
+                    total_subtotal_neto +=subtotal;
+                    total_iva += iva;
+                    total_total +=total;
+
+
+
+                    //alert("cilindro");
                         var fila ="<tr>" +
                             "<td>"+producto.nombre+"</td>" +
                             "<td>"+cantidad+"</td>" +
-                            "<td>"+producto.valor_neto_venta+"</td>" +
-                            "<td>"+subtotal+"</td>" +
-                            "<td></td>" +
+                            "<td>"+fNumber.go(producto.valor_neto_venta, "$")+"</td>" +
+                            "<td>"+fNumber.go(subtotal, "$")+"</td>" +
+                            "<td>" + fNumber.go(iva, "$") + "</td>" +
+                            "<td>" + fNumber.go(total, "$") + "</td>" +
                             "</tr>";
                         $('#tabla_venta tbody').append(fila);
+
+                    $('#total_cantidad').html(total_cantidad);
+                    $('#total_neto').html(fNumber.go(total_neto, "$"));
+                    $('#total_subtotal_neto').html(fNumber.go(total_subtotal_neto, "$"));
+                    $('#total_iva').html(fNumber.go(total_iva, "$"));
+                    $('#total_total').html(fNumber.go(total_total, "$"));
+
 
 
 
@@ -390,4 +432,23 @@
     });
 
 
+    var fNumber = {
+        sepMil: ".", // separador para los miles
+        sepDec: ',', // separador para los decimales
+        formatear:function (num){
+            num +='';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDec + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.sepMil + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        go:function(num, simbol){
+            this.simbol = simbol ||'';
+            return this.formatear(num);
+        }
+    }
 </script>

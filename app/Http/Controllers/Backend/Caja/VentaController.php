@@ -74,6 +74,8 @@ class VentaController extends Controller
                 return $item->codigo_ean13 . "[".$item->codigo_erp."]";
             })->addColumn('stock', function ($item) {
                 return  $item->stock_disponible ;
+            })->addColumn('descuento', function ($item) {
+                return  0 ;
             })->addColumn('valor_total_venta', function ($item) {
                 return round($item->valor_neto_venta*1.19);
             })->addColumn('valor_iva', function ($item) {
