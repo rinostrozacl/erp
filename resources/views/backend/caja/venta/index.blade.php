@@ -30,7 +30,7 @@
                             <label class="col-md-3 col-form-label">Tipo Venta</label>
                             <div class="col-md-9 col-form-label">
                                 <div class="form-check">
-                                    <input class="form-check-input" id="radio1" type="radio" value="radio1" name="radios">
+                                    <input class="form-check-input" id="radio1" type="radio" value="radio1" name="radios" checked>
                                     <label class="form-check-label" for="radio1">Solo Cotizacion</label>
                                 </div>
                                 <div class="form-check">
@@ -58,7 +58,7 @@
                             <label class="col-md-3 col-form-label" for="hf-email">Nro Cotizacion</label>
                             <div class="col-md-9">
                                 <div class="input-group">
-                                    <input class="form-control" id="input2-group2" type="email" name="input2-group2" placeholder="Email" autocomplete="email">
+                                    <input class="form-control" id="input2-group2" type="text" name="input2-group2" >
                                     <span class="input-group-append">
                                     <button class="btn btn-primary" type="button">Buscar</button>
                                     </span>
@@ -222,6 +222,8 @@
                                     <th>Marca</th>
                                     <th>Stock</th>
                                     <th>Valor Neto</th>
+                                    <th>IVA</th>
+                                    <th>Valor Total</th>
                                     <th></th>
                                     {{--<th>Acción</th>--}}
 
@@ -334,6 +336,8 @@
                 {data: 'marca', name: 'marca'},
                 {data: 'stock', name: 'stock'},
                 {data: 'valor_neto_venta', name: 'valor_neto_venta'},
+                {data: 'valor_iva', name: 'valor_iva'},
+                {data: 'valor_total_venta', name: 'valor_total_venta'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
         });
