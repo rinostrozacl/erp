@@ -66,6 +66,10 @@ table.dataTable {
     width: 100% !important;
 }
 
+table.dataTable-small tbody{
+font-size: small;
+}
+
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
