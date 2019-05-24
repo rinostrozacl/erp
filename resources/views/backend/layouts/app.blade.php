@@ -25,7 +25,8 @@
 
     <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
 
-    <link rel="stylesheet" href="/js/datatables.bootstrap.css">
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/css/datatables.bootstrap.css">
     <link rel="stylesheet" href="/js/chosen/chosen.css">
     @stack('styles')
     @stack('after-styles')
