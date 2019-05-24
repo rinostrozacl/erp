@@ -16,7 +16,7 @@ use App\Models\Familia;
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class DashboardController.
  */
@@ -43,6 +43,46 @@ class VentaController extends Controller
 
     public function postTablaBusqueda()
     {
+        //  ->where('goals.jurisdiction_id', '=', 9)
+        $productos = DB::table('producto')
+            ->join('marca', 'marca.id', '=', 'producto.marca_id')
+            ->join('familia', 'familia.id', '=', 'producto.familia_id')
+            ->join('linea', 'linea.id', '=', 'familia.linea_id')
+            ->when($_GET['marca_id'], function ($query, $role) {
+                return $query->where('producto.marca_id', '=', $_GET['marca_id']);
+            })
+            ->when($_GET['linea_id'], function ($query, $role) {
+                return $query->where('familia.linea_id', '=', $_GET['linea_id']);
+            })
+            ->when($_GET['familia_id'], function ($query, $role) {
+                return $query->where('producto.familia_id', '=', $_GET['familia_id']);
+            })
+            ->select('producto.*', 'marca.nombre as marca','familia.nombre as familia','linea.nombre as linea')
+            ->get();
+
+        return Datatables::of($productos)
+            ->addColumn('action', function ($item) {
+                $bt='<div class="input-group">
+                                    <input class="form-control"  type="number"   id="cantidad_'.$item->id.'" name="input2-group2"  value="1">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary bt-agregar" type="button"   data-id="'.$item->id.'">Agregar</button>
+                                    </span>
+                                </div> ';
+                return $bt;
+            })->editColumn('id', '{{$id}}'
+            )->addColumn('codigo', function ($item) {
+                return $item->codigo_ean13 . "[".$item->codigo_erp."]";
+            })->addColumn('stock', function ($item) {
+                return  $item->stock_disponible ;
+            })->addColumn('valor_total_venta', function ($item) {
+                return round($item->valor_neto_venta*1.19);
+            })->addColumn('valor_iva', function ($item) {
+                return round($item->valor_neto_venta*0.19);
+            })->rawColumns(['action'])
+            ->make(true);
+
+
+        /*
        $productos = Producto::all();
            if($_GET['marca_id']>0){
                $productos= $productos->where('marca_id',$_GET['marca_id']) ;
@@ -82,6 +122,7 @@ class VentaController extends Controller
                 return $item->marca->nombre;
             })->rawColumns(['action'])
             ->make(true);
+        */
     }
 }
 
