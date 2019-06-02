@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Producto;
 use App\Models\Familia;
+use App\Models\Ubicacion;
 use Illuminate\Http\Request;
 
 /**
@@ -54,6 +55,26 @@ class ComboController extends Controller
         return $producto->toJson();
     }
 
+
+    public function getUbicacionByAccion($id)
+    {
+        if($id==1){
+            $ubicacion = Ubicacion::where('is_entrada_origen',1)->get();
+        }elseif ($id==2){
+            $ubicacion = Ubicacion::where('is_entrada_destino',1)->get();
+        }elseif ($id==3){
+            $ubicacion = Ubicacion::where('is_traslado_destino',1)->get();
+        }elseif ($id==4){
+            $ubicacion = Ubicacion::where('is_traslado_origen',1)->get();
+        }elseif ($id==5){
+            $ubicacion = Ubicacion::where('is_salida_origen',1)->get();
+        }elseif ($id==6){
+            $ubicacion = Ubicacion::where('is_salida_destino',1)->get();
+        }
+
+
+        return $ubicacion->toJson();
+    }
 
 }
 
