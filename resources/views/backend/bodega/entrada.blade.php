@@ -14,7 +14,16 @@
 
 
 @section('content')
+    <style type="text/css">
+        .box{
+            width:600px;
+            margin:0 auto;
+        }
+    </style>
+    @php
+//dd(session()->attributes);
 
+   @endphp
 
     <div class="card">
         <div class="card-body">
@@ -36,23 +45,120 @@
                                 <strong>Tipo de movimiento</strong>
                             </div>
                             <div class="card-body">
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label" for="select1">Seleccione un tipo</label>
-                                    <div class="col-md-9">
-                                        <select class="form-control" id="select_movimiento" name="select_movimiento">
-                                            <option value="0">Seleccione</option>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-4 col-form-label" for="select1">Tipo movimiento</label>
+                                            <select class="form-control col-sm-8" id="movimiento_tipo_id" name="movimiento_tipo_id">
+                                                <option value="0">Seleccione</option>
+                                                @foreach($bag['tipos_movimiento'] as $tm)
+                                                <option value="{{$tm->id}}">{{$tm->nombre}}</option>
+                                                @endforeach
 
-                                            @foreach($bag['tipo_movimiento'] as $tm)
+                                            </select>
+                                        </div>
 
-                                            <option value="{{$tm->id}}">{{$tm->nombre}}</option>
+                                        <div class="form-group row">
+                                            <label for="vat" class="col-sm-4">Origen</label>
+                                            <select class="form-control col-sm-8" id="ubicacion_origen_id" name="ubicacion_origen_id">
+                                                <option value="0">Seleccione Tipo Movimiento</option>
 
-                                            @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="street" class="col-sm-4">Destino</label>
+                                            <select class="form-control col-sm-8" id="ubicacion_destino_id" name="ubicacion_destino_id">
+                                                <option value="0">Seleccione Tipo Movimiento</option>
 
-                                        </select>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                    </div>
+                            </div>
+
                                     </div><!--col-->
                                 </div><!--form-->
                             </div><!--card-body-->
                     </div><!--card-->
+
+
+
+
+
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Listado de productos</strong>
+                        </div>
+                        <div class="card-body">
+
+
+
+
+                            <div class="form-group row">
+
+                                <div class="col-md-2">
+                                    <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="Buscar por codigo">
+                                </div>
+                                <div class="col-md-6" id="producto_autocomplete">
+                                    <input class="form-control" id="producto_name" type="text" name="producto_name" placeholder="Buscar por nombre producto">
+                                    <div id="producto_list" style="position: fixed">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control" id="cantidad_producto_add" type="text" name="cantidad_producto_add" placeholder="Cantidad a ingresar">
+                                    <input  id="producto_id_add" type="hidden" name="producto_id_add"  >
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-success" id="bt-agregar" type="button" disabled>Agregar</button>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <div class="table-responsive">
+                                <table class="table" id="tabla_item">
+                                    <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Familia</th>
+                                        <th>Línea</th>
+                                        <th>Cantidad</th>
+                                        <th>Neto (UN)</th>
+                                        <th> </th>
+                                        {{--<th>Acción</th>--}}
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div> <!--table-responsive-->
+
+                        </div><!--card-body-->
+                        <div class="card-footer">
+                            <button class="btn btn-md btn-success" type="button" id="btn_guardar">
+                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
+                            <button class="btn btn-md btn-danger" type="reset">
+                                <i class="fa fa-ban"></i>Cancelar</button>
+
+
+                            <input    type="hidden" name="total_productos"   id="total_productos" value="0" >
+                        </div>
+                    </div><!--card-->
+
+
 
 
 
@@ -62,30 +168,7 @@
                             <strong>Información de entrada</strong>
                         </div>
                         <div class="card-body">
-                            <div class="form-group row">
-                                <label for="vat" class="col-sm-3">ORIGEN</label>
-                                <select class="form-control col-sm-3" id="origen_entrada" name="origen_entrada">
-                                    <option value="0">Seleccione origen</option>
 
-                                    @foreach($bag['ubicacion_entrada_origen'] as $ubicacion_entrada_origen)
-
-                                        <option value="{{$ubicacion_entrada_origen->id}}">{{$ubicacion_entrada_origen->nombre}}</option>
-
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group row">
-                                <label for="street" class="col-sm-3">DESTINO</label>
-                                <select class="form-control col-sm-3" id="destino_entrada" name="destino_entrada">
-                                    <option value="0">Seleccione destino</option>
-
-                                    @foreach($bag['ubicacion_entrada_destino'] as $ubicacion_entrada_destino)
-
-                                        <option value="{{$ubicacion_entrada_destino->id}}">{{$ubicacion_entrada_destino->nombre}}</option>
-
-                                    @endforeach
-                                </select>
-                            </div>
 
                             <div class="card row">
                                 <div class="card-header">
@@ -145,125 +228,14 @@
                     </div><!--card-->
 
 
-                    <div class="card" id="ocultotraslado" style="display: none;">
-                        <div class="card-header">
-                            <strong>Información de traslado</strong>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label for="vat" class="col-sm-3">ORIGEN</label>
-                                <select class="form-control col-sm-3" id="origen_traslado" name="origen_traslado">
-                                    <option value="0">Seleccione origen</option>
-
-                                    @foreach($bag['ubicacion_traslado_origen'] as $ubicacion_traslado_origen)
-
-                                        <option value="{{$ubicacion_traslado_origen->id}}">{{$ubicacion_traslado_origen->nombre}}</option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div class="form-group row">
-                                <label for="street" class="col-sm-3">DESTINO</label>
-                                <select class="form-control col-sm-3" id="destino_traslado" name="destino_traslado">
-                                    <option value="0">Seleccione destino</option>
-
-                                    @foreach($bag['ubicacion_traslado_destino'] as $ubicacion_traslado_destino)
-
-                                        <option value="{{$ubicacion_traslado_destino->id}}">{{$ubicacion_traslado_destino->nombre}}</option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                        </div><!--card-body-->
-
-                    </div><!--card-->
-
-                    <div class="card" id="ocultosalida" style="display: none;">
-                        <div class="card-header">
-                            <strong>Información de salida</strong>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label for="vat" class="col-sm-3">ORIGEN</label>
-                                <select class="form-control col-sm-3" id="origen_salida" name="origen_salida">
-                                    <option value="0">Seleccione origen</option>
-
-                                    @foreach($bag['ubicacion_salida_origen'] as $ubicacion_salida_origen)
-
-                                        <option value="{{$ubicacion_salida_origen->id}}">{{$ubicacion_salida_origen->nombre}}</option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div class="form-group row">
-                                <label for="street" class="col-sm-3">DESTINO</label>
-                                <select class="form-control col-sm-3" id="destino_salida" name="destino_salida">
-                                    <option value="0">Seleccione destino</option>
-
-                                    @foreach($bag['ubicacion_salida_destino'] as $ubicacion_salida_destino)
-
-                                        <option value="{{$ubicacion_salida_destino->id}}">{{$ubicacion_salida_destino->nombre}}</option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                        </div><!--card-body-->
-
-                    </div><!--card-->
 
 
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>Listado de productos</strong>
-                        </div>
-                        <div class="card-body">
 
 
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label" for="hf-email">Ingrese el código del producto</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="">
-                                </div>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table" id="tabla_item">
-                                    <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nombre</th>
-                                        <th>Familia</th>
-                                        <th>Línea</th>
-                                        <th>Cantidad</th>
-                                        <th>Neto compra (UN)</th>
-                                        <th>Neto venta (UN)</th>
-                                        {{--<th>Acción</th>--}}
-
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div> <!--table-responsive-->
-
-                        </div><!--card-body-->
-                        <div class="card-footer">
-                            <button class="btn btn-md btn-success" type="button" id="btn_guardar">
-                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
-                            <button class="btn btn-md btn-danger" type="reset">
-                                <i class="fa fa-ban"></i>Cancelar</button>
-                        </div>
-                    </div><!--card-->
 
 
-                </div><!--col-->
-            </div><!--row-->
+
+
         </form>
         </div><!--card-body-->
     </div><!--card-->
@@ -284,14 +256,143 @@
             }
         });
 
+
+        $('#producto_name').keyup(function(){
+            var query = $(this).val();
+            if(query != '')
+            {
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url:"{{ route('admin.global.autocomplete.fetchProducto') }}",
+                    method:"POST",
+                    data:{query:query, _token:_token},
+                    success:function(data){
+                        $('#producto_list').fadeIn();
+                        $('#producto_list').html(data);
+                    }
+                });
+            }
+        });
+
+        $("#producto_autocomplete").on('click', 'li', function(){
+            //producto_id_add
+            $('#producto_id_add').val($(this).data("producto_id"));
+            $('#producto_name').val($(this).text());
+            $('#producto_list').fadeOut();
+            $('#bt-agregar').removeAttr("disabled");
+        });
+
+
+        $("#bt-agregar").on('click', function() { //Agrega producto a la lista de productos
+            var producto_id_add= $('#producto_id_add').val();
+            var cantidad_producto_add= $('#cantidad_producto_add').val();
+            var total_productos= $('#total_productos').val();
+
+            if(producto_id_add  >0 && cantidad_producto_add>0){
+
+                $.ajax({
+                    url: "{{route('admin.bodega.entrada.item')}}",
+                    type: "post",
+                    data: {
+                        producto_id_add: producto_id_add,
+                        cantidad_producto_add: cantidad_producto_add
+                    },
+                    success: function (data) {
+                        var respuesta = $.parseJSON( data);
+                        //console.log(respuesta);
+                        if(respuesta.mensaje){
+                            alert(respuesta.mensaje);
+                        }
+                        if(respuesta.correcto == 1){
+                            //alert("cilindro");
+                            var producto_id = respuesta.producto_id;
+                            var cantidad = parseInt(respuesta.cantidad);
+                            if($("input[name='productos_id["+ producto_id +"]']").length != 0){
+                                console.log("Producto ya existente " + producto_id);
+                                var cantidad_actual = parseInt($("input[name='cantidad["+ producto_id +"]']").val());
+                                var nueva_cantidad = cantidad_actual+cantidad;
+                                $("input[name='cantidad["+ producto_id +"]']").val(nueva_cantidad);
+                            }else{
+                                console.log("Producto Nuevo");
+                                $('#tabla_item tbody').append(respuesta.tr);
+                            }
+                            $("#codigoproducto").val("");
+                            $("#codigoproducto").focus();
+                            $('#producto_name').val("");
+                            $('#producto_id_add').val("");
+                            $('#cantidad_producto_add').val("");
+                            $('#bt-agregar').attr("disabled");
+
+                            var cantidad_total = parseInt(respuesta.cantidad) + parseInt(total_productos);
+
+                            $('#total_productos').val(cantidad_total);
+                        }
+                    }
+                });
+
+
+            }else{
+                alert("Debe seleccionar producto e ingresar la cantidad");
+            }
+
+
+        });
+
         $('#codigoproducto').focus();
 
-        $('select[name="select_movimiento"]').on('change', function() {
+        $('#movimiento_tipo_id').on('change', function() {
 
-            var seleccion = $(this).val();
+            var movimiento_tipo_id = $(this).val();
+
+            var action_id_origen = 0;
+            var action_id_destino = 0;
+
+            if(movimiento_tipo_id==1){
+                 action_id_origen = 1;
+                 action_id_destino = 2;
+            }
+            if(movimiento_tipo_id==2){
+                action_id_origen = 4;
+                action_id_destino = 3;
+            }
+            if(movimiento_tipo_id==3){
+                action_id_origen = 5;
+                action_id_destino = 6;
+            }
+            if(movimiento_tipo_id==4){
+                action_id_origen = 3;
+                action_id_destino = 4;
+            }
+            console.log(movimiento_tipo_id);
+
+            $.ajax({
+                url: "{{route('admin.global.info.getUbicacionByAccion')}}/"+action_id_origen,
+                type: "get",
+                success: function (data) {
+                    console.log(data);
+                    $("#ubicacion_origen_id").html("");
+                    $.each(JSON.parse(data), function(id, name) {
+                        $("#ubicacion_origen_id").append('<option value=' + name.id + '>' + name.nombre + '</option>');
+                    });
+                    //$("#ubicacion_origen_id").trigger("chosen:updated");
+                }
+            });
+
+            $.ajax({
+                url: "{{route('admin.global.info.getUbicacionByAccion')}}/"+action_id_destino,
+                type: "get",
+                success: function (data) {
+                    console.log(data);
+                    $("#ubicacion_destino_id").html("");
+                    $.each(JSON.parse(data), function(id, name) {
+                        $("#ubicacion_destino_id").append('<option value=' + name.id + '>' + name.nombre + '</option>');
+                    });
+                    //$("#ubicacion_origen_id").trigger("chosen:updated");
+                }
+            });
 
 
-            if (seleccion == 1) {
+/*            if (seleccion == 1) {
                 $('#ocultoentrada').css('display', 'block');
                 $('#ocultotraslado').css('display', 'none');
                 $('#ocultosalida').css('display', 'none');}
@@ -303,6 +404,7 @@
                 $('#ocultoentrada').css('display', 'none');
                 $('#ocultotraslado').css('display', 'none');
                 $('#ocultosalida').css('display', 'block'); }
+                */
 
         });
 
@@ -329,7 +431,7 @@
                         }
 
                         if(respuesta.correcto == 2){
-                            console.log("Holi, lo arrelglè");
+                            //console.log("Holi, lo arrelglè");
                             var producto = respuesta.producto_id;
                             var cantidad = respuesta.cantidad;
 
@@ -375,8 +477,7 @@
         jQuery('#tabla_item tbody').on( "click", ".bt-eliminar",function(){
             //e.preventDefault();
             var boton=  jQuery(this);
-            var id=  boton.data('id');
-            //alert('aa'+ id);
+
 
             $(this).closest('tr').remove();
 
