@@ -214,7 +214,10 @@ Route::get('global/combo/FamiliaByLinea/{id?}', [ComboController::class, 'getFam
 Route::get('global/combo/ProductosByFamilia/{id?}', [ComboController::class, 'getProductosByFamilia'])->name('global.combo.ProductosByFamilia');
 Route::get('global/info/ClienteById/{id?}', [ComboController::class, 'ClienteById'])->name('global.info.ClienteById');
 Route::get('global/info/ProductoById/{id?}', [ComboController::class, 'ProductoById'])->name('global.info.ProductoById');
+Route::get('global/info/getUbicacionByAccion/{id?}', [ComboController::class, 'getUbicacionByAccion'])->name('global.info.getUbicacionByAccion');
 
+
+Route::post('global/autocomplete/fetchProducto', 'AutocompleteController@fetchProducto')->name('global.autocomplete.fetchProducto');
 /*
  * Fin Funciones globales
  */
