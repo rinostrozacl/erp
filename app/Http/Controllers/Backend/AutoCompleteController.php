@@ -23,9 +23,10 @@ class AutoCompleteController extends Controller
             $query = $request->get('query');
             $data = DB::table('producto')
                 ->where('nombre', 'LIKE', "%{$query}%")
+                ->limit(30)
                 ->get();
 
-            $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+            /*$output = '<ul class="dropdown-menu" style="display:block; position:relative">';
             if($data->count()){
                 foreach($data as $row)
                 {
@@ -34,8 +35,8 @@ class AutoCompleteController extends Controller
             }else{
                 $output .= '<li>No encontrado</li>';
             }
-            $output .= '</ul>';
-            echo $output;
+            $output .= '</ul>';*/
+            echo $data->toJson();
         }
     }
 
