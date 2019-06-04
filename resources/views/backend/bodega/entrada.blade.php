@@ -19,6 +19,12 @@
             width:600px;
             margin:0 auto;
         }
+        .hide{
+            display: none;
+        }
+        .show{
+            display: flex;
+        }
     </style>
     @php
 //dd(session()->attributes);
@@ -74,6 +80,42 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
+                                         {{--Columna derecha--}}
+
+
+                                        <div class="form-group row movimiento_tipo_1 hide">
+                                            <label for="vat" class="col-sm-4">Proveedor</label>
+                                            <select class="selectpicker col-sm-8" data-live-search="true" id="proveedor_id" name="proveedor_id">
+                                                <option value="0">Buscador</option>
+                                                @foreach($bag['proveedor'] as $p)
+                                                    <option value="{{$p->id}}">{{$p->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group row movimiento_tipo_1 hide">
+                                            <label for="vat" class="col-sm-4">Documento</label>
+                                            <input class="form-control col-sm-4" id="nro_documento" name="nro_documento" type="number" placeholder="Numero Documento">
+                                            <select class="form-control col-sm-4" id="doc_tipo_compra_id" name="doc_tipo_compra_id">
+                                                <option value="0">Seleccione</option>
+                                                @foreach($bag['doc_tipo_compra'] as $td)
+                                                    <option value="{{$td->id}}">{{$td->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group row movimiento_tipo_1 hide">
+                                            <label for="vat" class="col-sm-4">Monto</label>
+                                            <input class="form-control col-sm-4" id="compra_valor_neto" name="compra_valor_neto" type="number" placeholder="Total Neto">
+                                            <div class="col-md-4 col-form-label">
+                                                <div class="form-check form-check-inline mr-1">
+                                                    <input class="form-check-input" id="is_pagado" type="checkbox" name="is_pagado" value="1">
+                                                    <label class="form-check-label" for="inline-checkbox1">Pagado</label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
 
 
                                     </div>
@@ -104,14 +146,17 @@
                                 <div class="col-md-2">
                                     <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="Buscar por codigo">
                                 </div>
-                                <div class="col-md-6" id="producto_autocomplete">
+                                <div class="col-md-2" id="producto_autocomplete">
                                     <input class="form-control" id="producto_name" type="text" name="producto_name" placeholder="Buscar por nombre producto">
-                                    <div id="producto_list" style="position: fixed">
-                                    </div>
+                                </div>
+                                <div class="col-md-4" >
+                                    <select class="form-control" data-live-search="true" id="producto_id_add" name="producto_id_add">
+                                        <option value="0">---</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <input class="form-control" id="cantidad_producto_add" type="text" name="cantidad_producto_add" placeholder="Cantidad a ingresar">
-                                    <input  id="producto_id_add" type="hidden" name="producto_id_add"  >
+
                                 </div>
                                 <div class="col-md-2">
                                     <button class="btn btn-success" id="bt-agregar" type="button" disabled>Agregar</button>
@@ -163,69 +208,6 @@
 
 
 
-                    <div class="card" id="ocultoentrada" name="ocultoentrada" style="display: none;">
-                        <div class="card-header">
-                            <strong>Información de entrada</strong>
-                        </div>
-                        <div class="card-body">
-
-
-                            <div class="card row">
-                                <div class="card-header">
-                                    <strong>Datos de la compra</strong>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group row">
-                                        <label for="vat" class="col-sm-2">Proveedor</label>
-
-                                        <select class="selectpicker col-sm-10" data-live-search="true" id="select_proveedor" name="select_proveedor">
-
-                                            <option value="0">Buscador</option>
-
-                                            @foreach($bag['proveedor'] as $p)
-
-                                                <option value="{{$p->id}}">{{$p->nombre}}</option>
-
-                                            @endforeach
-
-                                        </select>
-
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="vat" class="col-sm-2">Tipo documento</label>
-                                        <select class="form-control col-sm-3" id="select_tipo_documento" name="select_tipo_documento">
-                                            <option value="0">Seleccione</option>
-
-                                            @foreach($bag['tipo_doc'] as $td)
-
-                                                <option value="{{$td->id}}">{{$td->nombre}}</option>
-
-                                            @endforeach
-
-                                        </select>
-                                        <label for="nro_documento" class="col-sm-1">Número</label>
-                                        <input class="form-control col-sm-6" id="nro_documento" name="nro_documento" type="text" placeholder="Ingrese nro. documento">
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="vat" class="col-sm-1">Neto</label>
-                                        <input class="form-control col-sm-2" id="neto" name="neto" type="text">
-                                        <label for="vat" class="col-sm-1">IVA</label>
-                                        <input class="form-control col-sm-2" id="iva" name="iva" type="text">
-                                        <label for="vat" class="col-sm-1">Total</label>
-                                        <input class="form-control col-sm-2" id="total" name="total" type="text">
-                                        <label for="is_pagado" class="col-sm-1">Pagado</label>
-                                        <input type="checkbox" id="is_pagado" name="is_pagado" value="Pagado">
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div><!--card-body-->
-
-                    </div><!--card-->
 
 
 
@@ -259,19 +241,27 @@
 
         $('#producto_name').keyup(function(){
             var query = $(this).val();
+            $("#producto_id_add").empty();
             if(query != '')
             {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url:"{{ route('admin.global.autocomplete.fetchProducto') }}",
+                    url: "{{route('admin.global.autocomplete.fetchProducto')}}",
                     method:"POST",
                     data:{query:query, _token:_token},
-                    success:function(data){
-                        $('#producto_list').fadeIn();
-                        $('#producto_list').html(data);
+                    success: function (data) {
+                       // console.log(data);
+                        $.each(JSON.parse(data), function(id, item) {
+                            $("#producto_id_add").append('<option value=' + item.id + '>' + item.nombre + '</option>');
+                        });
+                        $('#bt-agregar').removeAttr("disabled");
                     }
                 });
+
+            }else{
+                $("#producto_id_add").append('<option value="0">---</option>');
             }
+            $("#producto_id_add").trigger("liszt:updated");
         });
 
         $("#producto_autocomplete").on('click', 'li', function(){
@@ -279,7 +269,7 @@
             $('#producto_id_add').val($(this).data("producto_id"));
             $('#producto_name').val($(this).text());
             $('#producto_list').fadeOut();
-            $('#bt-agregar').removeAttr("disabled");
+
         });
 
 
@@ -316,11 +306,11 @@
                                 console.log("Producto Nuevo");
                                 $('#tabla_item tbody').append(respuesta.tr);
                             }
+
                             $("#codigoproducto").val("");
                             $("#codigoproducto").focus();
                             $('#producto_name').val("");
                             $('#producto_id_add').val("");
-                            $('#cantidad_producto_add').val("");
                             $('#bt-agregar').attr("disabled");
 
                             var cantidad_total = parseInt(respuesta.cantidad) + parseInt(total_productos);
@@ -338,7 +328,7 @@
 
         });
 
-        $('#codigoproducto').focus();
+        //$('#codigoproducto').focus();
 
         $('#movimiento_tipo_id').on('change', function() {
 
@@ -348,18 +338,26 @@
             var action_id_destino = 0;
 
             if(movimiento_tipo_id==1){
+                $(".hide").removeClass('show').addClass('hide');
+                $(".movimiento_tipo_1").removeClass('hide').addClass('show');
                  action_id_origen = 1;
                  action_id_destino = 2;
             }
             if(movimiento_tipo_id==2){
+                $(".hide").removeClass('show').addClass('hide');
+                $(".movimiento_tipo_2").removeClass('hide').addClass('show');
                 action_id_origen = 4;
                 action_id_destino = 3;
             }
             if(movimiento_tipo_id==3){
+                $(".hide").removeClass('show').addClass('hide');
+                $(".movimiento_tipo_3").removeClass('hide').addClass('show');
                 action_id_origen = 5;
                 action_id_destino = 6;
             }
             if(movimiento_tipo_id==4){
+                $(".hide").removeClass('show').addClass('hide');
+                $(".movimiento_tipo_4").removeClass('hide').addClass('show');
                 action_id_origen = 3;
                 action_id_destino = 4;
             }

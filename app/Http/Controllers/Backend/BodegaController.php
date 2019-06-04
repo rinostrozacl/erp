@@ -37,7 +37,7 @@ class BodegaController extends Controller
     {
         $bag=[];
         $bag['tipos_movimiento']= MovimientoTipo::all();
-        $bag['tipo_doc']= DocTipoCompra::all();
+        $bag['doc_tipo_compra']= DocTipoCompra::all();
         $bag['proveedor']= Proveedor::all();
 
 
@@ -125,6 +125,18 @@ class BodegaController extends Controller
                 $producto = Producto::find($valor);
                 $producto->stock_disponible=$producto->stock_disponible+$list_cantidades[$clave];
                 $producto->save();
+
+                $compra = new Compra();
+                $compra->proveedor_id = $request->proveedor_id;
+                $compra->valor_neto = $request->compra_valor_neto;
+                $compra->valor_iva = $request->compra_valor_neto * 0.19;
+                $compra->valor_total = $request->compra_valor_neto * 1.19;
+                $compra->is_pagado = isset($request->is_pagado)? 1:0;
+                $compra->movimiento_id = $movimiento->id;
+                $compra->doc_tipo_compra_id = $request->doc_tipo_compra_id;
+                $compra->nro_documento = $request->nro_documento;
+                $compra->save();
+
             } else if($request->movimiento_tipo_id==2){ //salida traslado
                 //TODO Salida traslado
             } else if($request->movimiento_tipo_id==3){ //salida cliente
@@ -248,7 +260,7 @@ class BodegaController extends Controller
 */
 
 
-       // $respuesta["correcto"]=1;
+         $respuesta["correcto"]=1;
 
 
         return  json_encode($respuesta);
