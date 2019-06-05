@@ -26,16 +26,6 @@ class AutoCompleteController extends Controller
                 ->limit(30)
                 ->get();
 
-            /*$output = '<ul class="dropdown-menu" style="display:block; position:relative">';
-            if($data->count()){
-                foreach($data as $row)
-                {
-                    $output .= '<li data-producto_id="'.$row->id.'"><a href="#">'.$row->nombre.'</a></li>';
-                }
-            }else{
-                $output .= '<li>No encontrado</li>';
-            }
-            $output .= '</ul>';*/
             echo $data->toJson();
         }
     }
