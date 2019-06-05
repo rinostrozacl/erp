@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\Informe\StockController;
 use App\Http\Controllers\Backend\Informe\StockCriticoController;
 
 use App\Http\Controllers\Backend\Caja\VentaController;
+use App\Http\Controllers\Backend\AutoCompleteController;
 
 
 /*
@@ -217,7 +218,7 @@ Route::get('global/info/ProductoById/{id?}', [ComboController::class, 'ProductoB
 Route::get('global/info/getUbicacionByAccion/{id?}', [ComboController::class, 'getUbicacionByAccion'])->name('global.info.getUbicacionByAccion');
 
 
-Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class, 'fetchProducto']  )->name('global.autocomplete.fetchProducto');
+Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class, 'fetchProducto'])->name('global.autocomplete.fetchProducto');
 /*
  * Fin Funciones globales
  */
