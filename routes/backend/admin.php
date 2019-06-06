@@ -22,7 +22,7 @@ use App\Http\Controllers\Backend\Informe\StockCriticoController;
 use App\Http\Controllers\Backend\Caja\VentaController;
 use App\Http\Controllers\Backend\AutoCompleteController;
 
-
+ 
 /*
  * All route names are prefixed with 'admin.'.
  */
