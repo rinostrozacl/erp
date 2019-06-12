@@ -149,7 +149,14 @@
                     <div class="form-group row">
                         <label class="col-md-2 form-control-label" for="id">Stock critico</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="stock_critico" readonly value="{{$producto->stock_critico ?? ''}}">
+                            <input type="text" class="form-control" name="stock_critico"   value="{{$producto->stock_critico ?? ''}}">
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label class="col-md-2 form-control-label" for="id">Valor Neto de venta</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="valor_neto_venta"   value="{{ floatval($producto->valor_neto_venta) ?? ''}}">
                         </div><!--col-->
                     </div><!--form-group-->
 
