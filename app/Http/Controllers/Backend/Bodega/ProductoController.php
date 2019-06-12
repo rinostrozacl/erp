@@ -16,6 +16,7 @@ use App\Models\Familia;
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class DashboardController.
@@ -31,7 +32,17 @@ class ProductoController extends Controller
     }
     public function getTabla()
     {
-        $productos = Producto::all();
+        //$productos = Producto::all();
+
+
+        $productos = DB::table('producto')
+            ->join('marca', 'marca.id', '=', 'producto.marca_id')
+            ->join('familia', 'familia.id', '=', 'producto.familia_id')
+            ->join('linea', 'linea.id', '=', 'familia.linea_id')
+            ->select('producto.*', 'marca.nombre as marca','familia.nombre as familia','linea.nombre as linea')
+            ->get();
+
+
         return Datatables::of($productos)
             ->addColumn('action', function ($item) {
                 $bt='<a href="'.route('admin.bodega.producto.form',$item->id).'" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Editar</a> ';
@@ -43,13 +54,7 @@ class ProductoController extends Controller
                 }
                 return $bt;
             })->editColumn('id', '{{$id}}'
-            )->addColumn('marca', function ($item) {
-                return $item->marca->nombre;
-            })->addColumn('familia', function ($item) {
-                return $item->familia->nombre;
-            })->addColumn('linea', function ($item) {
-                return $item->familia->linea->nombre;
-            })->addColumn('stock', function ($item) {
+            )->addColumn('stock', function ($item) {
                 $bt=$item->stock_disponible . ' / ' .$item->stock_critico ;
                 return $bt;
             })->addColumn('details_url', function($item) {
@@ -130,6 +135,7 @@ class ProductoController extends Controller
             $producto->unidad_medida_id=$request->unidad_medida_id;
             $producto->familia_id=$request->familia_id;
             $producto->marca_id=$request->marca_id;
+            $producto->valor_neto_venta=$request->valor_neto_venta;
 
             $activo=($request->activo==1)? 1:0;
             $producto->activo=$activo;

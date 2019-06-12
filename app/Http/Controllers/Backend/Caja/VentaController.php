@@ -62,10 +62,11 @@ class VentaController extends Controller
 
         return Datatables::of($productos)
             ->addColumn('action', function ($item) {
+                $disabled =   $item->stock_disponible==0 ? 'Disabled':"";
                 $bt='<div class="input-group">
                                     <input class="form-control"  type="number"   id="cantidad_'.$item->id.'" name="input2-group2"  value="1">
                                     <span class="input-group-append">
-                                        <button class="btn btn-primary bt-agregar" type="button"   data-id="'.$item->id.'">Agregar</button>
+                                        <button class="btn btn-primary bt-agregar" type="button"  '.$disabled.'  data-id="'.$item->id.'">Agregar</button>
                                     </span>
                                 </div> ';
                 return $bt;
@@ -80,6 +81,8 @@ class VentaController extends Controller
                 return round($item->valor_neto_venta*1.19);
             })->addColumn('valor_iva', function ($item) {
                 return round($item->valor_neto_venta*0.19);
+            })->addColumn('valor_neto_venta', function ($item) {
+                return floatval($item->valor_neto_venta );
             })->rawColumns(['action'])
             ->make(true);
 
@@ -125,6 +128,96 @@ class VentaController extends Controller
             })->rawColumns(['action'])
             ->make(true);
         */
+    }
+
+
+
+    public function guardarVenta(Request $request)
+    {
+
+        $respuesta["correcto"]=0;
+
+
+
+
+        // Registra el movimiento
+        /*$movimiento = new Movimiento();
+        $movimiento->cantidad = $request->total_productos;
+        $movimiento->user_id = Auth::id();
+        $movimiento->movimiento_tipo_id = $request->movimiento_tipo_id;
+        $movimiento->ubicacion_origen_id = $request->ubicacion_origen_id;
+        $movimiento->ubicacion_destino_id = $request->ubicacion_destino_id;
+        $movimiento->save();
+        */
+
+        //dd($movimiento);
+        $list_cantidades= $request->cantidad;
+        $list_productos_id = $request->productos_id;
+        $list_valor_neto_compra = $request->valor_neto_compra;
+
+            foreach ($list_productos_id as $clave => $valor) {
+
+                for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                    $unidad = new Unidad();
+                    $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                    $unidad->producto_id = $valor;
+                    $unidad->valor_neto_venta = 0;
+                    $unidad->valor_neto_compra = $list_valor_neto_compra[$clave];
+                    $unidad->save();
+
+                    $unidad_movimiento = new UnidadMovimiento();
+                    $unidad_movimiento->movimiento_id= $movimiento->id;
+                    $unidad_movimiento->unidad_id= $unidad->id;
+                    $unidad_movimiento->save();
+                }
+
+                $producto = Producto::find($valor);
+                $producto->stock_disponible=$producto->stock_disponible + $list_cantidades[$clave];
+                $producto->save();
+
+                $producto_ubicacion = ProductoUbicacion::where("producto_id",$producto->id)->where("ubicacion_id",$request->ubicacion_destino_id)->first();
+                if(!$producto_ubicacion){
+                    $producto_ubicacion = new ProductoUbicacion();
+                    $producto_ubicacion->producto_id = $producto->id;
+                    $producto_ubicacion->ubicacion_id =  $request->ubicacion_destino_id;
+                    $producto_ubicacion->stock_disponible=0;
+
+                }
+                //dd($producto_ubicacion);
+                $producto_ubicacion->stock_disponible =  $producto_ubicacion->stock_disponible + $list_cantidades[$clave];
+                $producto_ubicacion->save();
+
+            }
+
+
+
+
+            $compra = new Compra();
+            $compra->proveedor_id = $request->proveedor_id;
+            $compra->valor_neto = $request->compra_valor_neto;
+            $compra->valor_iva = $request->compra_valor_neto * 0.19;
+            $compra->valor_total = $request->compra_valor_neto * 1.19;
+            $compra->is_pagado = isset($request->is_pagado)? 1:0;
+            $compra->movimiento_id = $movimiento->id;
+            $compra->doc_tipo_compra_id = $request->doc_tipo_compra_id;
+            $compra->nro_documento = $request->nro_documento;
+            $compra->save();
+
+
+
+
+
+
+
+
+
+
+
+
+        $respuesta["correcto"]=1;
+
+
+        return  json_encode($respuesta);
     }
 }
 
