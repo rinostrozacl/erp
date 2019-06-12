@@ -119,7 +119,7 @@
                                         <div class="form-group row movimiento_tipo_3 hide">
                                             <label for="vat" class="col-sm-4"></label>
 
-                                            <select class="form-control col-sm-8" data-live-search="true" id="proveedor_id" name="proveedor_id">
+                                            <select class="form-control col-sm-8" data-live-search="true" id="venta_id" name="venta_id">
                                                 <option value="0">Buscador</option>
                                                 @foreach($bag['ventas'] as $p)
                                                     <option value="{{$p->id}}">{{$p->cliente->nombre}}</option>
