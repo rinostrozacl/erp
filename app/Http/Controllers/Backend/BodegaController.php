@@ -144,7 +144,7 @@ class BodegaController extends Controller
 
 
 
-
+              
                 $compra = new Compra();
                 $compra->proveedor_id = $request->proveedor_id;
                 $compra->valor_neto = $request->compra_valor_neto;

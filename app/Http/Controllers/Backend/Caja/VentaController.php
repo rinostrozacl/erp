@@ -138,8 +138,7 @@ class VentaController extends Controller
         $respuesta["correcto"]=0;
 
 
-
-
+        dd( $request);
         // Registra el movimiento
         /*$movimiento = new Movimiento();
         $movimiento->cantidad = $request->total_productos;
