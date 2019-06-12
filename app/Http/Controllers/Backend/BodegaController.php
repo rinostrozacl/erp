@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Unidad;
 use App\Models\UnidadMovimiento;
+use App\Models\Venta;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -39,7 +40,7 @@ class BodegaController extends Controller
         $bag['tipos_movimiento']= MovimientoTipo::all();
         $bag['doc_tipo_compra']= DocTipoCompra::all();
         $bag['proveedor']= Proveedor::all();
-
+        $bag['ventas']= Venta::where("venta_estado_id",2);
 
 
 
@@ -105,26 +106,44 @@ class BodegaController extends Controller
         $list_cantidades= $request->cantidad;
         $list_productos_id = $request->productos_id;
         $list_valor_neto_compra = $request->valor_neto_compra;
-        foreach ($list_productos_id as $clave => $valor) {
 
             if($request->movimiento_tipo_id==1){ // compra productos
-                for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
-                    $unidad = new Unidad();
-                    $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                    $unidad->producto_id = $valor;
-                    $unidad->valor_neto_venta = 0;
-                    $unidad->valor_neto_compra = $list_valor_neto_compra[$clave];
-                    $unidad->save();
+                foreach ($list_productos_id as $clave => $valor) {
 
-                    $unidad_movimiento = new UnidadMovimiento();
-                    $unidad_movimiento->movimiento_id= $movimiento->id;
-                    $unidad_movimiento->unidad_id= $unidad->id;
-                    $unidad_movimiento->save();
+                    for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                        $unidad = new Unidad();
+                        $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                        $unidad->producto_id = $valor;
+                        $unidad->valor_neto_venta = 0;
+                        $unidad->valor_neto_compra = $list_valor_neto_compra[$clave];
+                        $unidad->save();
+
+                        $unidad_movimiento = new UnidadMovimiento();
+                        $unidad_movimiento->movimiento_id= $movimiento->id;
+                        $unidad_movimiento->unidad_id= $unidad->id;
+                        $unidad_movimiento->save();
+                    }
+
+                    $producto = Producto::find($valor);
+                    $producto->stock_disponible=$producto->stock_disponible + $list_cantidades[$clave];
+                    $producto->save();
+
+                    $producto_ubicacion = ProductoUbicacion::where("producto_id",$producto->id)->where("ubicacion_id",$request->ubicacion_destino_id)->first();
+                    if(!$producto_ubicacion){
+                        $producto_ubicacion = new ProductoUbicacion();
+                        $producto_ubicacion->producto_id = $producto->id;
+                        $producto_ubicacion->ubicacion_id =  $request->ubicacion_destino_id;
+                        $producto_ubicacion->stock_disponible=0;
+
+                    }
+                    //dd($producto_ubicacion);
+                    $producto_ubicacion->stock_disponible =  $producto_ubicacion->stock_disponible + $list_cantidades[$clave];
+                    $producto_ubicacion->save();
+
                 }
 
-                $producto = Producto::find($valor);
-                $producto->stock_disponible=$producto->stock_disponible+$list_cantidades[$clave];
-                $producto->save();
+
+
 
                 $compra = new Compra();
                 $compra->proveedor_id = $request->proveedor_id;
@@ -140,21 +159,23 @@ class BodegaController extends Controller
             } else if($request->movimiento_tipo_id==2){ //salida traslado
                 //TODO Salida traslado
             } else if($request->movimiento_tipo_id==3){ //salida cliente
-                for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
-                    $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
-                    $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                    $unidad->is_vendido = 1;
-                    $unidad->save();
+                foreach ($list_productos_id as $clave => $valor) {
+                    for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                        $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
+                        $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                        $unidad->is_vendido = 1;
+                        $unidad->save();
 
-                    $unidad_movimiento = new UnidadMovimiento();
-                    $unidad_movimiento->movimiento_id= $movimiento->id;
-                    $unidad_movimiento->unidad_id= $unidad->id;
-                    $unidad_movimiento->save();
+                        $unidad_movimiento = new UnidadMovimiento();
+                        $unidad_movimiento->movimiento_id= $movimiento->id;
+                        $unidad_movimiento->unidad_id= $unidad->id;
+                        $unidad_movimiento->save();
+                    }
+
+                    $producto = Producto::find($valor);
+                    $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
+                    $producto->save();
                 }
-
-                $producto = Producto::find($valor);
-                $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
-                $producto->save();
             } else if($request->movimiento_tipo_id==2){ //Entrada traslado
                 //TODO Salida traslado
             }
@@ -162,102 +183,11 @@ class BodegaController extends Controller
 
 
 
-            /* $stock_origen = ProductoUbicacion::where("ubicacion_id", $request->origen_traslado)->where("producto_id", $valor)->first();
-             $stock_origen->stock_disponible = $stock_origen->stock_disponible - $cantidades[$clave]; //stock puntual en una ubicación
-             $stock_origen->save();
-
-             $stock_destino = ProductoUbicacion::where("ubicacion_id", $request->destino_traslado)->where("producto_id", $valor)->first();
-             $stock_destino->stock_disponible = $stock_destino->stock_disponible + $cantidades[$clave]; //stock puntual en una ubicación
-             $stock_destino->save();
-            */
-
-        }
-
-
-
-        /*
-        if($request->select_movimiento == 1){ //entrada
-
-            //al ser entrada, se procesa una compra
-            //se suma stock disponible en producto
-
-            $compra = new Compra();
-            $compra->proveedor_id = $request->select_proveedor;
-            $compra->valor_neto = $request->neto;
-            $compra->valor_iva = $request->iva;
-            $compra->valor_total = $request->total;
-            if (isset($request->is_pagado)) {
-               $is_pagado = 1;
-            }else{
-                $is_pagado = 0;
-            }
-            $compra->is_pagado = $is_pagado;
-            $compra->movimiento_id = $movimiento->id;
-            $compra->doc_tipo_compra_id = $request->select_tipo_documento;
-            $compra->nro_documento = $request->nro_documento;
-             $compra->save();
 
 
 
 
 
-
-
-
-        }
-
-
-
-
-
-
-        /*elseif ($request->select_movimiento == 2){ //traslado
-
-            //se resta de origen y se suma a destino
-            $movimiento->movimiento_tipo_id = 2;
-            $movimiento->ubicacion_origen_id = $request->origen_traslado;
-            $movimiento->ubicacion_destino_id = $request->destino_traslado;
-
-            $movimiento->save();
-
-            foreach ($request->productos_id as $clave => $valor) {
-
-                $stock_origen = ProductoUbicacion::where("ubicacion_id", $request->origen_traslado)->where("producto_id", $valor)->first();
-                $stock_origen->stock_disponible = $stock_origen->stock_disponible - $cantidades[$clave]; //stock puntual en una ubicación
-                $stock_origen->save();
-
-                $stock_destino = ProductoUbicacion::where("ubicacion_id", $request->destino_traslado)->where("producto_id", $valor)->first();
-                $stock_destino->stock_disponible = $stock_destino->stock_disponible + $cantidades[$clave]; //stock puntual en una ubicación
-                $stock_destino->save();
-
-            }
-
-
-
-        }else{ //salida
-            //se resta stock disponible
-
-            $movimiento->movimiento_tipo_id = 3;
-            $movimiento->ubicacion_origen_id = $request->origen_salida;
-            $movimiento->ubicacion_destino_id = $request->destino_salida;
-
-            foreach ($request->productos_id as $clave => $valor) {
-
-                $stock_origen = ProductoUbicacion::where("ubicacion_id", $request->origen_salida)->where("producto_id", $valor)->first();
-                $stock_origen->stock_disponible = $stock_origen->stock_disponible - $cantidades[$clave]; //stock puntual en una ubicación
-                $stock_origen->save();
-
-            }
-
-            if($request->destino_salida == 6 || $request->destino_salida == 7){
-                $respuesta["salidas"] = "Producto utilizado en OT o Merma. Por programar";
-            }
-
-
-
-        }
-
-*/
 
 
          $respuesta["correcto"]=1;

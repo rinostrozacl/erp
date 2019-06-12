@@ -428,6 +428,32 @@
 
 
 
+        $("#btn_guardar").on('click',function() {
+
+            $.ajax({
+                url: "{{route('admin.caja.venta.nuevo.guardar')}}",
+                type: "post",
+                data: $("#formulario").serialize(),
+                success: function (data) {
+                    var respuesta = $.parseJSON( data);
+                    //console.log(respuesta);
+                    if(respuesta.mensaje){
+                        alert(respuesta.mensaje);
+                    }
+
+                    if(respuesta.correcto == 1){
+
+                        alert("Productos ingresados correctamente");
+                        location.reload();
+                    }
+
+
+                }
+            });
+
+        });
+
+
         /*  */
     });
 

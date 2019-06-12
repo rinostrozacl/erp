@@ -116,6 +116,18 @@
 
                                         </div>
 
+                                        <div class="form-group row movimiento_tipo_3 hide">
+                                            <label for="vat" class="col-sm-4"></label>
+
+                                            <select class="form-control col-sm-8" data-live-search="true" id="proveedor_id" name="proveedor_id">
+                                                <option value="0">Buscador</option>
+                                                @foreach($bag['ventas'] as $p)
+                                                    <option value="{{$p->id}}">{{$p->cliente->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+
 
 
                                     </div>
@@ -337,7 +349,7 @@
             var action_id_origen = 0;
             var action_id_destino = 0;
 
-            if(movimiento_tipo_id==1){
+            if(movimiento_tipo_id==1){ // Entrada compra
                 $(".hide").removeClass('show').addClass('hide');
                 $(".movimiento_tipo_1").removeClass('hide').addClass('show');
                  action_id_origen = 1;
@@ -349,7 +361,7 @@
                 action_id_origen = 4;
                 action_id_destino = 3;
             }
-            if(movimiento_tipo_id==3){
+            if(movimiento_tipo_id==3){ // Salida a cliente
                 $(".hide").removeClass('show').addClass('hide');
                 $(".movimiento_tipo_3").removeClass('hide').addClass('show');
                 action_id_origen = 5;
