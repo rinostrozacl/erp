@@ -73,7 +73,7 @@ Route::get('bodega/inventario/tabla5/{id?}', [InventarioController::class, 'getT
  */
 Route::get('caja/venta/nueva', [VentaController::class, 'index'])->name('caja.venta.nuevo');
 Route::get('caja/venta/nueva/buscar', [VentaController::class, 'postTablaBusqueda'])->name('caja.venta.nuevo.tabla.buscar');
-Route::get('caja/venta/nueva/guardar', [VentaController::class, 'guardarVenta'])->name('caja.venta.nuevo.guardar');
+Route::post('caja/venta/nueva/guardar', [VentaController::class, 'guardarVenta'])->name('caja.venta.nuevo.guardar');
 
 Route::get('caja/pago/recibir', [CajaController::class, 'recibirPago'])->name('caja.pago.recibir');
 Route::get('caja/turno', [CajaController::class, 'cambioTurno'])->name('caja.turno');
