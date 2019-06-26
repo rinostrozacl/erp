@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Backend\Caja;
 
 
+use App\Models\Impresion;
+use App\Models\ImpresionDetalle;
+use App\Models\Venta;
+use App\Models\VentaDetalle;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
+use App\Models\Impresora;
 use App\Models\Cliente;
 use App\Models\Marca;
 use App\Models\Ubicacion;
@@ -62,11 +66,11 @@ class VentaController extends Controller
 
         return Datatables::of($productos)
             ->addColumn('action', function ($item) {
-                $disabled =   $item->stock_disponible==0 ? 'Disabled':"";
+                $type_button =   $item->stock_disponible<=0 ? 'btn-secondary':"btn-primary";
                 $bt='<div class="input-group">
                                     <input class="form-control"  type="number"   id="cantidad_'.$item->id.'" name="input2-group2"  value="1">
                                     <span class="input-group-append">
-                                        <button class="btn btn-primary bt-agregar" type="button"  '.$disabled.'  data-id="'.$item->id.'">Agregar</button>
+                                        <button class="btn btn-primary bt-agregar '. $type_button .'" type="button"    data-id="'.$item->id.'">+</button>
                                     </span>
                                 </div> ';
                 return $bt;
@@ -138,82 +142,69 @@ class VentaController extends Controller
         $respuesta["correcto"]=0;
 
 
-        dd( $request);
-        // Registra el movimiento
-        /*$movimiento = new Movimiento();
-        $movimiento->cantidad = $request->total_productos;
-        $movimiento->user_id = Auth::id();
-        $movimiento->movimiento_tipo_id = $request->movimiento_tipo_id;
-        $movimiento->ubicacion_origen_id = $request->ubicacion_origen_id;
-        $movimiento->ubicacion_destino_id = $request->ubicacion_destino_id;
-        $movimiento->save();
-        */
-
         //dd($movimiento);
-        $list_cantidades= $request->cantidad;
+        $list_cantidad_vendida= $request->cantidad;
         $list_productos_id = $request->productos_id;
-        $list_valor_neto_compra = $request->valor_neto_compra;
+        $list_valor_neto = $request->valor_neto;
+        $list_sub_total_neto = $request->sub_total_neto;
+        $list_iva = $request->iva;
+        $list_total = $request->total;
 
-            foreach ($list_productos_id as $clave => $valor) {
 
-                for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
-                    $unidad = new Unidad();
-                    $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                    $unidad->producto_id = $valor;
-                    $unidad->valor_neto_venta = 0;
-                    $unidad->valor_neto_compra = $list_valor_neto_compra[$clave];
-                    $unidad->save();
 
-                    $unidad_movimiento = new UnidadMovimiento();
-                    $unidad_movimiento->movimiento_id= $movimiento->id;
-                    $unidad_movimiento->unidad_id= $unidad->id;
-                    $unidad_movimiento->save();
+        if($request->cliente_id==0){
+            $respuesta["mensaje"]="Debe selecciona un cliente";
+        }else if(count($list_cantidad_vendida) == 0){
+            $respuesta["mensaje"]="Debe ingresar productos para vender";
+        }else{
+
+
+            $impresora_bodega = Impresora::find(1);
+
+            if($request->tipo_venta == 2 || $request->tipo_venta == 2 ||  $request->tipo_venta == 4   ){
+                $tipo_venta=2;
+            }else{
+                $tipo_venta=$request->tipo_venta;
+            }
+
+            $venta = new Venta();
+            $venta->venta_estado_id= $tipo_venta;
+            $venta->cliente_id = $request->cliente_id;
+            $venta->save();
+
+            if($tipo_venta==2){
+                $impresion = new Impresion();
+                $impresion->nombre="Salida por venta: ". $venta->id;
+                $impresion->save();
+                $impresora_bodega->impresiones()->attach($impresion);
+            }
+            foreach ($list_cantidad_vendida as $clave => $valor) {
+                $venta_detalle= new VentaDetalle();
+                $venta_detalle->valor_unitario = $list_valor_neto[$clave];
+                $venta_detalle->cantidad_vendida = $list_cantidad_vendida[$clave];
+                $venta_detalle->valor_neto = $list_sub_total_neto[$clave];
+                $venta_detalle->valor_iva = $list_iva[$clave];
+                $venta_detalle->valor_total = $list_total[$clave];
+                $venta_detalle->venta_id = $venta->id;
+                $venta_detalle->producto_id = $clave;
+                $venta_detalle->save();
+
+                $producto = Producto::find($clave);
+                if($tipo_venta==2){
+                    $impresion_detalle = new ImpresionDetalle();
+                    $impresion_detalle->linea =  "[" . $list_cantidad_vendida[$clave] . "/". $producto->id ."] " . $venta_detalle->producto->nombre;
+                    $impresion_detalle->impresion_id = $impresion->id;
+                    $impresion_detalle->save();
+
                 }
-
-                $producto = Producto::find($valor);
-                $producto->stock_disponible=$producto->stock_disponible + $list_cantidades[$clave];
-                $producto->save();
-
-                $producto_ubicacion = ProductoUbicacion::where("producto_id",$producto->id)->where("ubicacion_id",$request->ubicacion_destino_id)->first();
-                if(!$producto_ubicacion){
-                    $producto_ubicacion = new ProductoUbicacion();
-                    $producto_ubicacion->producto_id = $producto->id;
-                    $producto_ubicacion->ubicacion_id =  $request->ubicacion_destino_id;
-                    $producto_ubicacion->stock_disponible=0;
-
-                }
-                //dd($producto_ubicacion);
-                $producto_ubicacion->stock_disponible =  $producto_ubicacion->stock_disponible + $list_cantidades[$clave];
-                $producto_ubicacion->save();
-
             }
 
 
+            $respuesta["mensaje"]="Registrado!";
+            $respuesta["correcto"]=1;
 
+        }
 
-            $compra = new Compra();
-            $compra->proveedor_id = $request->proveedor_id;
-            $compra->valor_neto = $request->compra_valor_neto;
-            $compra->valor_iva = $request->compra_valor_neto * 0.19;
-            $compra->valor_total = $request->compra_valor_neto * 1.19;
-            $compra->is_pagado = isset($request->is_pagado)? 1:0;
-            $compra->movimiento_id = $movimiento->id;
-            $compra->doc_tipo_compra_id = $request->doc_tipo_compra_id;
-            $compra->nro_documento = $request->nro_documento;
-            $compra->save();
-
-
-
-
-
-
-
-
-
-
-
-
-        $respuesta["correcto"]=1;
 
 
         return  json_encode($respuesta);
