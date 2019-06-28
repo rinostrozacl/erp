@@ -192,7 +192,7 @@ class VentaController extends Controller
                 $producto = Producto::find($clave);
                 if($tipo_venta==2){
                     $impresion_detalle = new ImpresionDetalle();
-                    $impresion_detalle->linea =  "[" . $list_cantidad_vendida[$clave] . "/". $producto->id ."] " . $venta_detalle->producto->nombre;
+                    $impresion_detalle->linea =  $list_cantidad_vendida[$clave] . "/". $producto->stock_disponible ."|" . $venta_detalle->producto->nombre;
                     $impresion_detalle->impresion_id = $impresion->id;
                     $impresion_detalle->save();
 
