@@ -363,7 +363,38 @@
                 {data: 'valor_iva', name: 'valor_iva'},
                 {data: 'valor_total_venta', name: 'valor_total_venta'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
-            ]
+            ],
+
+            initComplete : function() {
+                var input = $('.dataTables_filter input').unbind(),
+                    self = this.api(),
+                $searchButton = $('<button>')
+                    .text('Buscar')
+                    .click(function() {
+                        self.search(input.val()).draw();
+                    })
+                    .attr("type","button")
+
+                input.on('keypress', function (e) {
+                        if(e.which === 13) {
+                            e.preventDefault();
+                            self.search(input.val()).draw();
+                        }
+                    });
+
+                $clearButton = $('<button>')
+                    .text('Limpiar')
+                    .click(function() {
+                        input.val('');
+                        $searchButton.click();
+                    })
+                    .attr("type","button")
+
+                $('.dataTables_filter > label').append($searchButton,$clearButton);
+            }
+
+
+
         });
         $('#bt-filtrar').click(function(e){
             tabla_busqueda.draw();
@@ -476,7 +507,7 @@
             var id=  boton.data('id');
             //alert('aa'+ id);
             $('#tr-detalle-'+id).remove();
-
+            totales();
 
         });
 
@@ -513,6 +544,10 @@
         });
 
 
+
+
+
+
         /*  */
     });
 
@@ -536,6 +571,9 @@
             return this.formatear(num);
         }
     }
+
+
+
 
 
 
