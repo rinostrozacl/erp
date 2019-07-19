@@ -75,11 +75,13 @@ Route::get('caja/venta/nueva', [VentaController::class, 'index'])->name('caja.ve
 Route::get('caja/venta/nueva/buscar', [VentaController::class, 'postTablaBusqueda'])->name('caja.venta.nuevo.tabla.buscar');
 Route::post('caja/venta/nueva/guardar', [VentaController::class, 'guardarVenta'])->name('caja.venta.nuevo.guardar');
 
+Route::get('caja/venta/imprimir/{id?}', [VentaController::class, 'imprimirVenta'])->name('caja.venta.imprimir');
+Route::get('caja/venta/verimprimir/{id?}', [VentaController::class, 'verVenta'])->name('caja.venta.verimprimir');
+
+
 Route::get('caja/pago/recibir', [CajaController::class, 'recibirPago'])->name('caja.pago.recibir');
 Route::get('caja/turno', [CajaController::class, 'cambioTurno'])->name('caja.turno');
 Route::get('caja/rendir', [CajaController::class, 'getRendicion'])->name('caja.rendir');
-
-
 
 
 /*

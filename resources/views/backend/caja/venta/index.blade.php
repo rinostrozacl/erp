@@ -246,12 +246,52 @@
                         <tfoot>
                             <tr>
                                 <th> </th>
-                                <th id="total_cantidad"> </th>
-                                <th id="total_neto"> </th>
-                                <th id="total_subtotal_neto"> </th>
-                                <th id="total_iva"> </th>
-                                <th id="total_total"> </th>
-                                <th  > </th>
+                                <th><input id="total_cantidad" name="total_cantidad"> </th>
+                                <th> </th>
+                                <th> <input id="total_subtotal_neto" name="total_subtotal_neto"></th>
+                                <th> <input id="total_iva" name="total_iva"></th>
+                                <th> <input id="total_total" name="total_total"></th>
+                                <th> </th>
+                            </tr>
+
+
+                            <tr>
+                                <th colspan="5" class="text-right">
+                                    Pago en efectivo
+                                </th>
+                                <th> <input id="pago_efectivo" class="input-pago" name="pago_efectivo" type="number"></th>
+                                <th> </th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-right">
+                                    Pago con tarjeta
+                                </th>
+                                <th colspan="2"> <input id="pago_tarjeta" class="input-pago" type="number"></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-right">
+                                    Pago con transferencia
+                                </th>
+                                <th colspan="2"> <input id="pago_transferencia" class="input-pago" type="number" name="pago_transferencia" ></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-right">
+                                    Pago con credito
+                                </th>
+                                <th colspan="2"> <input id="pago_credito" class="input-pago" type="number" name="pago_credito"></th>
+                            </tr>
+
+                            <tr>
+                                <th colspan="5" class="text-right">
+                                    Total pagado
+                                </th>
+                                <th colspan="2"> <input id="pagado" readonly type="number" name="pagado" ></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" class="text-right">
+                                    Pendiente pago
+                                </th>
+                                <th colspan="2"> <input id="pendiente_pago" readonly type="number" name="pendiente_pago" ></th>
                             </tr>
 
                             <tr>
@@ -407,8 +447,8 @@
 
         $('#tabla_busqueda tbody').on( "click", ".bt-agregar",function(){
             //e.preventDefault();
-            var boton=  jQuery(this);
-            var id=  boton.data('id');
+            var boton =  jQuery(this);
+            var id =  boton.data('id');
             //alert('aa'+ id);
 
             $.ajax({
@@ -491,11 +531,31 @@
                 total_iva += iva;
                 total_total +=total;
             });
-            $('#total_cantidad').html(total_cantidad);
+            $('#total_cantidad').val(total_cantidad);
+            $('#total_subtotal_neto').val(total_subtotal_neto);
+            $('#total_iva').val(total_iva);
+            $('#total_total').val(total_total);
 
-            $('#total_subtotal_neto').html(fNumber.go(total_subtotal_neto, "$"));
-            $('#total_iva').html(fNumber.go(total_iva, "$"));
-            $('#total_total').html(fNumber.go(total_total, "$"));
+
+
+            var total_pagado=0;
+            var total_venta = $('#total_total').val();
+
+            if(total_venta==''){
+                total_venta=0;
+            }
+
+            $('.input-pago').each(function(){
+                var valor = $(this).val();
+                if(valor==''){
+                    valor=0;
+                }
+                total_pagado += parseInt(valor);
+            })
+
+
+            $('#pagado').val(total_pagado);
+            $('#pendiente_pago').val(total_venta - total_pagado);
         };
 
 
@@ -517,6 +577,15 @@
         });
 
 
+        $('body').on( "change", ".input-pago",function(){
+
+
+            totales();
+
+        });
+
+
+
 
         $("#btn_guardar").on('click',function() {
 
@@ -527,6 +596,14 @@
                 success: function (data) {
                     var respuesta = $.parseJSON( data);
                     //console.log(respuesta);
+
+
+                    if(respuesta.imprimir==1){
+                        alert(respuesta.mensaje);
+                        window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
+                    }
+
+
                     if(respuesta.mensaje){
                         alert(respuesta.mensaje);
                     }
