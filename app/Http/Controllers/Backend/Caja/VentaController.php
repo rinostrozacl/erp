@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use PDF;
 /**
  * Class DashboardController.
  */
@@ -140,7 +141,8 @@ class VentaController extends Controller
     {
 
         $respuesta["correcto"]=0;
-
+        $respuesta["imprimir"]=0;
+        $respuesta["venta_id"]=0;
 
         //dd($movimiento);
         $list_cantidad_vendida= $request->cantidad;
@@ -149,7 +151,7 @@ class VentaController extends Controller
         $list_sub_total_neto = $request->sub_total_neto;
         $list_iva = $request->iva;
         $list_total = $request->total;
-
+        $tipo_venta=0;
 
 
         if($request->cliente_id==0){
@@ -170,7 +172,20 @@ class VentaController extends Controller
             $venta = new Venta();
             $venta->venta_estado_id= $tipo_venta;
             $venta->cliente_id = $request->cliente_id;
+
+            $venta->suma_neto = $request->total_subtotal_neto;
+            $venta->iva = $request->total_iva;
+            $venta->total = $request->total_total;
+            $venta->pagado = $request->pagado;
+            $venta->pendiente_pago = $request->pendiente_pago;
+            $venta->pago_efectivo = $request->pago_efectivo;
+            $venta->pago_tarjeta = $request->pago_tarjeta;
+            $venta->pago_transferencia = $request->pago_transferencia;
+            $venta->pago_credito = $request->pago_credito;
+            $venta->user_id = Auth::user()->id;
             $venta->save();
+
+            $respuesta["venta_id"]=$venta->id;
 
             if($tipo_venta==2){
                 $impresion = new Impresion();
@@ -201,13 +216,45 @@ class VentaController extends Controller
 
 
             $respuesta["mensaje"]="Registrado!";
-            $respuesta["correcto"]=1;
+            $respuesta["correcto"]=1;// camniado a 0 para debug
+
+
+
+            
+                $respuesta["imprimir"]=1;
+
+
 
         }
 
 
 
         return  json_encode($respuesta);
+    }
+
+    public function imprimirVenta($id)
+    {
+        $venta = Venta::find($id);
+        $tipo= ($venta->venta_estado_id == 1)? "cotizacion":"venta";
+
+        $timbre_fecha = date('Ymdhis', time());
+        $nombre_archivo = $timbre_fecha ."_".$tipo."_". $id .".pdf";
+        $data = ['titulo' => $nombre_archivo,
+            'venta' => $venta ];
+        $pdf = PDF::loadView('backend/pdf/venta', $data);
+
+        return $pdf->download($nombre_archivo);
+
+    }
+    public function verVenta($id)
+    {
+        $nombre_archivo ="venta_". $id .".pdf";
+        $venta = Venta::find($id);
+        $data = ['titulo' => $nombre_archivo,
+            'venta' => $venta ];
+        return view('backend/pdf/venta', $data);
+
+
     }
 }
 
