@@ -11,7 +11,17 @@
     <meta name="_token" content="{{ csrf_token() }}"/>
 @endsection
 
+@section('styles')
+    <style type="text/css">
+        table thead tr th {
+           font-size: smaller!important;
+        }
+        .sorting_asc{
+            font-size: smaller!important;
+        }
+    </style>
 
+@endsection
 
 @section('content')
 
@@ -55,7 +65,7 @@
 
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label" for="hf-email">Nro Cotizacion</label>
+                            <label class="col-md-3 col-form-label" for="hf-email">Nro </label>
                             <div class="col-md-9">
                                 <div class="input-group">
                                     <input class="form-control" id="input2-group2" type="text" name="input2-group2" >
@@ -135,84 +145,86 @@
         {{-- Seleccion de productos--}}
         <div class="card">
             <div class="card-header">
-                <strong>Productos</strong>
+                <strong>Detalle de la venta</strong>
             </div>
             <div class="card-body">
 
 
                     <div class="row">
-
-
-
-                        @component('backend.component.select-form',
+                        <div class="col-5">
+                            @component('backend.component.select-form',
                           [
                           'name' => 'ubicacion_id',
                           'lista' => $ubicacion,
                           'valor_seleccionado' => 0,
                           'msg_o' => "No filtrar por ubicacion",
-                          'class' => 'chosen-select col-md-5',
+                          'class' => 'chosen-select',
                           'elemento_editar' => null,
                           ])
-                        @endcomponent
-                        @component('backend.component.select-form',
+                            @endcomponent
+                        </div>
+                        <div class="col-5">
+                            @component('backend.component.select-form',
                             [
                             'name' => 'marca_id',
                             'lista' => $marcas,
                             'valor_seleccionado' => 0,
                             'msg_o' => "No filtrar por marca ",
-                            'class' => 'chosen-select col-md-5',
+                            'class' => 'chosen-select',
                             'elemento_editar' => null,
                             ])
-                        @endcomponent
-
-                    </div>
-                    <div class="form-group row">
-
-                            @component('backend.component.select-form',
-                               [
-                               'name' => 'linea_id',
-                               'lista' => $lineas,
-                               'valor_seleccionado' => 0,
-                               'msg_o' => "No filtrar por linea",
-                               'elemento_editar' => null,
-                               'enlazado' => true,
-                               'class' => 'chosen-select col-md-5',
-                               'enlazado_destino' => 'familia_id',
-                               'enlazado_ruta'=> route('admin.global.combo.familiabylinea'),
-                               ])
                             @endcomponent
+
+                        </div>
+                        <div class="col-2">
+                                  </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            @component('backend.component.select-form',
+                                [
+                                'name' => 'linea_id',
+                                'lista' => $lineas,
+                                'valor_seleccionado' => 0,
+                                'msg_o' => "No filtrar por linea",
+                                'elemento_editar' => null,
+                                'enlazado' => true,
+                                'class' => 'chosen-select',
+                                'enlazado_destino' => 'familia_id',
+                                'enlazado_ruta'=> route('admin.global.combo.familiabylinea'),
+                                ])
+                            @endcomponent
+                        </div>
+                        <div class="col-5">
                             @component('backend.component.select-form',
                                   [
                                   'name' => 'familia_id',
                                   'lista' => $familias,
                                   'valor_seleccionado' => 0,
                                   'msg_o' => "No filtrar por familia",
-                                   'class' => 'chosen-select col-md-5',
+                                   'class' => 'chosen-select',
                                   'elemento_editar' => null,
                                   ])
                             @endcomponent
 
+                        </div>
+                        <div class="col-2">
+                            <button  id="bt-filtrar" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Filtrar </button>
+                        </div>
                     </div>
-                <div class="form-group row">
-                    <button  id="bt-filtrar" class="btn btn-sm btn-block btn-success"><i class="glyphicon glyphicon-edit"></i> Filtrar </button>
-                </div>
-                </div>
-            <h4>Productos encontrados</h4>
+
+
+
             <div class="table-responsive">
                 <table class="table dataTable-small" id="tabla_busqueda">
                     <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Código</th>
-                        <th>Descripcion</th>
-                        <th>Familia</th>
-                        <th>Línea</th>
-                        <th>Marca</th>
                         <th>Stock</th>
-                        <th>Valor Neto</th>
-                        <th>Descuento</th>
+                        <th>Neto</th>
+                        <th>Desc</th>
                         <th>IVA</th>
-                        <th>Valor Total</th>
+                        <th>Total</th>
                         <th></th>
                         {{--<th>Acción</th>--}}
 
@@ -231,8 +243,8 @@
                         <tr>
                             <th>Nombre</th>
                             <th>cantidad</th>
-                            <th>Valor Neto</th>
-                            <th>SubTotal Neto</th>
+                            <th>Val Neto</th>
+                            <th>SubTota</th>
                             <th>IVA</th>
                             <th>Total</th>
                             <th> </th>
@@ -292,6 +304,17 @@
                                     Pendiente pago
                                 </th>
                                 <th colspan="2"> <input id="pendiente_pago" readonly type="number" name="pendiente_pago" ></th>
+                            </tr>
+
+
+                            <tr>
+                                <th> </th>
+                                <th><input id="total_cantidad" name="total_cantidad"> </th>
+                                <th> </th>
+                                <th> <input id="total_subtotal_neto" name="total_subtotal_neto"></th>
+                                <th> <input id="total_iva" name="total_iva"></th>
+                                <th> <input id="total_total" name="total_total"></th>
+                                <th> </th>
                             </tr>
 
                             <tr>
@@ -392,17 +415,12 @@
                 },
             columns: [
                 {data: 'nombre', name: 'nombre'},
-                {data: 'codigo', name: 'codigo'},
-                {data: 'descripcion', name: 'descripcion'},
-                {data: 'familia', name: 'familia'},
-                {data: 'linea', name: 'linea'},
-                {data: 'marca', name: 'marca'},
                 {data: 'stock', name: 'stock'},
                 {data: 'valor_neto_venta', name: 'valor_neto_venta'},
                 {data: 'descuento', name: 'descuento'},
                 {data: 'valor_iva', name: 'valor_iva'},
-                {data: 'valor_total_venta', name: 'valor_total_venta'},
-                {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'valor_total_venta', name: 'valor_total_venta', "width":"10%"},
+                {data: 'action', name: 'action', orderable: false, searchable: false, "width":"11%"}
             ],
 
             initComplete : function() {

@@ -67,7 +67,7 @@ table.dataTable {
 }
 
 table.dataTable-small tbody{
-font-size: small;
+font-size: smaller;
 }
 
 table.dataTable thead .sorting,
@@ -255,7 +255,6 @@ div.DTFC_LeftFootWrapper table {
     text-align: center;
     color: #444;
     font-size: 14px;
-    background: url("../images/loading_bar.gif") no-repeat center 38px #fff;
     box-shadow: 2px 2px 5px #444;
     -moz-box-shadow: 2px 2px 5px #444;
     -webkit-box-shadow: 2px 2px 5px #444;
