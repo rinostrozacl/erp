@@ -52,6 +52,25 @@ class VentaController extends Controller
         $productos = DB::table('producto')
             ->join('marca', 'marca.id', '=', 'producto.marca_id')
             ->join('familia', 'familia.id', '=', 'producto.familia_id')
+            ->when($_GET['marca_id'], function ($query, $role) {
+                return $query->where('producto.marca_id', '=', $_GET['marca_id']);
+            })
+            ->when($_GET['linea_id'], function ($query, $role) {
+                return $query->where('familia.linea_id', '=', $_GET['linea_id']);
+            })
+            ->when($_GET['familia_id'], function ($query, $role) {
+                return $query->where('producto.familia_id', '=', $_GET['familia_id']);
+            })
+            ->select('producto.id','producto.stock_disponible','producto.nombre',
+                'producto.codigo_ean13', 'producto.codigo_erp', 'producto.descripcion',
+                'producto.valor_neto_venta',
+                'marca.nombre as marca')
+            ->get();
+
+
+        /* $productos = DB::table('producto')
+            ->join('marca', 'marca.id', '=', 'producto.marca_id')
+            ->join('familia', 'familia.id', '=', 'producto.familia_id')
             ->join('linea', 'linea.id', '=', 'familia.linea_id')
             ->when($_GET['marca_id'], function ($query, $role) {
                 return $query->where('producto.marca_id', '=', $_GET['marca_id']);
@@ -63,7 +82,7 @@ class VentaController extends Controller
                 return $query->where('producto.familia_id', '=', $_GET['familia_id']);
             })
             ->select('producto.*', 'marca.nombre as marca','familia.nombre as familia','linea.nombre as linea')
-            ->get();
+            ->get();*/
 
         return Datatables::of($productos)
             ->addColumn('action', function ($item) {
@@ -76,19 +95,19 @@ class VentaController extends Controller
                                 </div> ';
                 return $bt;
             })->editColumn('id', '{{$id}}'
-            )->addColumn('codigo', function ($item) {
-                return $item->codigo_ean13 . "[".$item->codigo_erp."]";
-            })->addColumn('stock', function ($item) {
+            )->addColumn('stock', function ($item) {
                 return  $item->stock_disponible ;
             })->addColumn('descuento', function ($item) {
                 return  0 ;
+            })->editColumn('nombre', function ($item) {
+                return  $item->nombre  . ' '. ' <br> '  . $item->descripcion . "[".$item->codigo_erp."]" . $item->descripcion . ' [' . $item->marca  . ']' ;
             })->addColumn('valor_total_venta', function ($item) {
                 return round($item->valor_neto_venta*1.19);
             })->addColumn('valor_iva', function ($item) {
                 return round($item->valor_neto_venta*0.19);
             })->addColumn('valor_neto_venta', function ($item) {
                 return floatval($item->valor_neto_venta );
-            })->rawColumns(['action'])
+            })->rawColumns(['action','nombre'])
             ->make(true);
 
 
@@ -220,7 +239,7 @@ class VentaController extends Controller
 
 
 
-            
+
                 $respuesta["imprimir"]=1;
 
 
