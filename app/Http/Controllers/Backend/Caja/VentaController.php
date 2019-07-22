@@ -48,6 +48,9 @@ class VentaController extends Controller
 
     public function postTablaBusqueda()
     {
+        $request= Request();
+        $busqueda=$request['search']['value'];
+
         //  ->where('goals.jurisdiction_id', '=', 9)
         $productos = DB::table('producto')
             ->join('marca', 'marca.id', '=', 'producto.marca_id')
@@ -61,6 +64,9 @@ class VentaController extends Controller
             ->when($_GET['familia_id'], function ($query, $role) {
                 return $query->where('producto.familia_id', '=', $_GET['familia_id']);
             })
+            ->where('producto.nombre', 'like', '%'.$busqueda.'%')
+            ->orwhere('producto.descripcion', 'like', '%'.$busqueda.'%')
+            ->limit(100)
             ->select('producto.id','producto.stock_disponible','producto.nombre',
                 'producto.codigo_ean13', 'producto.codigo_erp', 'producto.descripcion',
                 'producto.valor_neto_venta',
