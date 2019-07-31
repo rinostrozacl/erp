@@ -36,7 +36,7 @@ class VentaController extends Controller
         $ubicacion = Ubicacion::where('activo',1)->where('is_inventariable',1)->get();
         $familias = Familia::where('activo',1)->where('linea_id',0)->get();
         $lineas = Linea::where('activo',1)->get();
-        $clientes= DB::table('Cliente')->select('id',DB::raw("CONCAT(rut,' => ',nombre) AS nombre"))
+        $clientes= DB::table('cliente')->select('id',DB::raw("CONCAT(rut,' => ',nombre) AS nombre"))
             ->get();
 
 
