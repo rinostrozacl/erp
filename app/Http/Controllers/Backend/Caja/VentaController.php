@@ -200,18 +200,22 @@ class VentaController extends Controller
             $respuesta["mensaje"]="Debe selecciona un cliente";
         }else if(count($list_cantidad_vendida) == 0){
             $respuesta["mensaje"]="Debe ingresar productos para vender";
+        }else if(!$request->tipo_venta){
+            $respuesta["mensaje"]="Debe seleccionar tipo de venta";
         }else{
 
 
             $impresora_bodega = Impresora::find(1);
 
-            if($request->tipo_venta == 2 || $request->tipo_venta == 2 ||  $request->tipo_venta == 4   ){
+            if($request->tipo_venta == 2 || $request->tipo_venta == 3 ||  $request->tipo_venta == 4   ){
                 $tipo_venta=2;
             }else{
                 $tipo_venta=$request->tipo_venta;
             }
 
             $venta = new Venta();
+
+
             $venta->venta_estado_id= $tipo_venta;
             $venta->cliente_id = $request->cliente_id;
 
