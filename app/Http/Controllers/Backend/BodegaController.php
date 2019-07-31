@@ -40,7 +40,7 @@ class BodegaController extends Controller
         $bag['tipos_movimiento']= MovimientoTipo::all();
         $bag['doc_tipo_compra']= DocTipoCompra::all();
         $bag['proveedor']= Proveedor::all();
-        $bag['ventas']= Venta::where("venta_estado_id",2);
+        $bag['ventas']= Venta::where("venta_estado_id",2)->orWhere("venta_estado_id",4)->get();
 
 
 
@@ -95,7 +95,7 @@ class BodegaController extends Controller
 
         // Registra el movimiento
         $movimiento = new Movimiento();
-        $movimiento->cantidad = $request->total_productos;
+        $movimiento->cantidad =  count($request->productos_id);
         $movimiento->user_id = Auth::id();
         $movimiento->movimiento_tipo_id = $request->movimiento_tipo_id;
         $movimiento->ubicacion_origen_id = $request->ubicacion_origen_id;
@@ -144,7 +144,7 @@ class BodegaController extends Controller
 
 
 
-              
+
                 $compra = new Compra();
                 $compra->proveedor_id = $request->proveedor_id;
                 $compra->valor_neto = $request->compra_valor_neto;
@@ -159,23 +159,38 @@ class BodegaController extends Controller
             } else if($request->movimiento_tipo_id==2){ //salida traslado
                 //TODO Salida traslado
             } else if($request->movimiento_tipo_id==3){ //salida cliente
-                foreach ($list_productos_id as $clave => $valor) {
-                    for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
-                        $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
-                        $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                        $unidad->is_vendido = 1;
-                        $unidad->save();
 
-                        $unidad_movimiento = new UnidadMovimiento();
-                        $unidad_movimiento->movimiento_id= $movimiento->id;
-                        $unidad_movimiento->unidad_id= $unidad->id;
-                        $unidad_movimiento->save();
-                    }
 
+                $list_productos_entregado_id = $request->entregado;
+                foreach ($list_productos_entregado_id as $clave => $valor) {
+
+                    //if(is_entregado)
                     $producto = Producto::find($valor);
-                    $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
+                    if($producto->stock_disponible>$list_cantidades[$clave]){
+                        for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                            $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
+                            $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                            $unidad->is_vendido = 1;
+                            $unidad->save();
+
+                            $unidad_movimiento = new UnidadMovimiento();
+                            $unidad_movimiento->movimiento_id= $movimiento->id;
+                            $unidad_movimiento->unidad_id= $unidad->id;
+                            $unidad_movimiento->save();
+                        }
+                        $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
+                    }
                     $producto->save();
                 }
+
+                $venta = Venta::find($request->venta_id);
+                if(count($list_productos_entregado_id) == $venta->venta_detalle->count()){
+                    $venta->venta_estado_id = 3;
+                }else{
+                    $venta->venta_estado_id = 4;
+                }
+                $venta->movimiento_id=$movimiento->id;
+                $venta->save();
             } else if($request->movimiento_tipo_id==2){ //Entrada traslado
                 //TODO Salida traslado
             }

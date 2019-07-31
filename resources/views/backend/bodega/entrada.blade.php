@@ -122,7 +122,7 @@
                                             <select class="form-control col-sm-8" data-live-search="true" id="venta_id" name="venta_id">
                                                 <option value="0">Buscador</option>
                                                 @foreach($bag['ventas'] as $p)
-                                                    <option value="{{$p->id}}">{{$p->cliente->nombre}}</option>
+                                                    <option value="{{$p->id}}">(Nº:{{$p->id}}) {{$p->cliente->nombre}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -153,7 +153,7 @@
 
 
 
-                            <div class="form-group row">
+                            <div class="form-group row  movimiento_tipo_1 hide">
 
                                 <div class="col-md-2">
                                     <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="Buscar por codigo">
@@ -348,27 +348,27 @@
 
             var action_id_origen = 0;
             var action_id_destino = 0;
+            $(".movimiento_tipo_1").removeClass('show').addClass('hide');
+            $(".movimiento_tipo_2").removeClass('show').addClass('hide');
+            $(".movimiento_tipo_3").removeClass('show').addClass('hide');
+            $(".movimiento_tipo_4").removeClass('show').addClass('hide');
 
             if(movimiento_tipo_id==1){ // Entrada compra
-                $(".hide").removeClass('show').addClass('hide');
                 $(".movimiento_tipo_1").removeClass('hide').addClass('show');
                  action_id_origen = 1;
                  action_id_destino = 2;
             }
             if(movimiento_tipo_id==2){
-                $(".hide").removeClass('show').addClass('hide');
                 $(".movimiento_tipo_2").removeClass('hide').addClass('show');
                 action_id_origen = 4;
                 action_id_destino = 3;
             }
             if(movimiento_tipo_id==3){ // Salida a cliente
-                $(".hide").removeClass('show').addClass('hide');
                 $(".movimiento_tipo_3").removeClass('hide').addClass('show');
                 action_id_origen = 5;
                 action_id_destino = 6;
             }
             if(movimiento_tipo_id==4){
-                $(".hide").removeClass('show').addClass('hide');
                 $(".movimiento_tipo_4").removeClass('hide').addClass('show');
                 action_id_origen = 3;
                 action_id_destino = 4;
@@ -493,7 +493,85 @@
 
         });
 
+        $('#formulario').on("change", "#venta_id",function(){
+            //e.preventDefault();
+            var valor=  jQuery(this).val();
 
+            if(parseInt(valor)>0){
+                $.ajax({
+                    url: "{{route('admin.global.info.getVentaById')}}/"+valor,
+                    type: "get",
+                    data: $("#formulario").serialize(),
+                    success: function (data) {
+                        var respuesta = $.parseJSON( data);
+                        console.log(respuesta);
+
+
+
+
+                        $.each(respuesta.venta_detalle, function(index, detalle) {
+                           // $("#ubicacion_destino_id").append('<option value=' + name.id + '>' + name.nombre + '</option>');
+                           console.log(detalle);
+
+
+                            //alert("cilindro");
+                            var producto_id = detalle.producto_id;
+                            var producto = detalle.producto;
+                            var cantidad = parseInt(detalle.cantidad_vendida);
+                            if($("input[name='productos_id["+ producto_id +"]']").length != 0){
+                                console.log("Producto ya existente " + producto_id);
+                                var cantidad_actual = parseInt($("input[name='cantidad["+ producto_id +"]']").val());
+                                var nueva_cantidad = cantidad_actual+cantidad;
+                                $("input[name='cantidad["+ producto_id +"]']").val(nueva_cantidad);
+                            }else{
+                                console.log("Producto Nuevo");
+                                var tr = ` <tr>
+                                    <td>`  +  producto.codigo_ean13  +  `<input type="hidden"
+                                        id="productos_id_`  +  producto.id  +  `" name="productos_id[` + producto.id + `]" value="`  +  producto.id  +  `" /> </td>
+                                    <td>`  +  producto.nombre  +  `  </td>
+                                    <td>`  +  producto.familia.nombre  +  `</td>
+                                    <td>`  +  producto.familia.linea.nombre  +  `</td>
+                                    <td><input class="form-control" id="cantidad" type="text"  readonly name="cantidad[` + producto.id + `]" value="` + cantidad + `"></td>
+                                    <td><input class="form-control" id="valor_neto_compra" type="text" readonly name="valor_neto_compra[` + producto.id + `]" value="0"></td>
+                                    <td><input type="checkbox" name="entregado[` + producto.id + `]"checked value="` + producto.id + `"></td>
+                               </tr>`
+
+                                $('#tabla_item tbody').append(tr);
+                            }
+
+/*   <td>' . producto.familia->nombre . '</td>
+                                    <td>' . producto->familia->linea->nombre . '</td>*/
+
+                            var cantidad_total = parseInt(respuesta.cantidad) + parseInt(total_productos);
+
+                            $('#total_productos').val(cantidad_total);
+
+
+
+                        });
+
+
+                       /* if(respuesta.mensaje){
+                            alert(respuesta.mensaje);
+                        }
+
+                        if(respuesta.correcto == 1){
+
+                            alert("Productos ingresados correctamente");
+                            location.reload();
+                        }
+                        */
+
+                    }
+                });
+            }else{
+                $('#tabla_item tbody').html("");
+            }
+
+
+           // $(this).closest('tr').remove();
+
+        });
 
 
 

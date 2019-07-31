@@ -220,6 +220,7 @@ Route::get('global/combo/ProductosByFamilia/{id?}', [ComboController::class, 'ge
 Route::get('global/info/ClienteById/{id?}', [ComboController::class, 'ClienteById'])->name('global.info.ClienteById');
 Route::get('global/info/ProductoById/{id?}', [ComboController::class, 'ProductoById'])->name('global.info.ProductoById');
 Route::get('global/info/getUbicacionByAccion/{id?}', [ComboController::class, 'getUbicacionByAccion'])->name('global.info.getUbicacionByAccion');
+Route::get('global/info/getVentaById/{id?}', [ComboController::class, 'getVentaById'])->name('global.info.getVentaById');
 
 
 Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class, 'fetchProducto'])->name('global.autocomplete.fetchProducto');

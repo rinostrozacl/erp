@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\Familia;
 use App\Models\Ubicacion;
+use App\Models\Venta;
+use App\Models\VentaDetalle;
 use Illuminate\Http\Request;
 
 /**
@@ -49,10 +51,17 @@ class ComboController extends Controller
      */
     public function ProductoById($id)
     {
-        $producto = Producto::find($id);
+        $producto = Producto::with('unidad_medida','marca')->find($id);
 
 
         return $producto->toJson();
+    }
+
+    public function getVentaById($id)
+    {
+        $v["venta"] = Venta::find($id);
+        $v["venta_detalle"] = VentaDetalle::with('producto')->with('producto.familia')->with('producto.familia.linea')->where('venta_id',$id)->where('is_entregado',0)->get();
+        return json_encode($v);
     }
 
 

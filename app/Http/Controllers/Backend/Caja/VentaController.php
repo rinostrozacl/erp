@@ -36,7 +36,11 @@ class VentaController extends Controller
         $ubicacion = Ubicacion::where('activo',1)->where('is_inventariable',1)->get();
         $familias = Familia::where('activo',1)->where('linea_id',0)->get();
         $lineas = Linea::where('activo',1)->get();
-        $clientes= Cliente::all();
+        $clientes= DB::table('Cliente')->select('id',DB::raw("CONCAT(rut,' => ',nombre) AS nombre"))
+            ->get();
+
+
+        //Cliente::all();
         return view('backend.caja.venta.index')
             ->with("clientes", $clientes)
             ->with('ubicacion',$ubicacion)
@@ -50,11 +54,23 @@ class VentaController extends Controller
     {
         $request= Request();
         $busqueda=$request['search']['value'];
+        $busqueda_p=explode(" ", $busqueda);
+        $array_b=array();
+        foreach( $busqueda_p as $palabra ){
+            if($palabra!= "" ){
+                array_push($array_b , ['producto.nombre','like', "%$palabra%"]);
+            }
 
+
+        }
+        //dd($array_b);
+
+        //dd($array_b );
         //  ->where('goals.jurisdiction_id', '=', 9)
         $productos = DB::table('producto')
             ->join('marca', 'marca.id', '=', 'producto.marca_id')
             ->join('familia', 'familia.id', '=', 'producto.familia_id')
+            ->join('unidad_medida', 'unidad_medida.id', '=', 'producto.unidad_medida_id')
             ->when($_GET['marca_id'], function ($query, $role) {
                 return $query->where('producto.marca_id', '=', $_GET['marca_id']);
             })
@@ -64,13 +80,12 @@ class VentaController extends Controller
             ->when($_GET['familia_id'], function ($query, $role) {
                 return $query->where('producto.familia_id', '=', $_GET['familia_id']);
             })
-            ->where('producto.nombre', 'like', '%'.$busqueda.'%')
-            ->orwhere('producto.descripcion', 'like', '%'.$busqueda.'%')
+            ->Where($array_b)
             ->limit(100)
             ->select('producto.id','producto.stock_disponible','producto.nombre',
                 'producto.codigo_ean13', 'producto.codigo_erp', 'producto.descripcion',
                 'producto.valor_neto_venta',
-                'marca.nombre as marca')
+                'marca.nombre as marca', 'unidad_medida.nombre as unidad_medida')
             ->get();
 
 
@@ -106,7 +121,9 @@ class VentaController extends Controller
             })->addColumn('descuento', function ($item) {
                 return  0 ;
             })->editColumn('nombre', function ($item) {
-                return  $item->nombre  . ' '. ' <br> '  . $item->descripcion . "[".$item->codigo_erp."]" . $item->descripcion . ' [' . $item->marca  . ']' ;
+                return  $item->nombre  . ' '. ' <br> '  . $item->descripcion . "[".$item->codigo_erp."]" .
+                    $item->descripcion . ' [' . $item->marca  . ']'. ' [' . $item->unidad_medida  . ']' ;
+                    $item->descripcion . ' [' . $item->marca  . ']'. ' [' . $item->unidad_medida  . ']' ;
             })->addColumn('valor_total_venta', function ($item) {
                 return round($item->valor_neto_venta*1.19);
             })->addColumn('valor_iva', function ($item) {
@@ -268,7 +285,7 @@ class VentaController extends Controller
             'venta' => $venta ];
         $pdf = PDF::loadView('backend/pdf/venta', $data);
 
-        return $pdf->download($nombre_archivo);
+        return $pdf->stream($nombre_archivo);
 
     }
     public function verVenta($id)

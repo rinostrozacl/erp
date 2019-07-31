@@ -40,7 +40,7 @@
                             <label class="col-md-3 col-form-label">Tipo Venta</label>
                             <div class="col-md-9 col-form-label">
                                 <div class="form-check">
-                                    <input class="form-check-input"  type="radio" value="1" name="tipo_venta" checked>
+                                    <input class="form-check-input"  type="radio" value="1" name="tipo_venta">
                                     <label class="form-check-label" for="radio1">Solo Cotizacion</label>
                                 </div>
                                 <div class="form-check">
@@ -82,58 +82,108 @@
             </div>
 
 
-
-            <div class="col-4 pl-0">
+            {{-- InicioCliente--}}
+            <div class="col-8 pl-0">
                 <div class="card">
                     <div class="card-header">
                         <strong>Cliente </strong>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body row">
+
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input">Buscar</label>
+                                <div class="col-md-8">
+                                    @component('backend.component.select-form',
+                                   [
+                                   'name' => 'cliente_id',
+                                   'lista' => $clientes,
+                                   'valor_seleccionado' => 0,
+                                   'msg_o' => "------",
+                                   'class' => 'chosen-select',
+                                   'elemento_editar' => null,
+                                   ])
+                                    @endcomponent
+                                </div>
+                            </div>
+                            @component('backend.component.form-group-input-text',
+                             [
+                             'name' => 'nombre',
+                             'label' => "Nombre",
+                             'col_a' => "4",
+                             'col_b' => "8"
+                             ])
+                            @endcomponent
+
+                            @component('backend.component.form-group-input-text',
+                             [
+                             'name' => 'rut',
+                             'label' => "Rut"
+                             ])
+                            @endcomponent
+
+                            @component('backend.component.form-group-input-text',
+                             [
+                             'name' => 'telefono',
+                             'label' => "Telefono"
+                             ])
+                            @endcomponent
 
 
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label" for="text-input">Buscar</label>
-                            <div class="col-md-8">
-                                @component('backend.component.select-form',
-                               [
-                               'name' => 'cliente_id',
-                               'lista' => $clientes,
-                               'valor_seleccionado' => 0,
-                               'msg_o' => "------",
-                               'class' => 'chosen-select',
-                               'elemento_editar' => null,
-                               ])
-                                @endcomponent
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input">Email</label>
+                                <div class="col-md-8">
+                                    <input id="email" name="email" class="form-control" >
+                                </div>
                             </div>
                         </div>
-                        @component('backend.component.form-group-input-text',
-                         [
-                         'name' => 'nombre',
-                         'label' => "Nombre",
-                         'col_a' => "4",
-                         'col_b' => "8"
-                         ])
-                        @endcomponent
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input">Giro</label>
+                                <div class="col-md-8">
+                                    <textarea id="giro" name="giro" class="form-control" > </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input">Direccion</label>
+                                <div class="col-md-8">
+                                    <textarea id="direccion" name="direccion" class="form-control" > </textarea>
+                                </div>
+                            </div>
 
-                        @component('backend.component.form-group-input-text',
-                         [
-                         'name' => 'rut',
-                         'label' => "Rut"
-                         ])
-                        @endcomponent
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input" >Credito</label>
+                                <div class="col-md-8">
+                                    <input id="credito" name="credito" class="form-control" readonly>
+                                </div>
+                            </div>
 
-                        @component('backend.component.form-group-input-text',
-                         [
-                         'name' => 'telefono',
-                         'label' => "Telefono"
-                         ])
-                        @endcomponent
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input" >Saldo</label>
+                                <div class="col-md-8">
+                                    <input id="credito_maximo" name="credito_maximo" class="form-control" readonly >
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-md-6 col-form-label" for="text-input"> </label>
+                                <div class="col-md-6">
+                                    <button  id="bt-guardar-cliente" class="btn btn-sm btn-block btn-success">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                        Guardar
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
 
 
                     </div>
                 </div><!--card-body-->
             </div><!--card-->
-
+            {{-- Fin Cliente--}}
 
 
 
@@ -241,13 +291,13 @@
                     <table class="table dataTable-small" id="tabla_venta">
                         <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>cantidad</th>
-                            <th>Val Neto</th>
-                            <th>SubTota</th>
-                            <th>IVA</th>
-                            <th>Total</th>
-                            <th> </th>
+                            <th width="40%">Nombre</th>
+                            <th width="10%">cantidad</th>
+                            <th width="10%">Val Neto</th>
+                            <th width="10%">SubTota</th>
+                            <th width="10%">IVA</th>
+                            <th width="10%">Total</th>
+                            <th width="10%"> </th>
                         </tr>
                         </thead>
 
@@ -258,11 +308,11 @@
                         <tfoot>
                             <tr>
                                 <th> </th>
-                                <th><input id="total_cantidad" name="total_cantidad"> </th>
+                                <th><input id="total_cantidad" name="total_cantidad" class="form-control" > </th>
                                 <th> </th>
-                                <th> <input id="total_subtotal_neto" name="total_subtotal_neto"></th>
-                                <th> <input id="total_iva" name="total_iva"></th>
-                                <th> <input id="total_total" name="total_total"></th>
+                                <th> <input id="total_subtotal_neto" name="total_subtotal_neto" class="form-control" ></th>
+                                <th> <input id="total_iva" name="total_iva" class="form-control" ></th>
+                                <th> <input id="total_total" name="total_total" class="form-control" ></th>
                                 <th> </th>
                             </tr>
 
@@ -271,51 +321,43 @@
                                 <th colspan="5" class="text-right">
                                     Pago en efectivo
                                 </th>
-                                <th> <input id="pago_efectivo" class="input-pago" name="pago_efectivo" type="number"></th>
+                                <th> <input id="pago_efectivo" class="input-pago form-control" name="pago_efectivo" type="number"></th>
                                 <th> </th>
                             </tr>
                             <tr>
                                 <th colspan="5" class="text-right">
                                     Pago con tarjeta
                                 </th>
-                                <th colspan="2"> <input id="pago_tarjeta" class="input-pago" type="number"></th>
+                                <th colspan="2"> <input id="pago_tarjeta" class="input-pago form-control" type="number"></th>
                             </tr>
                             <tr>
                                 <th colspan="5" class="text-right">
                                     Pago con transferencia
                                 </th>
-                                <th colspan="2"> <input id="pago_transferencia" class="input-pago" type="number" name="pago_transferencia" ></th>
+                                <th colspan="2"> <input id="pago_transferencia" class="input-pago form-control"  type="number" name="pago_transferencia" ></th>
                             </tr>
                             <tr>
                                 <th colspan="5" class="text-right">
                                     Pago con credito
                                 </th>
-                                <th colspan="2"> <input id="pago_credito" class="input-pago" type="number" name="pago_credito"></th>
+                                <th colspan="2"> <input id="pago_credito" class="input-pago form-control" type="number" name="pago_credito"></th>
                             </tr>
 
                             <tr>
                                 <th colspan="5" class="text-right">
                                     Total pagado
                                 </th>
-                                <th colspan="2"> <input id="pagado" readonly type="number" name="pagado" ></th>
+                                <th colspan="2">  <input id="pagado" class="input-pago form-control" type="number" name="pagado" readonly> </th>
                             </tr>
                             <tr>
                                 <th colspan="5" class="text-right">
                                     Pendiente pago
                                 </th>
-                                <th colspan="2"> <input id="pendiente_pago" readonly type="number" name="pendiente_pago" ></th>
+                                <th colspan="2"> <input id="pendiente_pago" readonly type="number"  class="form-control" name="pendiente_pago" readonly ></th>
                             </tr>
 
 
-                            <tr>
-                                <th> </th>
-                                <th><input id="total_cantidad" name="total_cantidad"> </th>
-                                <th> </th>
-                                <th> <input id="total_subtotal_neto" name="total_subtotal_neto"></th>
-                                <th> <input id="total_iva" name="total_iva"></th>
-                                <th> <input id="total_total" name="total_total"></th>
-                                <th> </th>
-                            </tr>
+
 
                             <tr>
                                 <th> </th>
@@ -394,9 +436,40 @@
                     $("#nombre").val(cliente.nombre);
                     $("#rut").val(cliente.rut);
                     $("#telefono").val(cliente.telefono);
+
+                    $("#email").val(cliente.email);
+
+                    $("#giro").val(cliente.giro);
+                    $("#direccion").val(cliente.direccion);
+                    $("#credito").val(cliente.email);
+                    $("#credito_maximo").val(cliente.email);
                 }
             });
         });
+
+
+        $('#bt-guardar-cliente').click(function(){
+            //e.preventDefault();
+            var id=  jQuery(this).val();
+            /* jQuery.ajax({
+                url: "{{ route('admin.global.info.ClienteById') }}/"+id,
+                method: 'get',
+                success: function(data){
+                    var cliente = JSON.parse(data);
+                    $("#nombre").val(cliente.nombre);
+                    $("#rut").val(cliente.rut);
+                    $("#telefono").val(cliente.telefono);
+
+                    $("#email").val(cliente.email);
+
+                    $("#giro").html(cliente.giro);
+                    $("#direccion").val(cliente.direccion);
+                    $("#credito").val(cliente.email);
+                    $("#credito_maximo").val(cliente.email);
+                }
+            });  */
+        });
+
 
 
 
@@ -489,12 +562,12 @@
                     if($("input[name='cantidad["+ id +"]']").length == 0){
                     //alert("cilindro");
                         var fila ="<tr id=\"tr-detalle-" + id + "\">" +
-                            "<td>"+producto.nombre+" <input type=\"hidden\"  name=\"productos_id["+ id +"]\" value=\""+id+"\" /></td>" +
-                            "<td> <input type=\"number\" class=\"input-cantidad\" name=\"cantidad["+ id +"]\" value=\""+cantidad+"\" data-id=\"" + id + "\" /></td>" +
-                            "<td> <input type=\"number\" name=\"valor_neto["+ id +"]\"  value=\"" + stripZeroes(producto.valor_neto_venta) + "\"  readonly/>  </td>" +
-                            "<td><input type=\"number\" name=\"sub_total_neto["+ id +"]\"  value=\"" + stripZeroes(subtotal) + "\"  readonly/>   </td>" +
-                            "<td><input type=\"number\" name=\"iva["+ id +"]\"  value=\"" + stripZeroes(iva) + "\"  readonly/>  </td>" +
-                            "<td> <input type=\"number\" name=\"total["+ id +"]\"  value=\"" + stripZeroes(total) + "\"  readonly/> </td>" +
+                            "<td>"+producto.nombre+" ["+producto.marca.nombre+"] ["+producto.unidad_medida.nombre+"] <input type=\"hidden\"  name=\"productos_id["+ id +"]\" value=\""+id+"\" /></td>" +
+                            "<td> <input type=\"number\" class=\"input-cantidad form-control\" name=\"cantidad["+ id +"]\" value=\""+cantidad+"\" data-id=\"" + id + "\" /></td>" +
+                            "<td> <input type=\"number\" class=\"form-control\" name=\"valor_neto["+ id +"]\"  value=\"" + stripZeroes(producto.valor_neto_venta) + "\"  readonly/>  </td>" +
+                            "<td><input type=\"number\" class=\"form-control\" name=\"sub_total_neto["+ id +"]\"  value=\"" + stripZeroes(subtotal) + "\"  readonly/>   </td>" +
+                            "<td><input type=\"number\"  class=\"form-control\"name=\"iva["+ id +"]\"  value=\"" + stripZeroes(iva) + "\"  readonly/>  </td>" +
+                            "<td> <input type=\"number\"  class=\"form-control\"name=\"total["+ id +"]\"  value=\"" + stripZeroes(total) + "\"  readonly/> </td>" +
                             "<td> <button class=\"btn btn-danger bt-eliminar\" type=\"button\" data-id=\"" + id + "\"  > [X] </button></td>" +
                             "</tr>";
                         $('#tabla_venta tbody').append(fila);
@@ -628,7 +701,7 @@
 
                     if(respuesta.correcto == 1){
 
-                       
+
                         location.reload();
                     }
 
