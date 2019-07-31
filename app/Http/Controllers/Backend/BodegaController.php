@@ -88,11 +88,8 @@ class BodegaController extends Controller
     public function nuevoMovimiento(Request $request)
     {
 
+
         $respuesta["correcto"]=0;
-
-
-
-
         // Registra el movimiento
         $movimiento = new Movimiento();
         $movimiento->cantidad =  count($request->productos_id);
@@ -193,19 +190,14 @@ class BodegaController extends Controller
                 $venta->save();
             } else if($request->movimiento_tipo_id==2){ //Entrada traslado
                 //TODO Salida traslado
+            }else{
+
+
             }
 
-
-
-
-
-
-
-
-
-
-
          $respuesta["correcto"]=1;
+
+
 
 
         return  json_encode($respuesta);
