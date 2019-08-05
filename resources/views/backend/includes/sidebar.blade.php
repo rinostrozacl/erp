@@ -55,15 +55,15 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/pago/recibir')) }}" href="{{ route('admin.caja.pago.recibir') }}">
                             Recibir Pago
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/turno')) }}" href="{{ route('admin.caja.turno') }}">
-                            Cambio de turno
+                            Cierre Caja
                         </a>
                     </li>
 

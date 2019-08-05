@@ -163,7 +163,7 @@ class BodegaController extends Controller
 
                     //if(is_entregado)
                     $producto = Producto::find($valor);
-                    if($producto->stock_disponible>$list_cantidades[$clave]){
+                    if($producto->stock_disponible>=$list_cantidades[$clave]){
                         for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
                             $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
                             $unidad->ubicacion_id = $request->ubicacion_destino_id;

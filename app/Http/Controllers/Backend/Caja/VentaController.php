@@ -226,7 +226,9 @@ class VentaController extends Controller
             $venta->pendiente_pago = $request->pendiente_pago;
             $venta->pago_efectivo = $request->pago_efectivo;
             $venta->pago_tarjeta = $request->pago_tarjeta;
+            $venta->pago_tarjeta_nro = $request->pago_tarjeta_nro;
             $venta->pago_transferencia = $request->pago_transferencia;
+            $venta->pago_transferencia_nro = $request->pago_transferencia_nro;
             $venta->pago_credito = $request->pago_credito;
             $venta->user_id = Auth::user()->id;
             $venta->save();
