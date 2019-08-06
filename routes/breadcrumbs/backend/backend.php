@@ -142,6 +142,7 @@ Breadcrumbs::for('admin.caja.turno', function ($trail) {
     $trail->push(__('Cambio de turno'), route('admin.caja.turno'));
 });
 
+
 Breadcrumbs::for('admin.caja.rendir', function ($trail) {
     $trail->push(__('Rendir caja'), route('admin.caja.rendir'));
 });

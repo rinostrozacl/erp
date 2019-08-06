@@ -291,13 +291,13 @@
                     <table class="table dataTable-small" id="tabla_venta">
                         <thead>
                         <tr>
-                            <th width="40%">Nombre</th>
-                            <th width="10%">cantidad</th>
+                            <th width="50%">Nombre</th>
+                            <th width="5%">Cantidad</th>
                             <th width="10%">Val Neto</th>
-                            <th width="10%">SubTota</th>
+                            <th width="10%">SubTotal</th>
                             <th width="10%">IVA</th>
                             <th width="10%">Total</th>
-                            <th width="10%"> </th>
+                            <th width="5%"> </th>
                         </tr>
                         </thead>
 
@@ -312,46 +312,104 @@
                                 <th> </th>
                                 <th> <input id="total_subtotal_neto" name="total_subtotal_neto" class="form-control" ></th>
                                 <th> <input id="total_iva" name="total_iva" class="form-control" ></th>
-                                <th> <input id="total_total" name="total_total" class="form-control" ></th>
-                                <th> </th>
+                                <th colspan="2"> <input id="total_total" name="total_total" class="form-control" ></th>
+
                             </tr>
 
 
                             <tr>
-                                <th colspan="5" class="text-right">
-                                    Pago en efectivo
+                                <th colspan="1" class="text-right">
+
                                 </th>
-                                <th> <input id="pago_efectivo" class="input-pago form-control" name="pago_efectivo" type="number"></th>
-                                <th> </th>
+                                <th colspan="2" class="text-right">
+                                    <input id="pago-total-efectivo" class="form-control"  type="number" name="pago-total-efectivo"
+                                    placeholder="Paga con?" >
+                                </th>
+                                <th colspan="1" class="text-right">
+                                        <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-efectivo">
+                                            Pagar
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </button>
+                                 </th>
+                                <th colspan="1" class="text-right">
+                                    Efectivo
+                                </th>
+                                <th colspan="2">
+                                     <input id="pago_efectivo" class="input-pago form-control" name="pago_efectivo" type="number">
+                                </th>
+
+
                             </tr>
                             <tr>
-                                <th colspan="5" class="text-right">
-                                    Pago con tarjeta
+                                <th colspan="1" class="text-right">
+
                                 </th>
-                                <th colspan="2"> <input id="pago_tarjeta" class="input-pago form-control" type="number"></th>
+                                <th colspan="2" class="text-right">
+                                    <input id="pago_tarjeta_nro" class="form-control"  type="number" name="pago_tarjeta_nro"
+                                    placeholder="Nº operacion" >
+                                </th>
+                                <th colspan="1" class="text-right">
+                                        <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-tarjeta">
+                                            Pagar
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </button>
+                                </th>
+                                <th colspan="1" class="text-right">
+                                        Tarjeta
+                                </th>
+                                <th colspan="2">
+                                    <input id="pago_tarjeta" class="input-pago form-control" type="number">
+                                </th>
                             </tr>
                             <tr>
-                                <th colspan="5" class="text-right">
-                                    Pago con transferencia
+                                <th colspan="1" class="text-right">
+
                                 </th>
-                                <th colspan="2"> <input id="pago_transferencia" class="input-pago form-control"  type="number" name="pago_transferencia" ></th>
+                                <th colspan="2" class="text-right">
+                                    <input id="pago_transferencia_nro" class="form-control"  type="number" name="pago_transferencia_nro"
+                                    placeholder="Nº transferencia" >
+                                </th>
+                                <th colspan="1" class="text-right">
+                                    <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-transferencia">
+                                        Pagar
+                                        <i class="fa fa-angle-double-right"></i>
+                                    </button>
+                                </th>
+                                <th colspan="1" class="text-right">
+                                     Transferencia
+                                </th>
+                                <th colspan="2">
+                                    <input id="pago_transferencia" class="input-pago form-control"  type="number" name="pago_transferencia" >
+                                </th>
+
                             </tr>
                             <tr>
-                                <th colspan="5" class="text-right">
-                                    Pago con credito
+                                <th colspan="3" class="text-right">
+                                        Habilitado
                                 </th>
-                                <th colspan="2"> <input id="pago_credito" class="input-pago form-control" type="number" name="pago_credito"></th>
+                                <th colspan="1" class="text-right">
+                                        <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-credito">
+                                            Pagar
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </button>
+                                </th>
+                                <th colspan="1" class="text-right">
+                                    Credito
+                                </th>
+                                <th colspan="2">
+                                    <input id="pago_credito" class="input-pago form-control" type="number" name="pago_credito">
+                                </th>
                             </tr>
 
                             <tr>
                                 <th colspan="5" class="text-right">
                                     Total pagado
                                 </th>
-                                <th colspan="2">  <input id="pagado" class="input-pago form-control" type="number" name="pagado" readonly> </th>
+                                <th colspan="2">  <input id="pagado" class="form-control" type="number" name="pagado" readonly> </th>
                             </tr>
                             <tr>
                                 <th colspan="5" class="text-right">
-                                    Pendiente pago
+                                    Pendiente
                                 </th>
                                 <th colspan="2"> <input id="pendiente_pago" readonly type="number"  class="form-control" name="pendiente_pago" readonly ></th>
                             </tr>
@@ -364,10 +422,15 @@
                                 <th> </th>
                                 <th> </th>
                                 <th> </th>
-                                <th><button class="btn btn-md btn-success float-right" type="button" id="btn_guardar">
-                                        <i class="fa fa-dot-circle-o"></i> Guardar</button> </th>
-                                <th><button class="btn btn-md btn-danger float-right" type="reset">
-                                        <i class="fa fa-ban"></i>Cancelar</button> </th>
+                                <th colspan="3">
+                                    <button class="btn btn-md btn-success float-right" type="button" id="btn_guardar">
+                                        <i class="fa fa-dot-circle-o"></i>
+                                        Finalizar
+                                    </button>
+                                    <button class="btn btn-md btn-danger float-right" type="reset">
+                                        <i class="fa fa-ban"></i>
+                                        Cancelar
+                                    </button>
                                 <th>
 
                                 </th>
@@ -470,6 +533,91 @@
             });  */
         });
 
+
+        $('#btn-pago-efectivo').click(function(e){
+            e.preventDefault();
+            var valor=   $('#pago-total-efectivo').val();
+            var total_total=   $('#total_total').val();
+            if(valor==""){
+                alert("Debe ingresar el monto pagado");
+            }else{
+                var vuelto= parseInt(valor) - parseInt(total_total)
+                alert("Vuelto: " + vuelto);
+                $('#pago_efectivo').val(total_total);
+                totales();
+            }
+        });
+
+        $('#pago-total-efectivo').on('keypress', function (e) {
+            if(e.which === 13) {
+                e.preventDefault();
+                $('#btn-pago-efectivo').click();
+            }
+        });
+
+
+
+
+        $('#btn-pago-tarjeta').click(function(e){
+            e.preventDefault();
+            var nro=   $('#pago_tarjeta_nro').val();
+            if(nro==""){
+                alert("Debe ingresar el numero de operacion del pago con tarjeta");
+            }else{
+                var total_total=   $('#total_total').val();
+                $('#pago_tarjeta').val(total_total);
+                totales();
+            }
+        });
+
+        $('#pago_tarjeta_nro').on('keypress', function (e) {
+            if(e.which === 13) {
+                e.preventDefault();
+                $('#btn-pago-tarjeta').click();
+            }
+        });
+
+
+
+
+        $('#btn-pago-transferencia').click(function(e){
+            e.preventDefault();
+            var nro=   $('#pago_transferencia_nro').val();
+            if(nro==""){
+                alert("Debe ingresar el numero de operacion de la transferencia");
+            }else{
+                var total_total=   $('#total_total').val();
+                $('#pago_transferencia').val(total_total);
+                totales();
+            }
+        });
+
+        $('#pago_transferencia_nro').on('keypress', function (e) {
+            if(e.which === 13) {
+                e.preventDefault();
+                $('#btn-pago-transferencia').click();
+            }
+        });
+
+
+
+        $('#btn-pago-credito').click(function(e){
+            e.preventDefault();
+
+           /* if(nro==""){
+                alert("Debe ingresar el numero de operacion de la transferencia");
+            }else{ */
+                var total_total=   $('#total_total').val();
+                $('#pago_credito').val(total_total);
+                totales();
+            //}
+        });
+
+
+
+        $('#formulario').submit(function(e){
+            e.preventDefault();
+        });
 
 
 
@@ -598,6 +746,9 @@
 
         function totales() {
 
+
+            $('#pagado').val(0);
+            $('#pendiente_pago').val(0);
 
             total_cantidad=0;
             total_neto=0;

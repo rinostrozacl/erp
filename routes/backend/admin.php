@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\Informe\StockController;
 use App\Http\Controllers\Backend\Informe\StockCriticoController;
 
 use App\Http\Controllers\Backend\Caja\VentaController;
+use App\Http\Controllers\Backend\Caja\CajaController;
 use App\Http\Controllers\Backend\AutoCompleteController;
 
 
@@ -80,8 +81,14 @@ Route::get('caja/venta/verimprimir/{id?}', [VentaController::class, 'verVenta'])
 
 
 Route::get('caja/pago/recibir', [CajaController::class, 'recibirPago'])->name('caja.pago.recibir');
+
 Route::get('caja/turno', [CajaController::class, 'cambioTurno'])->name('caja.turno');
+Route::post('caja/turno/guardar', [CajaController::class, 'cambioTurnoGuardar'])->name('caja.turno.guardar');
+Route::get('caja/turno/verimprimir/{id?}', [CajaController::class, 'imprimirCierre'])->name('caja.turno.verimprimir');
+
+
 Route::get('caja/rendir', [CajaController::class, 'getRendicion'])->name('caja.rendir');
+Route::post('caja/rendir/cerrar', [CajaController::class, 'rendicionCerrar'])->name('caja.rendir.cerrar');
 
 
 /*
