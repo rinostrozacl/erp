@@ -107,21 +107,25 @@ class BodegaController extends Controller
             if($request->movimiento_tipo_id==1){ // compra productos
                 foreach ($list_productos_id as $clave => $valor) {
 
-                    for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
-                        $unidad = new Unidad();
-                        $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                        $unidad->producto_id = $valor;
-                        $unidad->valor_neto_venta = 0;
-                        $unidad->valor_neto_compra = $list_valor_neto_compra[$clave];
-                        $unidad->save();
-
-                        $unidad_movimiento = new UnidadMovimiento();
-                        $unidad_movimiento->movimiento_id= $movimiento->id;
-                        $unidad_movimiento->unidad_id= $unidad->id;
-                        $unidad_movimiento->save();
-                    }
-
                     $producto = Producto::find($valor);
+                    if($producto->is_fungible==0){
+                        for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                            $unidad = new Unidad();
+                            $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                            $unidad->producto_id = $valor;
+                            $unidad->valor_neto_venta = 0;
+                            $unidad->valor_neto_compra = $list_valor_neto_compra[$clave];
+                            $unidad->save();
+
+                            $unidad_movimiento = new UnidadMovimiento();
+                            $unidad_movimiento->movimiento_id= $movimiento->id;
+                            $unidad_movimiento->unidad_id= $unidad->id;
+                            $unidad_movimiento->save();
+                        }
+                    }
+                    
+
+                    
                     $producto->stock_disponible=$producto->stock_disponible + $list_cantidades[$clave];
                     $producto->save();
 
@@ -163,17 +167,20 @@ class BodegaController extends Controller
 
                     //if(is_entregado)
                     $producto = Producto::find($valor);
-                    if($producto->stock_disponible>=$list_cantidades[$clave]){
-                        for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
-                            $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
-                            $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                            $unidad->is_vendido = 1;
-                            $unidad->save();
 
-                            $unidad_movimiento = new UnidadMovimiento();
-                            $unidad_movimiento->movimiento_id= $movimiento->id;
-                            $unidad_movimiento->unidad_id= $unidad->id;
-                            $unidad_movimiento->save();
+                    if($producto->stock_disponible>=$list_cantidades[$clave]){
+                        if($producto->is_fungible==0){
+                            for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                                $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
+                                $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                                $unidad->is_vendido = 1;
+                                $unidad->save();
+
+                                $unidad_movimiento = new UnidadMovimiento();
+                                $unidad_movimiento->movimiento_id= $movimiento->id;
+                                $unidad_movimiento->unidad_id= $unidad->id;
+                                $unidad_movimiento->save();
+                            }
                         }
                         $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
                     }
