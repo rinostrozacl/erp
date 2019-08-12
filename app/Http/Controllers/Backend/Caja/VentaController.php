@@ -129,7 +129,7 @@ class VentaController extends Controller
                 return '<div class="input-group">
                             <input class="form-control"  type="number"   id="valor_neto_'.$item->id.'" name="input2-group2"  value="'. round($item->valor_neto_venta*1.19) .'">
                             <span class="input-group-append">
-                                <button class="btn btn-primary bt-guardar-precio '. $type_button .'" type="button"    data-producto_id="'.$item->id.'"> </button>
+                                <button class="btn btn-primary bt-guardar-precio btn-secondary" type="button"    data-producto_id="'.$item->id.'"> >> </button>
                             </span>
                         </div> ';
                 
@@ -137,7 +137,7 @@ class VentaController extends Controller
                 return round($item->valor_neto_venta*0.19);
             })->addColumn('valor_neto_venta', function ($item) {
                 return floatval($item->valor_neto_venta );
-            })->rawColumns(['action','nombre'])
+            })->rawColumns(['action','nombre','valor_total_venta'])
             ->make(true);
 
 
