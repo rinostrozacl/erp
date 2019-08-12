@@ -125,19 +125,18 @@ class VentaController extends Controller
                     $item->descripcion . ' [' . $item->marca  . ']'. ' [' . $item->unidad_medida  . ']' ;
                     $item->descripcion . ' [' . $item->marca  . ']'. ' [' . $item->unidad_medida  . ']' ;
             })->addColumn('valor_total_venta', function ($item) {
-                //return round($item->valor_neto_venta*1.19);
+                return round($item->valor_neto_venta*1.19);
+            })->addColumn('valor_iva', function ($item) {
+                return round($item->valor_neto_venta*0.19);
+            })->addColumn('valor_neto_venta', function ($item) {
+                //return floatval($item->valor_neto_venta );
                 return '<div class="input-group">
-                            <input class="form-control"  type="number"   id="valor_neto_'.$item->id.'" name="input2-group2"  value="'. round($item->valor_neto_venta*1.19) .'">
+                            <input class="form-control"  type="number"   id="valor_neto_'.$item->id.'" name="input2-group2"  value="'. round($item->valor_neto_venta) .'">
                             <span class="input-group-append">
                                 <button class="btn btn-primary bt-guardar-precio btn-secondary" type="button"    data-producto_id="'.$item->id.'"> >> </button>
                             </span>
                         </div> ';
-                
-            })->addColumn('valor_iva', function ($item) {
-                return round($item->valor_neto_venta*0.19);
-            })->addColumn('valor_neto_venta', function ($item) {
-                return floatval($item->valor_neto_venta );
-            })->rawColumns(['action','nombre','valor_total_venta'])
+            })->rawColumns(['action','nombre','valor_neto_venta'])
             ->make(true);
 
 
