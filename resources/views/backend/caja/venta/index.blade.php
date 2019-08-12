@@ -695,7 +695,7 @@
                 type: "get",
                 data: { producto_id:producto_id,
                         valor_neto_venta:valor_neto_venta
-                    }
+                    },
                 success: function (data) {
                     //var producto = $.parseJSON( data);
                     console.log(data);
