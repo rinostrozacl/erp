@@ -488,6 +488,9 @@
         });
 
 
+
+       
+
         $('#cliente_id').change(function(){
             //e.preventDefault();
             var id=  jQuery(this).val();
@@ -679,9 +682,26 @@
             tabla_busqueda.draw();
             e.preventDefault();
         });
+        
 
+        $('#tabla_busqueda tbody').on( "click", ".bt-guardar-precio",function(){
+            //e.preventDefault();
+            var producto_id =  boton.data('producto_id');
+            var valor_neto_venta =  jQuery("#valor_neto_"+ producto_id);
+            //alert('aa'+ id);
 
+            $.ajax({
+                url: "{{route('admin.caja.venta.guardar.precio')}}/",
+                type: "get",
+                data: { producto_id:producto_id,
+                        valor_neto_venta:valor_neto_venta
+                    }
+                success: function (data) {
+                    //var producto = $.parseJSON( data);
+                    console.log(data);
 
+                });
+            });
 
 
         $('#tabla_busqueda tbody').on( "click", ".bt-agregar",function(){

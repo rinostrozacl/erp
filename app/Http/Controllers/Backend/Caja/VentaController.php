@@ -125,7 +125,14 @@ class VentaController extends Controller
                     $item->descripcion . ' [' . $item->marca  . ']'. ' [' . $item->unidad_medida  . ']' ;
                     $item->descripcion . ' [' . $item->marca  . ']'. ' [' . $item->unidad_medida  . ']' ;
             })->addColumn('valor_total_venta', function ($item) {
-                return round($item->valor_neto_venta*1.19);
+                //return round($item->valor_neto_venta*1.19);
+                return '<div class="input-group">
+                            <input class="form-control"  type="number"   id="valor_neto_'.$item->id.'" name="input2-group2"  value="'. round($item->valor_neto_venta*1.19) .'">
+                            <span class="input-group-append">
+                                <button class="btn btn-primary bt-guardar-precio '. $type_button .'" type="button"    data-producto_id="'.$item->id.'"> </button>
+                            </span>
+                        </div> ';
+                
             })->addColumn('valor_iva', function ($item) {
                 return round($item->valor_neto_venta*0.19);
             })->addColumn('valor_neto_venta', function ($item) {
@@ -292,6 +299,15 @@ class VentaController extends Controller
         $pdf = PDF::loadView('backend/pdf/venta', $data);
 
         return $pdf->stream($nombre_archivo);
+
+    }
+    public function guardarPrecio(Request $request)
+    {
+        $producto = Producto::find($request->producto_id);
+        $producto->valor_neto_venta= $request->valor_neto_venta;
+        $producto->save();
+
+        return 1;
 
     }
     public function verVenta($id)
