@@ -686,22 +686,20 @@
 
         $('#tabla_busqueda tbody').on( "click", ".bt-guardar-precio",function(){
             //e.preventDefault();
-            var producto_id =  boton.data('producto_id');
-            var valor_neto_venta =  jQuery("#valor_neto_"+ producto_id);
-            //alert('aa'+ id);
-
+            var producto_id =  $(this).data('producto_id');
+            var valor_neto_venta =  $("#valor_neto_"+ producto_id).val();
             $.ajax({
-                url: "{{route('admin.caja.venta.guardar.precio')}}/",
-                type: "get",
+                url: "{{route('admin.caja.venta.guardar.precio')}}",
+                method: "POST",
                 data: { producto_id:producto_id,
                         valor_neto_venta:valor_neto_venta
                     },
                 success: function (data) {
-                    //var producto = $.parseJSON( data);
-                    console.log(data);
-
-                });
+                    alert('Guardado!'); 
+                }
             });
+        });
+            
 
 
         $('#tabla_busqueda tbody').on( "click", ".bt-agregar",function(){
