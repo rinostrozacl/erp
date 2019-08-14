@@ -131,7 +131,7 @@ class VentaController extends Controller
             })->addColumn('valor_neto_venta', function ($item) {
                 //return floatval($item->valor_neto_venta );
                 return '<div class="input-group">
-                            <input class="form-control"  type="number"   id="valor_neto_'.$item->id.'" name="input2-group2"  value="'. round($item->valor_neto_venta) .'">
+                            <input class="form-control"  type="number"   id="valor_neto_'.$item->id.'" name="input2-group2"  value="'. $item->valor_neto_venta .'">
                             <span class="input-group-append">
                                 <button class="btn btn-primary bt-guardar-precio btn-secondary" type="button"    data-producto_id="'.$item->id.'"> >> </button>
                             </span>
