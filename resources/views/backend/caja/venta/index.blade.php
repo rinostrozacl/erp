@@ -459,7 +459,20 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <script>
+     
+ 
 
+    function refreshToken(){
+        $.get('{{route('admin.refreshcsrf')}}').done(function(data){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': data
+                }
+            });
+        });
+    }
+
+    setInterval(refreshToken, 3600);//1 hour 
 
     $(document).ready(function(){
 
@@ -471,11 +484,7 @@
 
 
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        
 
         jQuery('#tabla_item tbody').on( "click", ".bt-eliminar",function(){
             //e.preventDefault();
@@ -850,7 +859,7 @@
         $("#btn_guardar").on('click',function() {
 
             $.ajax({
-                url: "{{route('admin.caja.venta.nuevo.guardar')}}",
+                url: "{{route('admin.dashboard')}}",
                 type: "post",
                 data: $("#formulario").serialize(),
                 success: function (data) {

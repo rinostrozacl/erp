@@ -29,7 +29,9 @@ use App\Http\Controllers\Backend\AutoCompleteController;
  */
 Route::redirect('/', '/admin/dashboard', 301);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+Route::get('refresh-csrf', function(){
+    return csrf_token();
+})->name('refreshcsrf');
 /*
  * Inicio sub menu bodega
  */
