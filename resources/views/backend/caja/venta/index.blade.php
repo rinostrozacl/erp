@@ -29,61 +29,9 @@
     <form id="formulario">
 
         <div class="row">
-            <div class="col-4 pl-0">
-                <div class="card">
-                    <div class="card-header">
-                        <strong>General </strong>
-                    </div>
-                    <div class="card-body">
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Tipo Venta</label>
-                            <div class="col-md-9 col-form-label">
-                                <div class="form-check">
-                                    <input class="form-check-input"  type="radio" value="1" name="tipo_venta">
-                                    <label class="form-check-label" for="radio1">Solo Cotizacion</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"   type="radio" value="2" name="tipo_venta">
-                                    <label class="form-check-label" for="radio1">Venta - Boleta</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"   type="radio" value="3" name="tipo_venta">
-                                    <label class="form-check-label" for="radio1">Venta - Factura</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"   type="radio" value="4" name="tipo_venta">
-                                    <label class="form-check-label" for="radio1">Venta - Guia</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input"  type="radio" value="5" name="tipo_venta">
-                                    <label class="form-check-label" for="radio1">Cargar Cotizacion</label>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label" for="hf-email">Nro </label>
-                            <div class="col-md-9">
-                                <div class="input-group">
-                                    <input class="form-control" id="input2-group2" type="text" name="input2-group2" >
-                                    <span class="input-group-append">
-                                    <button class="btn btn-primary" type="button">Buscar</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--card-body-->
-                </div><!--card-->
-
-
-            </div>
-
-
+            
             {{-- InicioCliente--}}
-            <div class="col-8 pl-0">
+            <div class="col-12 pl-0">
                 <div class="card">
                     <div class="card-header">
                         <strong>Cliente </strong>
@@ -191,7 +139,7 @@
 
 
 
-
+    <div class="row">
         {{-- Seleccion de productos--}}
         <div class="card">
             <div class="card-header">
@@ -227,7 +175,7 @@
 
                         </div>
                         <div class="col-2">
-                                  </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-5">
@@ -265,187 +213,210 @@
 
 
 
-            <div class="table-responsive">
-                <table class="table dataTable-small" id="tabla_busqueda">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Stock</th>
-                        <th>Neto</th>
-                        <th>Desc</th>
-                        <th>IVA</th>
-                        <th>Total</th>
-                        <th></th>
-                        {{--<th>Acción</th>--}}
-
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div> <!--table-responsive-->
-            <h4>Productos agregados</h4>
-                <div class="table-responsive">
-                    <table class="table dataTable-small" id="tabla_venta">
-                        <thead>
-                        <tr>
-                            <th width="50%">Nombre</th>
-                            <th width="5%">Cantidad</th>
-                            <th width="10%">Val Neto</th>
-                            <th width="10%">SubTotal</th>
-                            <th width="10%">IVA</th>
-                            <th width="10%">Total</th>
-                            <th width="5%"> </th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-
-                        <tfoot>
+                    <div class="table-responsive">
+                        <table class="table dataTable-small" id="tabla_busqueda">
+                            <thead>
                             <tr>
-                                <th> </th>
-                                <th><input id="total_cantidad" name="total_cantidad" class="form-control" > </th>
-                                <th> </th>
-                                <th> <input id="total_subtotal_neto" name="total_subtotal_neto" class="form-control" ></th>
-                                <th> <input id="total_iva" name="total_iva" class="form-control" ></th>
-                                <th colspan="2"> <input id="total_total" name="total_total" class="form-control" ></th>
+                                <th>Nombre</th>
+                                <th>Stock</th>
+                                <th>Neto</th>
+                                <th>Desc</th>
+                                <th>IVA</th>
+                                <th>Total</th>
+                                <th></th>
+                                {{--<th>Acción</th>--}}
 
                             </tr>
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div> <!--table-responsive-->
+
+            </div>
+        </div> <!-- card -->
+    </div> <!-- row -->
 
 
-                            <tr>
-                                <th colspan="1" class="text-right">
+    <div class="row">
+            <div class="col-12 pl-0">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Productos agregados</strong>
+                    </div>
+                    <div class="card-body">
 
-                                </th>
-                                <th colspan="2" class="text-right">
-                                    <input id="pago-total-efectivo" class="form-control"  type="number" name="pago-total-efectivo"
-                                    placeholder="Paga con?" >
-                                </th>
-                                <th colspan="1" class="text-right">
-                                        <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-efectivo">
-                                            Pagar
-                                            <i class="fa fa-angle-double-right"></i>
-                                        </button>
-                                 </th>
-                                <th colspan="1" class="text-right">
-                                    Efectivo
-                                </th>
-                                <th colspan="2">
-                                     <input id="pago_efectivo" class="input-pago form-control" name="pago_efectivo" type="number">
-                                </th>
+                        <div class="table-responsive">
+                            <table class="table dataTable-small" id="tabla_venta">
+                                <thead>
+                                <tr>
+                                    <th width="50%">Nombre</th>
+                                    <th width="5%">Cantidad</th>
+                                    <th width="10%">Val Neto</th>
+                                    <th width="10%">SubTotal</th>
+                                    <th width="10%">IVA</th>
+                                    <th width="10%">Total</th>
+                                    <th width="5%"> </th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+
+                                </tbody>
+
+                            <tfoot>
+                            
+                                    <tr>
+                                        <th> </th>
+                                        <th><input id="total_cantidad" name="total_cantidad" class="form-control" > </th>
+                                        <th> </th>
+                                        <th> <input id="total_subtotal_neto" name="total_subtotal_neto" class="form-control" ></th>
+                                        <th> <input id="total_iva" name="total_iva" class="form-control" ></th>
+                                        <th colspan="2"> <input id="total_total" name="total_total" class="form-control" ></th>
+
+                                    </tr>
+                        
+                            </tfoot>
+                                
+                            </table>
+                        </div> <!--table-responsive-->
+
+                    </div><!--card-body-->
+
+                </div><!--card-->
+            </div>
+    </div>
+
+     {{-- Fin seleccion de productos--}}
+        
+
+    <div class="row">
+
+        <div class="col-12 pl-0">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Ingreso y pago</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Tipo Venta</label>
+                                <div class="col-md-9 col-form-label">
+                                    <div class="form-check">
+                                        <input class="form-check-input"  type="radio" value="1" name="tipo_venta">
+                                        <label class="form-check-label" for="radio1">Solo Cotizacion</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"   type="radio" value="2" name="tipo_venta">
+                                        <label class="form-check-label" for="radio1">Venta - Boleta</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"   type="radio" value="3" name="tipo_venta">
+                                        <label class="form-check-label" for="radio1">Venta - Factura</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"   type="radio" value="4" name="tipo_venta">
+                                        <label class="form-check-label" for="radio1">Venta - Guia</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"  type="radio" value="5" name="tipo_venta">
+                                        <label class="form-check-label" for="radio1">Cargar Cotizacion</label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="hf-email">Nro </label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <input class="form-control" id="input2-group2" type="text" name="input2-group2" >
+                                        <span class="input-group-append">
+                                        <button class="btn btn-primary" type="button">Buscar</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-9">
+                            <div class="table-responsive">
+                                <table class="table dataTable-small" id="tabla_fin">
+                                    
+
+                                    @foreach ($pago_tipos as $pago_tipo)
+                                    
+                                        <tr>
+                                        <th colspan="1" class="text-right"></th>
+                                        <th colspan="2" class="text-right">
+                                            <input id="pago-{{$pago_tipo->id}}" class="form-control"   name="comprobantes[{{$pago_tipo->id}}]"
+                                            placeholder="{{$pago_tipo->texto}}" >
+                                        </th>
+                                        <th colspan="1" class="text-right">
+                                                <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-{{$pago_tipo->id}}">
+                                                    Pagar
+                                                    <i class="fa fa-angle-double-right"></i>
+                                                </button>
+                                        </th>
+                                        <th colspan="1" class="text-right">{{$pago_tipo->nombre}}</th>
+                                        <th colspan="2">
+                                            <input id="pago-final-{{$pago_tipo->id}}" class="input-pago form-control" name="pagos[{{$pago_tipo->id}}]" type="number">
+                                        </th>
+                                        </tr>
+
+                                        @endforeach
+
+                                    
+
+                                        <tr>
+                                            <th colspan="5" class="text-right">Total pagado</th>
+                                            <th colspan="2">  <input id="pagado" class="form-control" type="number" name="pagado" readonly> </th>
+                                        </tr>
+
+                                        <tr>
+                                            <th colspan="5" class="text-right">Pendiente</th>
+                                            <th colspan="2"> <input id="pendiente_pago" readonly type="number"  class="form-control" name="pendiente_pago" readonly ></th>
+                                        </tr>
+
+                                        <tr>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th colspan="3">
+                                            
+                                            <input class="form-check-input" type="checkbox" name="venta_adelanto" id="venta_adelanto" value="">Venta con adelanto
+
+                                                <button class="btn btn-md btn-success float-right" type="button" id="btn_guardar">
+                                                    <i class="fa fa-dot-circle-o"></i>
+                                                    Finalizar
+                                                </button>
+                                                <button class="btn btn-md btn-danger float-right" type="reset">
+                                                    <i class="fa fa-ban"></i>
+                                                    Cancelar
+                                                </button>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--card-body-->
+            </div><!--card-->
+        </div>
+    </div>
 
 
-                            </tr>
-                            <tr>
-                                <th colspan="1" class="text-right">
+        
 
-                                </th>
-                                <th colspan="2" class="text-right">
-                                    <input id="pago_tarjeta_nro" class="form-control"  type="number" name="pago_tarjeta_nro"
-                                    placeholder="Nº operacion" >
-                                </th>
-                                <th colspan="1" class="text-right">
-                                        <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-tarjeta">
-                                            Pagar
-                                            <i class="fa fa-angle-double-right"></i>
-                                        </button>
-                                </th>
-                                <th colspan="1" class="text-right">
-                                        Tarjeta
-                                </th>
-                                <th colspan="2">
-                                    <input id="pago_tarjeta" class="input-pago form-control" type="number">
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colspan="1" class="text-right">
-
-                                </th>
-                                <th colspan="2" class="text-right">
-                                    <input id="pago_transferencia_nro" class="form-control"  type="number" name="pago_transferencia_nro"
-                                    placeholder="Nº transferencia" >
-                                </th>
-                                <th colspan="1" class="text-right">
-                                    <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-transferencia">
-                                        Pagar
-                                        <i class="fa fa-angle-double-right"></i>
-                                    </button>
-                                </th>
-                                <th colspan="1" class="text-right">
-                                     Transferencia
-                                </th>
-                                <th colspan="2">
-                                    <input id="pago_transferencia" class="input-pago form-control"  type="number" name="pago_transferencia" >
-                                </th>
-
-                            </tr>
-                            <tr>
-                                <th colspan="3" class="text-right">
-                                        Habilitado
-                                </th>
-                                <th colspan="1" class="text-right">
-                                        <button class="btn btn-md btn-success float-right" type="button" id="btn-pago-credito">
-                                            Pagar
-                                            <i class="fa fa-angle-double-right"></i>
-                                        </button>
-                                </th>
-                                <th colspan="1" class="text-right">
-                                    Credito
-                                </th>
-                                <th colspan="2">
-                                    <input id="pago_credito" class="input-pago form-control" type="number" name="pago_credito">
-                                </th>
-                            </tr>
-
-                            <tr>
-                                <th colspan="5" class="text-right">
-                                    Total pagado
-                                </th>
-                                <th colspan="2">  <input id="pagado" class="form-control" type="number" name="pagado" readonly> </th>
-                            </tr>
-                            <tr>
-                                <th colspan="5" class="text-right">
-                                    Pendiente
-                                </th>
-                                <th colspan="2"> <input id="pendiente_pago" readonly type="number"  class="form-control" name="pendiente_pago" readonly ></th>
-                            </tr>
-
-
-
-
-                            <tr>
-                                <th> </th>
-                                <th> </th>
-                                <th> </th>
-                                <th> </th>
-                                <th colspan="3">
-                                    <button class="btn btn-md btn-success float-right" type="button" id="btn_guardar">
-                                        <i class="fa fa-dot-circle-o"></i>
-                                        Finalizar
-                                    </button>
-                                    <button class="btn btn-md btn-danger float-right" type="reset">
-                                        <i class="fa fa-ban"></i>
-                                        Cancelar
-                                    </button>
-                                <th>
-
-                                </th>
-                            </tr>
-
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div> <!--table-responsive-->
-
-            </div><!--card-body-->
-
-        </div><!--card-->
-
-       {{-- Fin seleccion de productos--}}
+      
 
 
 
@@ -545,82 +516,89 @@
             });  */
         });
 
-
-        $('#btn-pago-efectivo').click(function(e){
+        // boton pagar con efectivo 
+        $('#btn-pago-1').click(function(e){
             e.preventDefault();
-            var valor=   $('#pago-total-efectivo').val();
+            var valor=   $('#pago-1').val();
             var total_total=   $('#total_total').val();
             if(valor==""){
                 alert("Debe ingresar el monto pagado");
             }else{
+                if(valor < total_total){
+                    $('#pago-final-1').val(valor);
+                }else{
                 var vuelto= parseInt(valor) - parseInt(total_total)
                 alert("Vuelto: " + vuelto);
-                $('#pago_efectivo').val(total_total);
+                $('#pago-final-1').val(total_total);
+               
+                }
                 totales();
             }
         });
 
-        $('#pago-total-efectivo').on('keypress', function (e) {
+
+
+        $('#pago-1').on('keypress', function (e) {
             if(e.which === 13) {
                 e.preventDefault();
-                $('#btn-pago-efectivo').click();
+                $('#btn-pago-1').click();
             }
         });
 
 
 
-
-        $('#btn-pago-tarjeta').click(function(e){
+    //pago con redcompra
+        $('#btn-pago-2').click(function(e){
             e.preventDefault();
-            var nro=   $('#pago_tarjeta_nro').val();
+            var nro=   $('#pago-2').val();
             if(nro==""){
                 alert("Debe ingresar el numero de operacion del pago con tarjeta");
             }else{
                 var total_total=   $('#total_total').val();
-                $('#pago_tarjeta').val(total_total);
+                $('#pago-final-2').val(total_total);
                 totales();
             }
         });
 
-        $('#pago_tarjeta_nro').on('keypress', function (e) {
+        $('#pago-2').on('keypress', function (e) {
             if(e.which === 13) {
                 e.preventDefault();
-                $('#btn-pago-tarjeta').click();
+                $('#btn-pago-2').click();
             }
         });
 
 
 
 
-        $('#btn-pago-transferencia').click(function(e){
+        $('#btn-pago-3').click(function(e){
             e.preventDefault();
-            var nro=   $('#pago_transferencia_nro').val();
+            var nro=   $('#pago-3').val();
             if(nro==""){
-                alert("Debe ingresar el numero de operacion de la transferencia");
+                alert("Debe ingresar el número de operación de la transferencia");
             }else{
                 var total_total=   $('#total_total').val();
-                $('#pago_transferencia').val(total_total);
+                $('#pago-final-3').val(total_total);
                 totales();
             }
         });
 
-        $('#pago_transferencia_nro').on('keypress', function (e) {
+        $('#pago-3').on('keypress', function (e) {
             if(e.which === 13) {
                 e.preventDefault();
-                $('#btn-pago-transferencia').click();
+                $('#btn-pago-3').click();
             }
         });
 
 
-
-        $('#btn-pago-credito').click(function(e){
+//pago con crédito del cliente
+        $('#btn-pago-5').click(function(e){
             e.preventDefault();
 
            /* if(nro==""){
                 alert("Debe ingresar el numero de operacion de la transferencia");
             }else{ */
                 var total_total=   $('#total_total').val();
-                $('#pago_credito').val(total_total);
+                $('#pago-final-5').val(total_total);
                 totales();
             //}
         });
@@ -858,14 +836,23 @@
 
         $("#btn_guardar").on('click',function() {
 
+ 
+            var total_a_pagar =  $("#total_total").val();
+            var total_pagado =  $("#pagado").val();
+
+            if(!($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado){
+                
+                    alert("La suma total difiere del total pagado");
+                
+            }else{
+
             $.ajax({
-                url: "{{route('admin.dashboard')}}",
+                url: "{{route('admin.caja.venta.nuevo.guardar')}}",
                 type: "post",
                 data: $("#formulario").serialize(),
                 success: function (data) {
                     var respuesta = $.parseJSON( data);
                     //console.log(respuesta);
-
 
                     if(respuesta.imprimir==1){
                         alert(respuesta.mensaje);
@@ -886,6 +873,7 @@
 
                 }
             });
+            }
 
         });
 
