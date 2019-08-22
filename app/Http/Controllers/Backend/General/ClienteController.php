@@ -229,10 +229,15 @@ class ClienteController extends Controller
 
             $cliente->nombre=$request->nombre;
             $cliente->rut=$request->rut;
-            $activo=($request->activo==1)? 1:0;
-            $cliente->activo=$activo;
+            $cliente->activo= 1;
+            $cliente->telefono = $request->telefono;
+            $cliente->giro = $request->giro;
+            $cliente->direccion = $request->direccion;
+            $cliente->email = $request->email;
+            $cliente->credito = $request->credito;
+            $cliente->credito_maximo = $request->credito_maximo;
             $cliente->save();
-            return response()->json(['estado'=>1,'mensaje'=>$msg]);
+            return response()->json(['estado'=>1,'mensaje'=>$msg, 'cliente_id' => $cliente->id]);
 
         }
     }
