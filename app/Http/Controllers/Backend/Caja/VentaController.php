@@ -205,9 +205,8 @@ class VentaController extends Controller
         $list_total = $request->total;
         $tipo_venta=0;
 
-
-        if($request->cliente_id==0){
-            $respuesta["mensaje"]="Debe selecciona un cliente";
+        if($request->cliente_id==0 && $request->cliente_nuevo == ""){
+            $respuesta["mensaje"]="Debe seleccionar un cliente";
         }else if(count($list_cantidad_vendida) == 0){
             $respuesta["mensaje"]="Debe ingresar productos para vender";
         }else if(!$request->tipo_venta){
@@ -227,7 +226,12 @@ class VentaController extends Controller
 
 
             $venta->venta_estado_id= $tipo_venta;
-            $venta->cliente_id = $request->cliente_id;
+            if($request->cliente_nuevo != ""){
+                $venta->cliente_id = $request->cliente_nuevo;
+            }else{
+                $venta->cliente_id = $request->cliente_id;
+            }
+            
 
             $venta->suma_neto = $request->total_subtotal_neto;
             $venta->iva = $request->total_iva;

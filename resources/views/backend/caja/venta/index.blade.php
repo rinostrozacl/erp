@@ -32,7 +32,8 @@
             
             {{-- InicioCliente--}}
             <div class="col-12 pl-0">
-                <div class="card">
+                <div class="card" id="card_cliente">
+                <input type="hidden" id="cliente_nuevo" name="cliente_nuevo">
                     <div class="card-header">
                         <strong>Cliente </strong>
                     </div>
@@ -109,7 +110,7 @@
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label" for="text-input" >Saldo</label>
                                 <div class="col-md-8">
-                                    <input id="credito_maximo" name="credito_maximo" class="form-control" readonly >
+                                    <input id="credito_maximo" name="credito_maximo" class="form-control" readonly>
                                 </div>
                             </div>
 
@@ -496,24 +497,41 @@
 
         $('#bt-guardar-cliente').click(function(){
             //e.preventDefault();
-            var id=  jQuery(this).val();
-            /* jQuery.ajax({
-                url: "{{ route('admin.global.info.ClienteById') }}/"+id,
-                method: 'get',
+             //var id=  jQuery(this).val();
+
+            var nombre = $("#nombre").val();
+            var rut = $("#rut").val();
+            var telefono = $("#telefono").val();
+            var email = $("#email").val();
+            var giro = $("#giro").val();
+            var direccion = $("#direccion").val();
+            var credito = $("#credito").val();
+            var credito_maximo = $("#credito_maximo").val();
+
+
+
+             jQuery.ajax({
+                url: "{{ route('admin.general.cliente.form.update') }}",
+                method: 'post',
+                data: { nombre: nombre, rut : rut,  telefono : telefono,  email : email,  giro : giro,  direccion : direccion,  credito : credito,  credito_maximo : credito_maximo},
                 success: function(data){
-                    var cliente = JSON.parse(data);
-                    $("#nombre").val(cliente.nombre);
-                    $("#rut").val(cliente.rut);
-                    $("#telefono").val(cliente.telefono);
-
-                    $("#email").val(cliente.email);
-
-                    $("#giro").html(cliente.giro);
-                    $("#direccion").val(cliente.direccion);
-                    $("#credito").val(cliente.email);
-                    $("#credito_maximo").val(cliente.email);
+                    console.log(data);
+                    var respuesta = data;
+                    if(respuesta.estado == 1){
+                        $("#cliente_nuevo").val(respuesta.cliente_id);
+                        $("#bt-guardar-cliente").attr("disabled", "true");
+                        $("#cliente_id").attr("disabled", "true");
+                        $('#cliente_id').prop('disabled', true).trigger("chosen:updated");
+                        alert(respuesta.mensaje);
+                        
+                        
+                       
+                    }else{
+                        alert("Hubo un error. Cliente no pudo ser añadido");
+                    }
+                    
                 }
-            });  */
+            });  
         });
 
         // boton pagar con efectivo 
@@ -851,7 +869,7 @@
                 type: "post",
                 data: $("#formulario").serialize(),
                 success: function (data) {
-                    var respuesta = $.parseJSON( data);
+                    var respuesta = JSON.parse(data);
                     //console.log(respuesta);
 
                     if(respuesta.imprimir==1){
