@@ -7,7 +7,7 @@ use App\Http\Controllers\Backend\General\MarcaController;
 use App\Http\Controllers\Backend\Bodega\ProductoController;
 use App\Http\Controllers\Backend\Bodega\InventarioController;
 use App\Http\Controllers\Backend\ComboController;
-
+use App\Http\Controllers\Backend\General\SucursalController;
 use App\Http\Controllers\Backend\General\FamiliaController;
 use App\Http\Controllers\Backend\General\LineaController;
 use App\Http\Controllers\Backend\General\UbicacionController;
@@ -206,6 +206,14 @@ Route::get('general/impresora/form/{id?}', [ImpresoraController::class, 'getEdit
 Route::post('general/impresora/form', [ImpresoraController::class, 'postUpdate'])->name('general.impresora.form.update');
 Route::post('general/impresora/activar', [ImpresoraController::class, 'postActivar'])->name('general.impresora.activar');
 Route::post('general/impresora/eliminar', [ImpresoraController::class, 'postEliminar'])->name('general.impresora.eliminar');
+
+
+//Sucursal
+
+Route::get('general/sucursal', [SucursalController::class, 'index'])->name('general.sucursal');
+Route::get('general/sucursal/tabla', [SucursalController::class, 'getTabla'])->name('general.sucursal.tabla');
+Route::get('general/sucursal/form/{id?}', [SucursalController::class, 'getEdit'])->name('general.sucursal.form');
+Route::post('general/sucursal/form', [SucursalController::class, 'postUpdate'])->name('general.sucursal.form.update');
 
 
 // Movimientos

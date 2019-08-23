@@ -81,6 +81,14 @@ Breadcrumbs::for('admin.general.impresora.form', function ($trail) {
     $trail->push(__('Impresoras'), route('admin.general.impresora.form'));
 });
 
+Breadcrumbs::for('admin.general.sucursal', function ($trail) {
+    $trail->push(__('Sucursales'), route('admin.general.sucursal'));
+});
+
+Breadcrumbs::for('admin.general.sucursal.form', function ($trail) {
+    $trail->push(__('Sucursales'), route('admin.general.sucursal.form'));
+});
+
 Breadcrumbs::for('admin.general.proveedor', function ($trail) {
     $trail->push(__('Proveedores'), route('admin.general.proveedor'));
 });

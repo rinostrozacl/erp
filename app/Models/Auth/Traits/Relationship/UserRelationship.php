@@ -34,4 +34,9 @@ trait UserRelationship
     {
         return $this->hasMany(PasswordHistory::class);
     }
+
+    public function sucursal() 
+	{
+		return $this->belongsTo('App\Models\Sucursal', 'sucursal_id');
+	}
 }
