@@ -138,6 +138,12 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/impresora')) }}" href="{{ route('admin.general.impresora') }}">
+                                Impresoras
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/marca')) }}" href="{{ route('admin.general.marca') }}">
                                 Marca
                             </a>

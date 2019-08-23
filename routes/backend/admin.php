@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\ComboController;
 use App\Http\Controllers\Backend\General\FamiliaController;
 use App\Http\Controllers\Backend\General\LineaController;
 use App\Http\Controllers\Backend\General\UbicacionController;
+use App\Http\Controllers\Backend\General\ImpresoraController;
 use App\Http\Controllers\Backend\General\ProveedorController;
 use App\Http\Controllers\Backend\General\DocTipoCompraController;
 use App\Http\Controllers\Backend\General\DocTipoVentaController;
@@ -196,6 +197,15 @@ Route::post('general/cliente/descuento/eliminar/DescuentoLinea', [ClienteControl
 Route::post('general/cliente/descuento/eliminar/DescuentoFamilia', [ClienteController::class, 'postEliminarDescuentoFamilia'])->name('general.cliente.descuento.eliminar.DescuentoFamilia');
 Route::post('general/cliente/descuento/eliminar/DescuentoProducto', [ClienteController::class, 'postEliminarDescuentoProducto'])->name('general.cliente.descuento.eliminar.DescuentoProducto');
 
+
+//Impresoras
+
+Route::get('general/impresora', [ImpresoraController::class, 'index'])->name('general.impresora');
+Route::get('general/impresora/tabla', [ImpresoraController::class, 'getTabla'])->name('general.impresora.tabla');
+Route::get('general/impresora/form/{id?}', [ImpresoraController::class, 'getEdit'])->name('general.impresora.form');
+Route::post('general/impresora/form', [ImpresoraController::class, 'postUpdate'])->name('general.impresora.form.update');
+Route::post('general/impresora/activar', [ImpresoraController::class, 'postActivar'])->name('general.impresora.activar');
+Route::post('general/impresora/eliminar', [ImpresoraController::class, 'postEliminar'])->name('general.impresora.eliminar');
 
 
 // Movimientos
