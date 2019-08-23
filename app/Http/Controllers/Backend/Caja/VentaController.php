@@ -15,6 +15,7 @@ use App\Models\Impresora;
 use App\Models\Cliente;
 use App\Models\Marca;
 use App\Models\Ubicacion;
+use App\Models\Sucursal;
 use App\Models\Producto;
 use App\Models\UnidadMedida;
 use App\Models\Linea;
@@ -214,7 +215,7 @@ class VentaController extends Controller
         }else{
 
 
-            $impresora_bodega = Impresora::find(1);
+            $impresora_bodega = Impresora::find(Auth::user()->sucursal->impresora_id);
 
             if($request->tipo_venta == 2 || $request->tipo_venta == 3 ||  $request->tipo_venta == 4   ){
                 $tipo_venta=2;

@@ -169,6 +169,12 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/sucursal')) }}" href="{{ route('admin.general.sucursal') }}">
+                                Sucursal
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/proveedor')) }}" href="{{ route('admin.general.proveedor') }}">
                                 Proveedor
                             </a>
