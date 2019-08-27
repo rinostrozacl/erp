@@ -40,9 +40,8 @@ class BodegaController extends Controller
         $bag['tipos_movimiento']= MovimientoTipo::all();
         $bag['doc_tipo_compra']= DocTipoCompra::all();
         $bag['proveedor']= Proveedor::all();
-        $bag['ventas']= Venta::where("venta_estado_id",2)->orWhere("venta_estado_id",4)->get();
-
-
+        $ventas =Venta::with('user')->where("venta_estado_id",2)->orWhere("venta_estado_id",4)->get();
+        $bag['ventas'] = $ventas->where("user.sucursal_id",Auth::user()->sucursal_id);
 
 
         //dd($request);

@@ -25,4 +25,8 @@ class Venta extends Model
 	{
 		return $this->hasMany('App\Models\VentaPagoTipo', 'venta_id');
 	}
+	public function user() 
+	{
+		return $this->belongsTo('App\Models\Auth\User', 'user_id');
+	}
 }
