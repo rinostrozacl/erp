@@ -73,6 +73,22 @@ Breadcrumbs::for('admin.general.ubicacion.form', function ($trail) {
     $trail->push(__('Ubicaciones'), route('admin.general.ubicacion.form'));
 });
 
+Breadcrumbs::for('admin.general.impresora', function ($trail) {
+    $trail->push(__('Impresoras'), route('admin.general.impresora'));
+});
+
+Breadcrumbs::for('admin.general.impresora.form', function ($trail) {
+    $trail->push(__('Impresoras'), route('admin.general.impresora.form'));
+});
+
+Breadcrumbs::for('admin.general.sucursal', function ($trail) {
+    $trail->push(__('Sucursales'), route('admin.general.sucursal'));
+});
+
+Breadcrumbs::for('admin.general.sucursal.form', function ($trail) {
+    $trail->push(__('Sucursales'), route('admin.general.sucursal.form'));
+});
+
 Breadcrumbs::for('admin.general.proveedor', function ($trail) {
     $trail->push(__('Proveedores'), route('admin.general.proveedor'));
 });

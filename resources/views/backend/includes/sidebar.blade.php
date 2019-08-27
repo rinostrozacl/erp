@@ -138,6 +138,12 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/impresora')) }}" href="{{ route('admin.general.impresora') }}">
+                                Impresoras
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/marca')) }}" href="{{ route('admin.general.marca') }}">
                                 Marca
                             </a>
@@ -159,6 +165,12 @@
                         <li class="nav-item">
                             <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/ubicacion')) }}" href="{{ route('admin.general.ubicacion') }}">
                                 Ubicación
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/general/sucursal')) }}" href="{{ route('admin.general.sucursal') }}">
+                                Sucursal
                             </a>
                         </li>
 

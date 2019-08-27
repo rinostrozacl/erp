@@ -4,6 +4,7 @@
 public/images
 /storage/*.key
 /vendor
+/docker
 /.idea
 /.vagrant
 /.circleci
@@ -29,3 +30,7 @@ output.txt
 coverage.xml
 /coverage
 .phpunit.result.cache
+.env.bak.vessel
+vessel
+composer.lock
+docker-compose.yml

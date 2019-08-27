@@ -20,4 +20,9 @@ class Venta extends Model
 	{
 		return $this->hasMany('App\Models\VentaDetalle', 'venta_id');
 	}
+
+	public function venta_pago_tipo() 
+	{
+		return $this->hasMany('App\Models\VentaPagoTipo', 'venta_id');
+	}
 }

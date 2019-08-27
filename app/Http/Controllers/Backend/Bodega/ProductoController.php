@@ -135,7 +135,7 @@ class ProductoController extends Controller
             $producto->unidad_medida_id=$request->unidad_medida_id;
             $producto->familia_id=$request->familia_id;
             $producto->marca_id=$request->marca_id;
-            $producto->valor_neto_venta=$request->valor_neto_venta;
+            $producto->valor_neto_venta = str_replace(",", ".", $request->valor_neto_venta);
 
             $activo=($request->activo==1)? 1:0;
             $producto->activo=$activo;

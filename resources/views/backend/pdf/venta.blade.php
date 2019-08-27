@@ -165,11 +165,11 @@
             <table class="table table-striped">
                 <thead class="linea-top">
                     <tr>
-                        <th class="center" width="5%">#</th>
+                        <th class="center" width="10%">#</th>
                         <th>Descripcion</th>
-                        <th class="center" width="5%">Cantidad</th>
-                        <th class="right" width="5%">Valor unitario</th>
-                        <th class="right" width="5%">Valor neto</th>
+                        <th class="center" width="10%">Cantidad</th>
+                        <th class="right" width="10%">Valor unitario</th>
+                        <th class="right" width="10%">Valor neto</th>
                     </tr>
                 </thead>
                 <tbody class="linea-bot">

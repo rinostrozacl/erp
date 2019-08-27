@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Backend\Caja;
 use App\Models\Impresion;
 use App\Models\ImpresionDetalle;
 use App\Models\Venta;
+use App\Models\VentaPagoTipo;
+use App\Models\PagoTipo;
 use App\Models\VentaDetalle;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -13,6 +15,7 @@ use App\Models\Impresora;
 use App\Models\Cliente;
 use App\Models\Marca;
 use App\Models\Ubicacion;
+use App\Models\Sucursal;
 use App\Models\Producto;
 use App\Models\UnidadMedida;
 use App\Models\Linea;
@@ -32,6 +35,7 @@ class VentaController extends Controller
      */
     public function index()
     {
+        $pago_tipos = PagoTipo::where('activo',1)->get();
         $marcas = Marca::where('activo',1)->get();
         $ubicacion = Ubicacion::where('activo',1)->where('is_inventariable',1)->get();
         $familias = Familia::where('activo',1)->where('linea_id',0)->get();
@@ -46,7 +50,8 @@ class VentaController extends Controller
             ->with('ubicacion',$ubicacion)
             ->with('lineas',$lineas)
             ->with('marcas',$marcas)
-            ->with('familias',$familias);
+            ->with('familias',$familias)
+            ->with('pago_tipos',$pago_tipos);
     }
 
 
@@ -201,9 +206,8 @@ class VentaController extends Controller
         $list_total = $request->total;
         $tipo_venta=0;
 
-
-        if($request->cliente_id==0){
-            $respuesta["mensaje"]="Debe selecciona un cliente";
+        if($request->cliente_id==0 && $request->cliente_nuevo == ""){
+            $respuesta["mensaje"]="Debe seleccionar un cliente";
         }else if(count($list_cantidad_vendida) == 0){
             $respuesta["mensaje"]="Debe ingresar productos para vender";
         }else if(!$request->tipo_venta){
@@ -211,7 +215,7 @@ class VentaController extends Controller
         }else{
 
 
-            $impresora_bodega = Impresora::find(1);
+            $impresora_bodega = Impresora::find(Auth::user()->sucursal->impresora_id);
 
             if($request->tipo_venta == 2 || $request->tipo_venta == 3 ||  $request->tipo_venta == 4   ){
                 $tipo_venta=2;
@@ -223,21 +227,52 @@ class VentaController extends Controller
 
 
             $venta->venta_estado_id= $tipo_venta;
-            $venta->cliente_id = $request->cliente_id;
+            if($request->cliente_nuevo != ""){
+                $venta->cliente_id = $request->cliente_nuevo;
+            }else{
+                $venta->cliente_id = $request->cliente_id;
+            }
+            
 
             $venta->suma_neto = $request->total_subtotal_neto;
             $venta->iva = $request->total_iva;
             $venta->total = $request->total_total;
             $venta->pagado = $request->pagado;
             $venta->pendiente_pago = $request->pendiente_pago;
-            $venta->pago_efectivo = $request->pago_efectivo;
-            $venta->pago_tarjeta = $request->pago_tarjeta;
-            $venta->pago_tarjeta_nro = $request->pago_tarjeta_nro;
-            $venta->pago_transferencia = $request->pago_transferencia;
-            $venta->pago_transferencia_nro = $request->pago_transferencia_nro;
-            $venta->pago_credito = $request->pago_credito;
+            // $venta->pago_efectivo = $request->pago_efectivo;
+            // $venta->pago_tarjeta = $request->pago_tarjeta;
+            // $venta->pago_tarjeta_nro = $request->pago_tarjeta_nro;
+            // $venta->pago_transferencia = $request->pago_transferencia;
+            // $venta->pago_transferencia_nro = $request->pago_transferencia_nro;
+            // $venta->pago_credito = $request->pago_credito;
+            //se reemplaza por venta_pago_tipo
             $venta->user_id = Auth::user()->id;
             $venta->save();
+
+            //Venta tipo pago 
+            
+            $comprobantes = $request->comprobantes;
+            $pagos = $request->pagos;
+
+            foreach ($pagos as $clave => $valor) {
+                if($valor != ""){
+                    $venta_pago_tipo = new VentaPagoTipo();
+                    $venta_pago_tipo->venta_id = $venta->id;
+                    $venta_pago_tipo->pago_tipo_id = $clave;
+                    $venta_pago_tipo->monto = $valor;
+
+                    if($comprobantes[$clave] == 1){
+                        $venta_pago_tipo->comprobante = 0;
+                    }else{
+                        $venta_pago_tipo->comprobante = $comprobantes[$clave];
+                    }
+
+                    $venta_pago_tipo->save();
+
+                }
+            }
+           
+            //fin tipo pago
 
             $respuesta["venta_id"]=$venta->id;
 
