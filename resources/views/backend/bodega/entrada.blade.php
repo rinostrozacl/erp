@@ -28,6 +28,12 @@
     </style>
     @php
 //dd(session()->attributes);
+    if(Auth::check()){
+        $sucursal_id = Auth::user()->sucursal->id;
+    }else{
+        $sucursal_id = "";
+    }
+    
 
    @endphp
 
@@ -44,6 +50,8 @@
             </div><!--row-->
 
         <form id="formulario">
+            <input type="hidden" name="sucursal_usuario"   id="sucursal_usuario" value="{{$sucursal_id}}" >
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -60,7 +68,6 @@
                                                 @foreach($bag['tipos_movimiento'] as $tm)
                                                 <option value="{{$tm->id}}">{{$tm->nombre}}</option>
                                                 @endforeach
-
                                             </select>
                                         </div>
 
@@ -345,6 +352,7 @@
         $('#movimiento_tipo_id').on('change', function() {
 
             var movimiento_tipo_id = $(this).val();
+            var sucursal = $("#sucursal_usuario").val();
 
             var action_id_origen = 0;
             var action_id_destino = 0;
@@ -367,6 +375,9 @@
                 $(".movimiento_tipo_3").removeClass('hide').addClass('show');
                 action_id_origen = 5;
                 action_id_destino = 6;
+                $("#ubicacion_origen_id").val(sucursal);
+                $("#ubicacion_origen_id").attr("disabled", true);
+
             }
             if(movimiento_tipo_id==4){
                 $(".movimiento_tipo_4").removeClass('hide').addClass('show');
