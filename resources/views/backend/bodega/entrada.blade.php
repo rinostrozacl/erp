@@ -463,6 +463,8 @@
 
         $("#btn_guardar").on('click',function() {
 
+            $("#btn_guardar").attr("disabled", "true");
+
             $.ajax({
                 url: "{{route('admin.bodega.entrada.guardar')}}",
                 type: "post",
@@ -478,6 +480,8 @@
 
                         alert("Productos ingresados correctamente");
                         location.reload();
+                    }else{
+                        $("#btn_guardar").removeAttr("disabled");
                     }
 
 
