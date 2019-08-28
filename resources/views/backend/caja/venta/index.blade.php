@@ -48,7 +48,7 @@
                                    'name' => 'cliente_id',
                                    'lista' => $clientes,
                                    'valor_seleccionado' => 0,
-                                   'msg_o' => "------",
+                                   'msg_o' => "Nuevo cliente",
                                    'class' => 'chosen-select',
                                    'elemento_editar' => null,
                                    ])
@@ -307,23 +307,23 @@
                                 <label class="col-md-3 col-form-label">Tipo Venta</label>
                                 <div class="col-md-9 col-form-label">
                                     <div class="form-check">
-                                        <input class="form-check-input"  type="radio" value="1" name="tipo_venta">
+                                        <input class="form-check-input"  type="radio" value="1" name="tipo_venta" id="tp_1">
                                         <label class="form-check-label" for="radio1">Solo Cotizacion</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"   type="radio" value="2" name="tipo_venta">
+                                        <input class="form-check-input"   type="radio" value="2" name="tipo_venta" id="tp_2">
                                         <label class="form-check-label" for="radio1">Venta - Boleta</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"   type="radio" value="3" name="tipo_venta">
+                                        <input class="form-check-input"   type="radio" value="3" name="tipo_venta" id="tp_3">
                                         <label class="form-check-label" for="radio1">Venta - Factura</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"   type="radio" value="4" name="tipo_venta">
+                                        <input class="form-check-input"   type="radio" value="4" name="tipo_venta" id="tp_4">
                                         <label class="form-check-label" for="radio1">Venta - Guia</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"  type="radio" value="5" name="tipo_venta">
+                                        <input class="form-check-input"  type="radio" value="5" name="tipo_venta" id="tp_5">
                                         <label class="form-check-label" for="radio1">Cargar Cotizacion</label>
                                     </div>
 
@@ -474,6 +474,23 @@
 
         $('#cliente_id').change(function(){
             //e.preventDefault();
+
+            var cliente_id = $("#cliente_id").val();
+
+            if(cliente_id != 0){
+                $("#bt-guardar-cliente").attr("disabled", "true");
+            }else{
+                $("#bt-guardar-cliente").removeAttr("disabled");
+                $("#nombre").val("");
+                $("#rut").val("");
+                $("#telefono").val("");
+                $("#email").val("");
+                $("#giro").val("");
+                $("#direccion").val("");
+                $("#credito").val("");
+                $("#credito_maximo").val("");
+            }
+
             var id=  jQuery(this).val();
             jQuery.ajax({
                 url: "{{ route('admin.global.info.ClienteById') }}/"+id,
@@ -854,13 +871,16 @@
 
         $("#btn_guardar").on('click',function() {
 
+            $("#btn_guardar").attr("disabled", "true");
  
             var total_a_pagar =  $("#total_total").val();
             var total_pagado =  $("#pagado").val();
 
-            if(!($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado){
+
+            if(!($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked"))){
                 
                     alert("La suma total difiere del total pagado");
+                    $("#btn_guardar").removeAttr("disabled");
                 
             }else{
 
@@ -875,6 +895,8 @@
                     if(respuesta.imprimir==1){
                         alert(respuesta.mensaje);
                         window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
+                        
+                        
                     }
 
 
