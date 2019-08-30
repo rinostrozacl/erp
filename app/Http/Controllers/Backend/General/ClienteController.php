@@ -234,6 +234,7 @@ class ClienteController extends Controller
             $cliente->giro = $request->giro;
             $cliente->direccion = $request->direccion;
             $cliente->email = $request->email;
+            $cliente->ciudad = $request->ciudad;
             $cliente->credito = $request->credito;
             $cliente->credito_maximo = $request->credito_maximo;
             $cliente->save();
