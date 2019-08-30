@@ -85,6 +85,13 @@
                                     <input id="email" name="email" class="form-control" >
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label" for="text-input">Ciudad</label>
+                                <div class="col-md-8">
+                                    <input id="ciudad" name="ciudad" class="form-control" >
+                                </div>
+                            </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group row">
@@ -444,6 +451,8 @@
         });
     }
 
+    
+
     setInterval(refreshToken, 3600);//1 hour 
 
     $(document).ready(function(){
@@ -454,9 +463,6 @@
         var total_iva=0;
         var total_total=0;
 
-
-
-        
 
         jQuery('#tabla_item tbody').on( "click", ".bt-eliminar",function(){
             //e.preventDefault();
@@ -485,6 +491,7 @@
                 $("#rut").val("");
                 $("#telefono").val("");
                 $("#email").val("");
+                $("#ciudad").val("");
                 $("#giro").val("");
                 $("#direccion").val("");
                 $("#credito").val("");
@@ -502,11 +509,12 @@
                     $("#telefono").val(cliente.telefono);
 
                     $("#email").val(cliente.email);
+                    $("#ciudad").val(cliente.ciudad);
 
                     $("#giro").val(cliente.giro);
                     $("#direccion").val(cliente.direccion);
-                    $("#credito").val(cliente.email);
-                    $("#credito_maximo").val(cliente.email);
+                    $("#credito").val(cliente.credito);
+                    $("#credito_maximo").val(cliente.credito_maximo);
                 }
             });
         });
@@ -520,6 +528,7 @@
             var rut = $("#rut").val();
             var telefono = $("#telefono").val();
             var email = $("#email").val();
+            var ciudad = $("#ciudad").val();
             var giro = $("#giro").val();
             var direccion = $("#direccion").val();
             var credito = $("#credito").val();
@@ -530,7 +539,7 @@
              jQuery.ajax({
                 url: "{{ route('admin.general.cliente.form.update') }}",
                 method: 'post',
-                data: { nombre: nombre, rut : rut,  telefono : telefono,  email : email,  giro : giro,  direccion : direccion,  credito : credito,  credito_maximo : credito_maximo},
+                data: { nombre: nombre, rut : rut,  telefono : telefono,  email : email ,  ciudad : ciudad,  giro : giro,  direccion : direccion,  credito : credito,  credito_maximo : credito_maximo},
                 success: function(data){
                     console.log(data);
                     var respuesta = data;
@@ -539,7 +548,8 @@
                         $("#bt-guardar-cliente").attr("disabled", "true");
                         $("#cliente_id").attr("disabled", "true");
                         $('#cliente_id').prop('disabled', true).trigger("chosen:updated");
-                        alert(respuesta.mensaje);
+                        alert(respuesta.mensaje + ". Continúe con la venta");
+                        
                         
                         
                        
@@ -897,6 +907,8 @@
                         window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
                         
                         
+                    }else{
+                        $("#btn_guardar").removeAttr("disabled");
                     }
 
 
@@ -911,6 +923,16 @@
                     }
 
 
+                },
+                error: function(xhr, status, error){
+                    var errorMessage = xhr.status + ': ' + xhr.statusText
+                    console.log(xhr);
+                    console.log(status);
+                    console.log(error);
+                    alert('Error - ' + errorMessage + ' - ' + xhr.responseJSON.message);
+                },
+                complete: function(data) {
+                     $("#btn_guardar").removeAttr("disabled");
                 }
             });
             }

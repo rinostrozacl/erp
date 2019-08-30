@@ -232,10 +232,17 @@
 <table class="table">
     <tr >
         <td class="center"  colspan="3" >
-            La empresa se reserva el derecho de reprogramar plazos de entrega para trabajos que la gerencia determine pertinentes.
-            Todos los trabajos son garantizados.  Sin embargo las garantías serán reprogramadas bajo el mismo orden de ingreso, en cualquier caso o motivo la empresa responderá bajo los plazos legales establecidos por la ley rigente.
-            La empresa no se responsabiliza por perdidas o daños sufridos en muestras, materiales u productos no retirados dentro de un plazo de 60 dias corridos a partir de la notificación por el medio que indico al ingresar la ot.    (Averiguar ley)
-            No se harán devoluciones por materiales que ya se hayan cortado.
+            Es obligación presentar este documento para cualquier tipo de tramite post-venta.
+
+            La empresa se reserva el derecho de reprogramar plazos de entrega.
+
+            Todos los trabajos son garantizados. Las garantías serán recepcionadas bajo el sistema de cola remota y la empresa responderá bajo los plazos y condiciones  legales establecidos por la ley vigente.
+
+            La empresa no se responsabiliza por pérdidas o daños sufridos en muestras, materiales o productos no retirados dentro de un plazo de 60 días corridos a partir de la notificación por el medio que el cliente indicó al generar este documento. 
+
+            No se harán devoluciones por materiales que se hayan cortado. 
+
+            Los términos y condiciones,contenidos en este documento reflejan exactamente lo solicitado por el cliente, por lo que se revisa y aprueba mediante firma en dos ejemplares (original comercio - copia cliente)
             <br>
             <br>
             <br>
