@@ -239,13 +239,6 @@ class VentaController extends Controller
             $venta->total = $request->total_total;
             $venta->pagado = $request->pagado;
             $venta->pendiente_pago = $request->pendiente_pago;
-            // $venta->pago_efectivo = $request->pago_efectivo;
-            // $venta->pago_tarjeta = $request->pago_tarjeta;
-            // $venta->pago_tarjeta_nro = $request->pago_tarjeta_nro;
-            // $venta->pago_transferencia = $request->pago_transferencia;
-            // $venta->pago_transferencia_nro = $request->pago_transferencia_nro;
-            // $venta->pago_credito = $request->pago_credito;
-            //se reemplaza por venta_pago_tipo
             $venta->user_id = Auth::user()->id;
             $venta->save();
 
@@ -260,14 +253,38 @@ class VentaController extends Controller
                     $venta_pago_tipo->venta_id = $venta->id;
                     $venta_pago_tipo->pago_tipo_id = $clave;
                     $venta_pago_tipo->monto = $valor;
-
-                    if($comprobantes[$clave] == 1){
+                    if($clave == 1){
                         $venta_pago_tipo->comprobante = 0;
                     }else{
                         $venta_pago_tipo->comprobante = $comprobantes[$clave];
                     }
-
                     $venta_pago_tipo->save();
+
+                    //actualizo la venta anterior, para añadir nro. de comprobantes y valores
+                    $actualizar_venta = Venta::find($venta->id);
+                    if($clave == 1){
+                        $actualizar_venta->pago_efectivo = $valor;
+                    }
+                    elseif($clave == 2){
+                        $actualizar_venta->pago_tarjeta = $valor;
+                        $actualizar_venta->pago_tarjeta_nro = $comprobantes[$clave];
+                    }
+                    elseif($clave == 3){
+                        $actualizar_venta->pago_transferencia = $valor;
+                        $actualizar_venta->pago_transferencia_nro = $comprobantes[$clave];
+                    }
+                    elseif($clave == 4){
+                        $actualizar_venta->pago_cheque = $valor;
+                        $actualizar_venta->pago_cheque_nro = $comprobantes[$clave];
+                    }
+                    //se añade campo pago_cheque_nro en BD
+                    else{
+                        $actualizar_venta->pago_credito = $valor;
+                    }
+
+                    $actualizar_venta->save();
+                        
+                   
 
                 }
             }
