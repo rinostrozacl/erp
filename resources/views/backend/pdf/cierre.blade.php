@@ -147,7 +147,7 @@
                         @endphp
                         @foreach ( $ventas as  $venta)
                         @php
-                            $efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first()->monto;   
+                            $efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first()? $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first()->monto: 0;   
                             $t_efectivo += $efectivo;
                             $pago_tarjeta =  $venta->venta_pago_tipo->where("pago_tipo_id", 2)->first()? $venta->venta_pago_tipo->where("pago_tipo_id", 2)->first()->monto: 0;   
                             $t_pago_tarjeta += $pago_tarjeta;
