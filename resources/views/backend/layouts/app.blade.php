@@ -65,7 +65,7 @@
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
 
-
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/bootstrap-select-1.13.7/dist/js/bootstrap-select.min.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/handlebars.min.js"></script>
@@ -76,13 +76,18 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function(){
-                jQuery.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+            function refreshToken(){
+                $.get('{{route('admin.refreshcsrf')}}').done(function(data){
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': data
+                        }
+                    });
                 });
-                $(".chosen-select").chosen();
-            });
+            }
+            setInterval(refreshToken, 36000);//1 hour
+            $(".chosen-select").chosen();
+        });
     </script>
     @stack('scripts')
 </body>

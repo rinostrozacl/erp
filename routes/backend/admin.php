@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\Informe\StockCriticoController;
 use App\Http\Controllers\Backend\Caja\VentaController;
 use App\Http\Controllers\Backend\Caja\CajaController;
 use App\Http\Controllers\Backend\AutoCompleteController;
+use App\Http\Controllers\Backend\Informe\VentasController;
 
 
 /*
@@ -250,6 +251,7 @@ Route::get('global/info/ClienteById/{id?}', [ComboController::class, 'ClienteByI
 Route::get('global/info/ProductoById/{id?}', [ComboController::class, 'ProductoById'])->name('global.info.ProductoById');
 Route::get('global/info/getUbicacionByAccion/{id?}', [ComboController::class, 'getUbicacionByAccion'])->name('global.info.getUbicacionByAccion');
 Route::get('global/info/getVentaById/{id?}', [ComboController::class, 'getVentaById'])->name('global.info.getVentaById');
+//Route::get('global/info/getVentaDetalleById/{id?}', [ComboController::class, 'getVentaById'])->name('global.info.getVentaById');
 
 
 Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class, 'fetchProducto'])->name('global.autocomplete.fetchProducto');
@@ -274,6 +276,10 @@ Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class,
 /*
  * Inicio sub menu Informes
  */
+
+
+Route::get('informe/ventas', [VentasController::class, 'index'])->name('informe.ventas');
+Route::get('informe/ventas/tabla', [VentasController::class, 'getTabla'])->name('informe.ventas.tabla');
 
 /*
  * Fin sub menu Informes

@@ -177,5 +177,10 @@ Breadcrumbs::for('admin.general.cliente.descuento.nuevo.producto', function ($tr
     $trail->push(__('Descuentos'), route('admin.general.cliente.descuento.nuevo.producto'));
 });
 
+
+Breadcrumbs::for('admin.informe.ventas', function ($trail) {
+    $trail->push(__('Ventas'), route('admin.informe.ventas'));
+});
+
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';
