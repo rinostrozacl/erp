@@ -341,9 +341,9 @@
                                 <label class="col-md-3 col-form-label" for="hf-email">Nro </label>
                                 <div class="col-md-9">
                                     <div class="input-group">
-                                        <input class="form-control" id="input2-group2" type="text" name="input2-group2" >
+                                        <input class="form-control" id="venta_id_buscar" type="text" name="input2-group2" >
                                         <span class="input-group-append">
-                                        <button class="btn btn-primary" type="button">Buscar</button>
+                                        <button class="btn btn-primary" type="button" id="bt-buscar-venta">Buscar</button>
                                         </span>
                                     </div>
                                 </div>
@@ -435,26 +435,12 @@
 
 @endsection
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+@push('scripts')
 
+ 
 <script>
      
  
-
-    function refreshToken(){
-        $.get('{{route('admin.refreshcsrf')}}').done(function(data){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': data
-                }
-            });
-        });
-    }
-
-    
-
-    setInterval(refreshToken, 3600);//1 hour 
-
     $(document).ready(function(){
 
         var total_cantidad=0;
@@ -877,7 +863,87 @@
         });
 
 
+        //inicio boton cargar venta anterior
+        $('body').on( "click", "#bt-buscar-venta",function(){
+            var venta_id_buscar = $("#venta_id_buscar").val();
+            $.ajax({
+                url: "{{route('admin.global.info.getVentaById')}}/"+venta_id_buscar,
+                type: "get",
+                success: function (data) {
+                    var ventas= $.parseJSON( data);
+                    console.log(ventas);
+                    $.each( ventas.venta_detalle, function( key, value ) {
+                        //console.log(value );
+                        var cantidad =value.cantidad_vendida;
+                        var producto = value.producto;
+                        var id = producto.id;
+                        var subtotal= cantidad * producto.valor_neto_venta;
+                        var iva = Math.round(subtotal*0.19);
+                        var total = Math.round(subtotal*1.19);
+                         var fila ="<tr id=\"tr-detalle-" + id + "\">" +
+                            "<td>"+producto.nombre+" ["+producto.marca.nombre+"] ["+producto.unidad_medida.nombre+"] <input type=\"hidden\"  name=\"productos_id["+ id +"]\" value=\""+id+"\" /></td>" +
+                            "<td> <input type=\"number\" class=\"input-cantidad form-control\" name=\"cantidad["+ id +"]\" value=\""+cantidad+"\" data-id=\"" + id + "\" /></td>" +
+                            "<td> <input type=\"number\" class=\"form-control\" name=\"valor_neto["+ id +"]\"  value=\"" + stripZeroes(producto.valor_neto_venta) + "\"  readonly/>  </td>" +
+                            "<td><input type=\"number\" class=\"form-control\" name=\"sub_total_neto["+ id +"]\"  value=\"" + stripZeroes(subtotal) + "\"  readonly/>   </td>" +
+                            "<td><input type=\"number\"  class=\"form-control\"name=\"iva["+ id +"]\"  value=\"" + stripZeroes(iva) + "\"  readonly/>  </td>" +
+                            "<td> <input type=\"number\"  class=\"form-control\"name=\"total["+ id +"]\"  value=\"" + stripZeroes(total) + "\"  readonly/> </td>" +
+                            "<td> <button class=\"btn btn-danger bt-eliminar\" type=\"button\" data-id=\"" + id + "\"  > [X] </button></td>" +
+                            "</tr>";
+                        $('#tabla_venta tbody').append(fila);
+                        
+                    });
+                    $("#cliente_id").val(ventas.venta.cliente_id).trigger("chosen:updated").trigger("change"); 
+                    totales();
 
+                }
+            });
+
+            
+
+           /* $.ajax({
+                url: "{{route('admin.global.info.ProductoById')}}/"+id,
+                type: "get",
+                success: function (data) {
+                    var producto = $.parseJSON( data);
+                    //console.log(respuesta);
+
+
+                    var cantidad=  parseInt($("#cantidad_"+id).val());
+                    var subtotal= cantidad * producto.valor_neto_venta;
+                    var iva = Math.round(subtotal*0.19);
+                    var total = Math.round(subtotal*1.19);
+
+                    if($("input[name='cantidad["+ id +"]']").length == 0){
+                    //alert("cilindro");
+                        var fila ="<tr id=\"tr-detalle-" + id + "\">" +
+                            "<td>"+producto.nombre+" ["+producto.marca.nombre+"] ["+producto.unidad_medida.nombre+"] <input type=\"hidden\"  name=\"productos_id["+ id +"]\" value=\""+id+"\" /></td>" +
+                            "<td> <input type=\"number\" class=\"input-cantidad form-control\" name=\"cantidad["+ id +"]\" value=\""+cantidad+"\" data-id=\"" + id + "\" /></td>" +
+                            "<td> <input type=\"number\" class=\"form-control\" name=\"valor_neto["+ id +"]\"  value=\"" + stripZeroes(producto.valor_neto_venta) + "\"  readonly/>  </td>" +
+                            "<td><input type=\"number\" class=\"form-control\" name=\"sub_total_neto["+ id +"]\"  value=\"" + stripZeroes(subtotal) + "\"  readonly/>   </td>" +
+                            "<td><input type=\"number\"  class=\"form-control\"name=\"iva["+ id +"]\"  value=\"" + stripZeroes(iva) + "\"  readonly/>  </td>" +
+                            "<td> <input type=\"number\"  class=\"form-control\"name=\"total["+ id +"]\"  value=\"" + stripZeroes(total) + "\"  readonly/> </td>" +
+                            "<td> <button class=\"btn btn-danger bt-eliminar\" type=\"button\" data-id=\"" + id + "\"  > [X] </button></td>" +
+                            "</tr>";
+                        $('#tabla_venta tbody').append(fila);
+                        console.log("Producto Nuevo");
+                    }else{
+                        var cantidad_actual = parseInt($("input[name='cantidad["+ id +"]']").val());
+                        var nueva_cantidad = cantidad_actual+cantidad;
+                        $("input[name='cantidad["+ id +"]']").val(nueva_cantidad);
+                        console.log("Producto existente");
+
+                    }
+ 
+
+                }
+            });
+
+            */
+        
+
+        });
+    //fin boton cargar venta anterior
+        
 
         $("#btn_guardar").on('click',function() {
 
@@ -982,3 +1048,4 @@
         return parseFloat(x);}
 
 </script>
+@endpush

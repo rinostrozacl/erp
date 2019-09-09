@@ -106,7 +106,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/ventas')) }}" href="{{ route('admin.informe.ventas') }}">
                             Historial de Ventas
                         </a>
                     </li>

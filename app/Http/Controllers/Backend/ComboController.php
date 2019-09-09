@@ -60,9 +60,14 @@ class ComboController extends Controller
     public function getVentaById($id)
     {
         $v["venta"] = Venta::find($id);
-        $v["venta_detalle"] = VentaDetalle::with('producto')->with('producto.familia')->with('producto.familia.linea')->where('venta_id',$id)->where('is_entregado',0)->get();
+        $v["venta_detalle"] = VentaDetalle::with('producto')->with('producto.familia')->with('producto.familia.linea')->with('producto.marca')->with('producto.unidad_medida')->where('venta_id',$id)->where('is_entregado',0)->get();
         return json_encode($v);
     }
+
+
+
+
+
 
 
     public function getUbicacionByAccion($id)
