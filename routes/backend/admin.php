@@ -19,7 +19,7 @@ use App\Http\Controllers\Backend\General\ClienteController;
 use App\Http\Controllers\Backend\Informe\MovimientoController;
 use App\Http\Controllers\Backend\Informe\StockController;
 use App\Http\Controllers\Backend\Informe\StockCriticoController;
-
+use App\Http\Controllers\Backend\Informe\ClientesController;
 use App\Http\Controllers\Backend\Caja\VentaController;
 use App\Http\Controllers\Backend\Caja\CajaController;
 use App\Http\Controllers\Backend\AutoCompleteController;
@@ -280,6 +280,14 @@ Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class,
 
 Route::get('informe/ventas', [VentasController::class, 'index'])->name('informe.ventas');
 Route::get('informe/ventas/tabla', [VentasController::class, 'getTabla'])->name('informe.ventas.tabla');
+
+/* ESTADO CUENTA CLIENTE */
+
+Route::get('informe/cliente', [ClientesController::class, 'index'])->name('informe.cliente');
+Route::get('informe/cliente/tabla', [ClientesController::class, 'getTabla'])->name('informe.cliente.tabla');
+Route::get('informe/cliente/form/{id?}', [ClientesController::class, 'getEdit'])->name('informe.cliente.form');
+Route::get('infome/cliente/form/tabla/{id?}', [ClientesController::class, 'getTablaVenta'])->name('informe.cliente.form.tabla');
+
 
 /*
  * Fin sub menu Informes
