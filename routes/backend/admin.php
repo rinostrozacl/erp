@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\Informe\MovimientoController;
 use App\Http\Controllers\Backend\Informe\StockController;
 use App\Http\Controllers\Backend\Informe\StockCriticoController;
 use App\Http\Controllers\Backend\Informe\ClientesController;
+use App\Http\Controllers\Backend\Informe\ProveedoresController;
 use App\Http\Controllers\Backend\Caja\VentaController;
 use App\Http\Controllers\Backend\Caja\CajaController;
 use App\Http\Controllers\Backend\AutoCompleteController;
@@ -288,6 +289,13 @@ Route::get('informe/cliente/tabla', [ClientesController::class, 'getTabla'])->na
 Route::get('informe/cliente/form/{id?}', [ClientesController::class, 'getEdit'])->name('informe.cliente.form');
 Route::get('infome/cliente/form/tabla/{id?}', [ClientesController::class, 'getTablaVenta'])->name('informe.cliente.form.tabla');
 
+
+/* ESTADO CUENTA PROVEEDOR */
+
+Route::get('informe/proveedor', [ProveedoresController::class, 'index'])->name('informe.proveedor');
+Route::get('informe/proveedor/tabla', [ProveedoresController::class, 'getTabla'])->name('informe.proveedor.tabla');
+Route::get('informe/proveedor/form/{id?}', [ProveedoresController::class, 'getEdit'])->name('informe.proveedor.form');
+Route::get('infome/proveedor/form/tabla/{id?}', [ProveedoresController::class, 'getTablaCompra'])->name('informe.proveedor.form.tabla');
 
 /*
  * Fin sub menu Informes
