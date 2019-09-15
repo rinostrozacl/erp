@@ -115,6 +115,11 @@
                             Historial Turnos Caja
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/cliente')) }}" href="{{ route('admin.informe.cliente') }}">
+                            Estado de cuentas Cliente
+                        </a>
+                    </li>
 
                 </ul>
             </li>
