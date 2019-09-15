@@ -135,10 +135,10 @@
                                 <table class="table table-responsive-sm table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Nombre del producto</th>
                                         <th>Código</th>
+                                        <th>Nombre del producto</th>
                                         <th>Valor neto venta</th>
-                                        <th>Valor neto costo</th>
+                                        {{-- <th>Valor neto costo</th> --}}
 
 
 
@@ -149,10 +149,10 @@
                                     @foreach ($movimiento->unidad_movimiento as $um)
 
                                         <tr>
-                                            <td>{{$um->unidad->producto->nombre}}</td>
                                             <td>{{$um->unidad->producto->codigo_ean13}}</td>
-                                            <td>{{$um->unidad->valor_neto_compra}}</td>
-                                            <td>{{$um->unidad->valor_neto_venta}}</td>
+                                            <td>{{$um->unidad->producto->nombre}}</td>
+                                            <td>{{$um->unidad->producto->valor_neto_venta}}</td>
+                                            {{-- <td>{{$um->unidad->valor_neto_venta}}</td> --}}
 
                                         </tr>
 
