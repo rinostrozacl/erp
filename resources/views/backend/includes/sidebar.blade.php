@@ -121,6 +121,12 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/proveedor')) }}" href="{{ route('admin.informe.proveedor') }}">
+                            Estado de cuentas Proveedor
+                        </a>
+                    </li>
+
                 </ul>
             </li>
 
