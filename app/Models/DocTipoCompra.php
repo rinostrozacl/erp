@@ -12,4 +12,5 @@ class DocTipoCompra extends Model
 	{
 		return $this->hasMany('App\Models\Compra', 'doc_tipo_compra_id');
 	}
+	
 }
