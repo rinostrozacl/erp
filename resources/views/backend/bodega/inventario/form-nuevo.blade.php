@@ -130,9 +130,9 @@
                     data: $('#formulario-editar').serialize(),
                     success: function(data){
                         if(data.estado==1){
-                            bootbox.alert(data.mensaje, function(){
-                                history.back(-1);
-                            });
+                            alert(data.mensaje);
+                            history.back(-1);
+                           
 
                         }
                     }

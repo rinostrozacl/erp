@@ -40,6 +40,7 @@ class ProductoController extends Controller
             ->join('familia', 'familia.id', '=', 'producto.familia_id')
             ->join('linea', 'linea.id', '=', 'familia.linea_id')
             ->select('producto.*', 'marca.nombre as marca','familia.nombre as familia','linea.nombre as linea')
+            ->where('activo',1)
             ->get();
 
 

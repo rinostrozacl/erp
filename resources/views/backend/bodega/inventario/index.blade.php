@@ -205,10 +205,10 @@
                     data: { id: id},
                     success: function(data){
                         if(data.estado==1){
-                            bootbox.alert(data.msg,function () {
-                                tabla.ajax.reload();
-                                tabla2.ajax.reload();
-                            });
+                            alert(data.msg);
+                            tabla.ajax.reload();
+                            tabla2.ajax.reload();
+                           
                         }
 
                     }
@@ -228,18 +228,22 @@
                 jQuery.ajax({
                     url: "{{ route('admin.bodega.inventario.archivar') }}",
                     method: 'post',
-                    data: { id: id},
+                    data: { 
+                        id: id, 
+                        "_token": $("meta[name='csrf-token']").attr("content")
+                    },
                     success: function(data){
                         if(data.estado==1){
 
+                            
 
-                            bootbox.confirm("Está seguro que desea archivarlo?", function(result) {
+                            var result= confirm("Está seguro que desea archivarlo?");
                                 if(result) {
                                     alert(data.msg);
                                     tabla2.ajax.reload();
                                     tabla3.ajax.reload();
                                 }
-                            });
+                          
                         }
 
                     }
