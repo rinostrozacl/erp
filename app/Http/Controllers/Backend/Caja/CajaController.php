@@ -87,6 +87,8 @@ class CajaController extends Controller
             ->with("cierres", $cierres);
     }
 
+
+
     public function rendicionCerrar(Request $request)
     {
         $cierre = CierreCaja::find($request->cierre_id);
@@ -96,6 +98,19 @@ class CajaController extends Controller
       //  return view('backend.caja.realizar-cierre')
        //     ->with("cierres", $cierres);
     }
+
+
+    public function recibirPago()
+    {
+        $ventas = Venta::where('is_pagado',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
+        dd($ventas);
+        return view('backend.caja.realizar-cierre')
+            ->with("cierres", $cierres);
+    }
+
+
+
+
 
 
 }
