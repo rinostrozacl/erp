@@ -29,4 +29,9 @@ class Venta extends Model
 	{
 		return $this->belongsTo('App\Models\Auth\User', 'user_id');
 	}
+	
+	public function periodo_contable() 
+	{
+		return $this->belongsTo('App\Models\PeriodoContable', 'periodo_contable_id');
+	}
 }

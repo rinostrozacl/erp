@@ -182,6 +182,13 @@ Breadcrumbs::for('admin.informe.ventas', function ($trail) {
     $trail->push(__('Ventas'), route('admin.informe.ventas'));
 });
 
+
+Breadcrumbs::for('admin.caja.pago.recibir.pagar', function ($trail) {
+    $trail->push(__('Recibir Pago'), route('admin.caja.pago.recibir.pagar'));
+});
+
+
+
 Breadcrumbs::for('admin.informe.cliente', function ($trail) {
     $trail->push(__('Estado de cuenta Cliente '), route('admin.informe.cliente'));
 });
@@ -197,6 +204,7 @@ Breadcrumbs::for('admin.informe.proveedor', function ($trail) {
 Breadcrumbs::for('admin.informe.proveedor.form', function ($trail) {
     $trail->push(__('Estado de cuenta Proveedor'), route('admin.informe.proveedor.form'));
 });
+
 
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';

@@ -20,6 +20,7 @@ use App\Models\Producto;
 use App\Models\UnidadMedida;
 use App\Models\Linea;
 use App\Models\Familia;
+use App\Models\PeriodoContable;
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
@@ -238,6 +239,8 @@ class VentaController extends Controller
             $venta->suma_neto = $request->total_subtotal_neto;
             $venta->iva = $request->total_iva;
             $venta->total = $request->total_total;
+ 
+ 
             if($tipo_venta == "6"){
                 $venta->pagado = "0";
                 $venta->pendiente_pago = $request->total_total;
@@ -246,7 +249,11 @@ class VentaController extends Controller
                 $venta->pagado = $request->pagado;
                 $venta->pendiente_pago = $request->pendiente_pago;
             }
+ 
+            $venta->is_pagado = ($request->pendiente_pago == 0) ?  1: 0;
             $venta->user_id = Auth::user()->id;
+            $venta->sucursal_id = Auth::user()->sucursal_id;
+            $venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
             $venta->save();
 
             //Venta tipo pago 

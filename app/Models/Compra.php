@@ -20,4 +20,8 @@ class Compra extends Model
 	{
 		return $this->hasMany('App\Models\CompraDetalle', 'compra_id');
 	}
+	public function periodo_contable() 
+	{
+		return $this->belongsTo('App\Models\PeriodoContable', 'periodo_contable_id');
+	}
 }
