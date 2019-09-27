@@ -197,6 +197,7 @@ class VentaController extends Controller
         $respuesta["correcto"]=0;
         $respuesta["imprimir"]=0;
         $respuesta["venta_id"]=0;
+        $respuesta["preventa"]=0;
 
         //dd($movimiento);
         $list_cantidad_vendida= $request->cantidad;
@@ -210,7 +211,7 @@ class VentaController extends Controller
         if($request->cliente_id==0 && $request->cliente_nuevo == ""){
             $respuesta["mensaje"]="Debe seleccionar un cliente";
         }else if(count($list_cantidad_vendida) == 0){
-            $respuesta["mensaje"]="Debe ingresar productos para vender";
+            $respuesta["mensaje"]="Debe ingresar productos para venta o preventa";
         }else if(!$request->tipo_venta){
             $respuesta["mensaje"]="Debe seleccionar tipo de venta";
         }else{
@@ -238,8 +239,17 @@ class VentaController extends Controller
             $venta->suma_neto = $request->total_subtotal_neto;
             $venta->iva = $request->total_iva;
             $venta->total = $request->total_total;
-            $venta->pagado = $request->pagado;
-            $venta->pendiente_pago = $request->pendiente_pago;
+ 
+ 
+            if($tipo_venta == "6"){
+                $venta->pagado = "0";
+                $venta->pendiente_pago = $request->total_total;
+                $respuesta["preventa"]=1;
+            }else{
+                $venta->pagado = $request->pagado;
+                $venta->pendiente_pago = $request->pendiente_pago;
+            }
+ 
             $venta->is_pagado = ($request->pendiente_pago == 0) ?  1: 0;
             $venta->user_id = Auth::user()->id;
             $venta->sucursal_id = Auth::user()->sucursal_id;
@@ -247,51 +257,55 @@ class VentaController extends Controller
             $venta->save();
 
             //Venta tipo pago 
+
+            if($tipo_venta != "6"){
             
-            $comprobantes = $request->comprobantes;
-            $pagos = $request->pagos;
+                $comprobantes = $request->comprobantes;
+                $pagos = $request->pagos;
 
-            foreach ($pagos as $clave => $valor) {
-                if($valor != ""){
-                    $venta_pago_tipo = new VentaPagoTipo();
-                    $venta_pago_tipo->venta_id = $venta->id;
-                    $venta_pago_tipo->pago_tipo_id = $clave;
-                    $venta_pago_tipo->monto = $valor;
-                    if($clave == 1){
-                        $venta_pago_tipo->comprobante = 0;
-                    }else{
-                        $venta_pago_tipo->comprobante = $comprobantes[$clave];
-                    }
-                    $venta_pago_tipo->save();
+                foreach ($pagos as $clave => $valor) {
+                    if($valor != ""){
+                        $venta_pago_tipo = new VentaPagoTipo();
+                        $venta_pago_tipo->venta_id = $venta->id;
+                        $venta_pago_tipo->pago_tipo_id = $clave;
+                        $venta_pago_tipo->monto = $valor;
+                        if($clave == 1){
+                            $venta_pago_tipo->comprobante = 0;
+                        }else{
+                            $venta_pago_tipo->comprobante = $comprobantes[$clave];
+                        }
+                        $venta_pago_tipo->save();
 
-                    //actualizo la venta anterior, para añadir nro. de comprobantes y valores
-                    $actualizar_venta = Venta::find($venta->id);
-                    if($clave == 1){
-                        $actualizar_venta->pago_efectivo = $valor;
-                    }
-                    elseif($clave == 2){
-                        $actualizar_venta->pago_tarjeta = $valor;
-                        $actualizar_venta->pago_tarjeta_nro = $comprobantes[$clave];
-                    }
-                    elseif($clave == 3){
-                        $actualizar_venta->pago_transferencia = $valor;
-                        $actualizar_venta->pago_transferencia_nro = $comprobantes[$clave];
-                    }
-                    elseif($clave == 4){
-                        $actualizar_venta->pago_cheque = $valor;
-                        $actualizar_venta->pago_cheque_nro = $comprobantes[$clave];
-                    }
-                    //se añade campo pago_cheque_nro en BD
-                    else{
-                        $actualizar_venta->pago_credito = $valor;
-                    }
+                        //actualizo la venta anterior, para añadir nro. de comprobantes y valores
+                        $actualizar_venta = Venta::find($venta->id);
+                        if($clave == 1){
+                            $actualizar_venta->pago_efectivo = $valor;
+                        }
+                        elseif($clave == 2){
+                            $actualizar_venta->pago_tarjeta = $valor;
+                            $actualizar_venta->pago_tarjeta_nro = $comprobantes[$clave];
+                        }
+                        elseif($clave == 3){
+                            $actualizar_venta->pago_transferencia = $valor;
+                            $actualizar_venta->pago_transferencia_nro = $comprobantes[$clave];
+                        }
+                        elseif($clave == 4){
+                            $actualizar_venta->pago_cheque = $valor;
+                            $actualizar_venta->pago_cheque_nro = $comprobantes[$clave];
+                        }
+                        //se añade campo pago_cheque_nro en BD
+                        else{
+                            $actualizar_venta->pago_credito = $valor;
+                        }
 
-                    $actualizar_venta->save();
-                        
-                   
+                        $actualizar_venta->save();
+                            
+                    
 
+                    }
                 }
-            }
+
+            } //end si no es preventa
            
             //fin tipo pago
 
@@ -302,6 +316,7 @@ class VentaController extends Controller
                 $impresion->nombre="Salida por venta: ". $venta->id;
                 $impresion->save();
                 $impresora_bodega->impresiones()->attach($impresion);
+                $respuesta["imprimir"]=1;
             }
             foreach ($list_cantidad_vendida as $clave => $valor) {
                 $venta_detalle= new VentaDetalle();
@@ -320,8 +335,9 @@ class VentaController extends Controller
                     $impresion_detalle->linea =  $list_cantidad_vendida[$clave] . "/". $producto->stock_disponible ."|" . $venta_detalle->producto->nombre;
                     $impresion_detalle->impresion_id = $impresion->id;
                     $impresion_detalle->save();
-
                 }
+
+                
             }
 
 
@@ -331,7 +347,7 @@ class VentaController extends Controller
 
 
 
-                $respuesta["imprimir"]=1;
+               
 
 
 

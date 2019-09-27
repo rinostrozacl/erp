@@ -25,8 +25,20 @@
 
 @section('content')
 
-
     <form id="formulario">
+
+@php
+if(Auth::user()->is_vende == "1"){
+    $estado_tabla = "";
+    $estado_check = "";
+}
+else{
+    $estado_tabla = "visibility: collapse;";
+    $estado_check = "disabled";
+}
+    
+
+@endphp
 
         <div class="row">
             
@@ -311,27 +323,31 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Tipo Venta</label>
+                                <label class="col-md-3 col-form-label">Tipo</label>
                                 <div class="col-md-9 col-form-label">
                                     <div class="form-check">
                                         <input class="form-check-input"  type="radio" value="1" name="tipo_venta" id="tp_1">
                                         <label class="form-check-label" for="radio1">Solo Cotizacion</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"   type="radio" value="2" name="tipo_venta" id="tp_2">
+                                        <input class="form-check-input"   type="radio" value="2" name="tipo_venta" id="tp_2" {{$estado_check}}>
                                         <label class="form-check-label" for="radio1">Venta - Boleta</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"   type="radio" value="3" name="tipo_venta" id="tp_3">
+                                        <input class="form-check-input"   type="radio" value="3" name="tipo_venta" id="tp_3" {{$estado_check}}>
                                         <label class="form-check-label" for="radio1">Venta - Factura</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input"   type="radio" value="4" name="tipo_venta" id="tp_4">
+                                        <input class="form-check-input"   type="radio" value="4" name="tipo_venta" id="tp_4" {{$estado_check}}>
                                         <label class="form-check-label" for="radio1">Venta - Guia</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input"  type="radio" value="5" name="tipo_venta" id="tp_5">
                                         <label class="form-check-label" for="radio1">Cargar Cotizacion</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"   type="radio" value="6" name="tipo_venta" id="tp_6">
+                                        <label class="form-check-label" for="radio1">Preventa</label>
                                     </div>
 
                                 </div>
@@ -352,7 +368,7 @@
 
                         <div class="col-9">
                             <div class="table-responsive">
-                                <table class="table dataTable-small" id="tabla_fin">
+                                <table class="table dataTable-small" id="tabla_fin" style="{{$estado_tabla}}">
                                     
 
                                     @foreach ($pago_tipos as $pago_tipo)
@@ -393,25 +409,31 @@
                                             <th> </th>
                                             <th> </th>
                                             <th> </th>
-                                            <th> </th>
-                                            <th colspan="3">
-                                            
-                                            <input class="form-check-input" type="checkbox" name="venta_adelanto" id="venta_adelanto" value="">Venta con adelanto
+                                            <th colspan="2"> </th>
+                                            <th colspan="2"><input class="form-check-input" type="checkbox" name="venta_adelanto" id="venta_adelanto" value="">Venta con adelanto</th>
 
-                                                <button class="btn btn-md btn-success float-right" type="button" id="btn_guardar">
-                                                    <i class="fa fa-dot-circle-o"></i>
-                                                    Finalizar
-                                                </button>
-                                                <button class="btn btn-md btn-danger float-right" type="reset">
-                                                    <i class="fa fa-ban"></i>
-                                                    Cancelar
-                                                </button>
+                                            
                                             <th>
 
                                             </th>
                                         </tr>
                                 </table>
 
+                                <table class="table">
+                                
+                                                <tr><td></td>
+                                                <td colspan="2"><button class="btn btn-md btn-success " type="button" id="btn_guardar">
+                                                    <i class="fa fa-dot-circle-o"></i>
+                                                    Finalizar
+                                                </button>
+                                                <button class="btn btn-md btn-danger" type="reset">
+                                                    <i class="fa fa-ban"></i>
+                                                    Cancelar
+                                                </button>
+                                                </td>
+                                                <td colspan="2">
+                                                </td></tr>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -953,7 +975,7 @@
             var total_pagado =  $("#pagado").val();
 
 
-            if(!($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked"))){
+            if(!($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked"))){
                 
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");
@@ -968,8 +990,8 @@
                     var respuesta = JSON.parse(data);
                     //console.log(respuesta);
 
+
                     if(respuesta.imprimir==1){
-                        alert(respuesta.mensaje);
                         window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
                         
                         
@@ -979,7 +1001,12 @@
 
 
                     if(respuesta.mensaje){
-                        alert(respuesta.mensaje);
+                        
+                        if(respuesta.preventa==1){
+                            alert("Preventa registrada correctamente. N°:" + respuesta.venta_id);
+                        }else{
+                            alert(respuesta.mensaje);
+                        }
                     }
 
                     if(respuesta.correcto == 1){
