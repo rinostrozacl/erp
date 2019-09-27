@@ -14,6 +14,8 @@ use App\Models\UnidadMedida;
 use App\Models\Linea;
 use App\Models\Venta;
 use App\Models\CierreCaja;
+use App\Models\PagoTipo;;
+use App\Models\VentaPagoTipo;
 use Illuminate\Http\Request;
 
 use PDF;
@@ -103,13 +105,143 @@ class CajaController extends Controller
     public function recibirPago()
     {
         $ventas = Venta::where('is_pagado',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
-        dd($ventas);
-        return view('backend.caja.realizar-cierre')
-            ->with("cierres", $cierres);
+        //dd($ventas);
+        return view('backend.caja.recibir-pago')
+            ->with("ventas", $ventas);
     }
 
 
 
+    
+
+    public function recibirPagoPagar($id)
+    {
+        $venta = Venta::find($id); 
+        $pago_tipos = PagoTipo::where('activo',1)->get();
+
+        return view('backend.caja.recibir-pago-detalle')
+        ->with("venta", $venta)
+        ->with('pago_tipos',$pago_tipos);
+
+    }
+
+     
+
+
+    
+
+    public function recibirPagoPagarProcesar(Request $request)
+    {
+
+        $respuesta["correcto"]=0;
+        $respuesta["imprimir"]=0;
+        $respuesta["venta_id"]=0;
+
+      
+
+            //$impresora_bodega = Impresora::find(Auth::user()->sucursal->impresora_id);
+
+            $venta = Venta::find($request->venta_id);
+            $venta->pagado =  $venta->pagado + $request->pagado;
+            $venta->pendiente_pago = $request->pendiente_pago;
+            $venta->is_pagado = ($request->pendiente_pago == 0) ?  1: 0;
+            //$venta->user_id = Auth::user()->id; 
+            //$venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
+            $venta->save();
+
+            //Venta tipo pago 
+            
+            $comprobantes = $request->comprobantes;
+            $pagos = $request->pagos;
+
+            foreach ($pagos as $clave => $valor) {
+                if($valor != ""){
+                    $venta_pago_tipo = new VentaPagoTipo();
+                    $venta_pago_tipo->venta_id = $venta->id;
+                    $venta_pago_tipo->pago_tipo_id = $clave;
+                    $venta_pago_tipo->monto = $valor;
+                    if($clave == 1){
+                        $venta_pago_tipo->comprobante = 0;
+                    }else{
+                        $venta_pago_tipo->comprobante = $comprobantes[$clave];
+                    }
+                    $venta_pago_tipo->save();
+
+                    //actualizo la venta anterior, para añadir nro. de comprobantes y valores
+                    $actualizar_venta = Venta::find($venta->id);
+                    if($clave == 1){
+                        $actualizar_venta->pago_efectivo = $valor;
+                    }
+                    elseif($clave == 2){
+                        $actualizar_venta->pago_tarjeta = $valor;
+                        $actualizar_venta->pago_tarjeta_nro = $comprobantes[$clave];
+                    }
+                    elseif($clave == 3){
+                        $actualizar_venta->pago_transferencia = $valor;
+                        $actualizar_venta->pago_transferencia_nro = $comprobantes[$clave];
+                    }
+                    elseif($clave == 4){
+                        $actualizar_venta->pago_cheque = $valor;
+                        $actualizar_venta->pago_cheque_nro = $comprobantes[$clave];
+                    }
+                    //se añade campo pago_cheque_nro en BD
+                    else{
+                        $actualizar_venta->pago_credito = $valor;
+                    }
+
+                    $actualizar_venta->save();
+                        
+                   
+
+                }
+            }
+           
+            //fin tipo pago
+
+            $respuesta["venta_id"]=$venta->id;
+
+            /*
+            if($tipo_venta==2){
+                $impresion = new Impresion();
+                $impresion->nombre="Salida por venta: ". $venta->id;
+                $impresion->save();
+                $impresora_bodega->impresiones()->attach($impresion);
+            }
+            foreach ($list_cantidad_vendida as $clave => $valor) {
+                $venta_detalle= new VentaDetalle();
+                $venta_detalle->valor_unitario = $list_valor_neto[$clave];
+                $venta_detalle->cantidad_vendida = $list_cantidad_vendida[$clave];
+                $venta_detalle->valor_neto = $list_sub_total_neto[$clave];
+                $venta_detalle->valor_iva = $list_iva[$clave];
+                $venta_detalle->valor_total = $list_total[$clave];
+                $venta_detalle->venta_id = $venta->id;
+                $venta_detalle->producto_id = $clave;
+                $venta_detalle->save();
+
+                $producto = Producto::find($clave);
+                if($tipo_venta==2){
+                    $impresion_detalle = new ImpresionDetalle();
+                    $impresion_detalle->linea =  $list_cantidad_vendida[$clave] . "/". $producto->stock_disponible ."|" . $venta_detalle->producto->nombre;
+                    $impresion_detalle->impresion_id = $impresion->id;
+                    $impresion_detalle->save();
+
+                }
+            }
+            */
+
+            $respuesta["mensaje"]="Registrado!";
+            $respuesta["correcto"]=1;// camniado a 0 para debug
+
+
+
+
+            $respuesta["imprimir"]=1;
+
+
+            return  json_encode($respuesta);
+        
+       
+    }
 
 
 

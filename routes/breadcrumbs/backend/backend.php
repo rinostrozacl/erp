@@ -182,5 +182,11 @@ Breadcrumbs::for('admin.informe.ventas', function ($trail) {
     $trail->push(__('Ventas'), route('admin.informe.ventas'));
 });
 
+Breadcrumbs::for('admin.caja.pago.recibir.pagar', function ($trail) {
+    $trail->push(__('Recibir Pago'), route('admin.caja.pago.recibir.pagar'));
+});
+
+
+
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';

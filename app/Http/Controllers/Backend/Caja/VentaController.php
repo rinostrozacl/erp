@@ -243,7 +243,7 @@ class VentaController extends Controller
             $venta->is_pagado = ($request->pendiente_pago == 0) ?  1: 0;
             $venta->user_id = Auth::user()->id;
             $venta->sucursal_id = Auth::user()->sucursal_id;
-            $venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first();
+            $venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
             $venta->save();
 
             //Venta tipo pago 

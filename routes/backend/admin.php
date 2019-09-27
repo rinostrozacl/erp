@@ -87,6 +87,8 @@ Route::post('caja/venta/guardad/precio', [VentaController::class, 'guardarPrecio
 
 
 Route::get('caja/pago/recibir', [CajaController::class, 'recibirPago'])->name('caja.pago.recibir');
+Route::get('caja/pago/recibir/pagar/{id?}', [CajaController::class, 'recibirPagoPagar'])->name('caja.pago.recibir.pagar');
+Route::post('caja/pago/recibir/pagar', [CajaController::class, 'recibirPagoPagarProcesar'])->name('caja.pago.recibir.pagar.procesar');
 
 Route::get('caja/turno', [CajaController::class, 'cambioTurno'])->name('caja.turno');
 Route::post('caja/turno/guardar', [CajaController::class, 'cambioTurnoGuardar'])->name('caja.turno.guardar');
