@@ -120,9 +120,70 @@
                                                     </div>
                                                 @endforeach
                                             @endif
+                                                                               
                                         </td>
                                     </tr>
                                 </tbody>
+                            </table>
+
+                            @php
+                            $checked = "";
+                            if(Auth::user()->is_entrega == 1)
+                                $check_1 = "checked";
+                            else
+                                $check_1 = "";
+
+                            if(Auth::user()->is_entrega_global == 1)
+                                $check_2 = "checked";
+                            else
+                                $check_2 = "";
+
+                            if(Auth::user()->is_vende == 1)
+                                $check_3 = "checked";
+                            else
+                                $check_3 = "";
+
+                            if(Auth::user()->is_recibe_pago == 1)
+                                $check_4 = "checked";
+                            else
+                                $check_4 = "";
+
+                            @endphp
+
+
+                            <table class="table">
+                                <tr>
+                                    <td>Otros permisos</td>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="is_entrega" name="is_entrega" {{$check_1}}>
+                                            <label class="form-check-label" for="is_entrega">
+                                                Entrega
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="is_entrega_global" name="is_entrega_global" {{$check_2}}>
+                                            <label class="form-check-label" for="is_entrega_global">
+                                                Entrega global
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="is_vende" name="is_vende" {{$check_3}}>
+                                            <label class="form-check-label" for="is_vende">
+                                                Vende
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="is_recibe_pago" name="is_recibe_pago" {{$check_4}}>
+                                            <label class="form-check-label" for="is_recibe_pago">
+                                                Recibe pago
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div><!--col-->
                     </div><!--form-group-->

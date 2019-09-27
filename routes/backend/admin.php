@@ -294,6 +294,7 @@ Route::get('infome/cliente/form/tabla/{id?}', [ClientesController::class, 'getTa
 
 Route::get('informe/proveedor', [ProveedoresController::class, 'index'])->name('informe.proveedor');
 Route::get('informe/proveedor/tabla', [ProveedoresController::class, 'getTabla'])->name('informe.proveedor.tabla');
+Route::get('informe/proveedor/tablag', [ProveedoresController::class, 'getTablaGeneral'])->name('informe.proveedor.tablag');
 Route::get('informe/proveedor/form/{id?}', [ProveedoresController::class, 'getEdit'])->name('informe.proveedor.form');
 Route::get('infome/proveedor/form/tabla/{id?}', [ProveedoresController::class, 'getTablaCompra'])->name('informe.proveedor.form.tabla');
 
