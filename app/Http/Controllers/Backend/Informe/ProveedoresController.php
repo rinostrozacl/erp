@@ -51,6 +51,39 @@ class ProveedoresController extends Controller
             ->make(true);
     }
 
+    public function getTablaGeneral(Request $request)
+    {
+
+        $compras = Compra::all();
+        
+        return Datatables::of($compras)
+            ->addColumn('dias', function ($item) {
+                $resultado = "";
+                $fecha_compra = new Carbon($item->created_at);
+                $ahora = Carbon::now();
+                if($item->is_pagado == 1){
+                    $resultado = "No aplica";
+                }
+                else{
+                    $diferencia = ($fecha_compra->diff($ahora)->days);
+                    $resultado = $diferencia;
+                }
+                
+                return $resultado;
+            })
+            ->editColumn('doc_tipo_compra_id', function ($item) {
+                return $item->doc_tipo_compra->nombre;
+            })
+            ->editColumn('is_pagado', function ($item) {
+                if($item->is_pagado == "1")
+                    return "Pagado";
+                else
+                    return "No pagado";
+            })
+            ->editColumn('id', 'ID: {{$id}}')
+            ->make(true);
+    }
+
     public function getTablaCompra($id=0, Request $request)
     {
         $compras = Compra::where('proveedor_id', $id);

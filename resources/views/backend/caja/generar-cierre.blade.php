@@ -93,10 +93,10 @@
                                         <td></td>
                                         <td></td>
                                         <td>{{ $ventas->sum('pagado') }}</td>
-                                        <td>{{ $efectivo }}  </td>
-                                        <td>{{ $pago_tarjeta }}  </td>
-                                        <td>{{ $pago_transferencia }}  </td>
-                                        <td>{{ $pago_cheque }}  </td>
+                                        <td>{{ $t_efectivo }}  </td>
+                                        <td>{{ $t_pago_tarjeta }}  </td>
+                                        <td>{{ $t_pago_transferencia }}  </td>
+                                        <td>{{ $t_pago_cheque }}  </td>
                                         <td>{{ $t_pago_credito}} </td>
                                     </tr>
                         </tfoot>

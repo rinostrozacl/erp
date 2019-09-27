@@ -110,7 +110,7 @@
             </div><!--row-->
         </div><!--card-footer-->
     </div><!--card-->
-        @csrf
+        {{-- @csrf --}}
 
 @endsection
 
@@ -125,12 +125,13 @@
                     method: 'post',
                     data: {
                         inventario_id: $('#inventario_id').val(),
+                        "_token": $("meta[name='csrf-token']").attr("content")
                     },
                     success: function(data){
                         if(data.estado==1){
-                            bootbox.alert(data.mensaje, function(){
-                                window.location.href ='{{route('admin.bodega.inventario')}}' ;
-                            });
+                            alert(data.mensaje);
+                            window.location.href ='{{route('admin.bodega.inventario')}}' ;
+                        
                         }
                     }
                 });
