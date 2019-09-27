@@ -55,11 +55,11 @@
                         </a>
                     </li>
 
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/pago/recibir')) }}" href="{{ route('admin.caja.pago.recibir') }}">
                             Recibir Pago
                         </a>
-                    </li> --}}
+                    </li> 
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/turno')) }}" href="{{ route('admin.caja.turno') }}">
@@ -113,6 +113,17 @@
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/movimiento')) }}" href="{{ route('admin.informe.movimiento') }}">
                             Historial Turnos Caja
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/cliente')) }}" href="{{ route('admin.informe.cliente') }}">
+                            Estado de cuentas Cliente
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/proveedor')) }}" href="{{ route('admin.informe.proveedor') }}">
+                            Estado de cuentas Proveedor
                         </a>
                     </li>
 
