@@ -87,7 +87,7 @@ class VentaController extends Controller
                 return $query->where('producto.familia_id', '=', $_GET['familia_id']);
             })
             ->Where($array_b)
-            ->where('activo',1)
+            ->where('producto.activo',1)
             ->limit(100)
             ->select('producto.id','producto.stock_disponible','producto.nombre',
                 'producto.codigo_ean13', 'producto.codigo_erp', 'producto.descripcion',
