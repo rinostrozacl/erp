@@ -71,7 +71,7 @@
                                 $t_pago_transferencia += $pago_transferencia;
                                 $pago_cheque =  $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first() ? $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first()->monto :0;    
                                 $t_pago_cheque += $pago_cheque;
-                                $pago_credito =  $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first() ? $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first()->monto : 0;  
+                                $pago_credito =  $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first() ? $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first()->monto : 0;  
                                 $t_pago_credito += $pago_credito;
                             @endphp
                             <tr>
