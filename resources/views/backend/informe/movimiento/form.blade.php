@@ -127,7 +127,7 @@
                         @endif
 
                         <div class="card">
-                            <div class="card-header">Detalle
+                            <div class="card-header">Detalle de unidades creadas
                                 {{--<span class="badge badge-pill badge-danger float-right">{{$movimiento->cantidad  ?? ''}}</span>--}}
                             </div>
 
@@ -137,23 +137,53 @@
                                     <tr>
                                         <th>Código</th>
                                         <th>Nombre del producto</th>
-                                        <th>Valor neto venta</th>
-                                        {{-- <th>Valor neto costo</th> --}}
-
+                                        <th>Valor neto venta</th> 
+                                        <th>Eliminar Unidad</th>
 
 
                                     </tr>
                                     </thead>
                                     <tbody>
                                     
+                                    @php
+                                        $producto_id = 0;
+                                    @endphp
                                     @foreach ($movimiento->unidad_movimiento as $um)
+                                        @if($um->unidad->producto_id != $producto_id )
+                                            <tr class="producto_{{$um->unidad->producto_id}}">
+                                                <td colspan="3">{{$um->unidad->producto->nombre}}</td> 
+                                                <td> {{-- <button class="btn btn-danger btn-sm pull-right eliminar-producto" type="button" 
+                                                    data-unidad_movimiento_id="{{$um->id}}" 
+                                                    data-movimiento_id="{{$movimiento->id}}" 
+                                                    data-unidad_id="{{$um->unidad_id}}" 
+                                                    data-producto_id="{{$um->unidad->producto_id}}" >
+                                                        Eliminar Todos
+                                                    </button> --}}
+                                                </td>
+                                            </tr>
+                                            @php
+                                                $producto_id = $um->unidad->producto_id ;
+                                            @endphp
+                                        @endif
 
-                                        <tr>
+                                        
+                                        <tr id="unidad_{{$um->id}}" class="producto_{{$um->unidad->producto_id}}">
                                             <td>{{$um->unidad->producto->codigo_ean13}}</td>
                                             <td>{{$um->unidad->producto->nombre}}</td>
-                                            <td>{{$um->unidad->producto->valor_neto_venta}}</td>
-                                            {{-- <td>{{$um->unidad->valor_neto_venta}}</td> --}}
+                                            <td>{{$um->unidad->producto->valor_neto_venta}}</td> 
+                                            <td>  
+                                                @if($um->unidad->producto->is_vendido)
+                                                    Vendido
+                                                @else
+                                                <button class="btn btn-danger btn-sm pull-right eliminar-unidad" type="button"  
+                                                    data-unidad_movimiento_id="{{$um->id}}" 
+                                                    data-unidad_id="{{$um->unidad_id}}" 
+                                                    data-producto_id="{{$um->unidad->producto_id}}"  >
+                                                    Eliminar
+                                                </button>
+                                                @endif
 
+                                            </td>
                                         </tr>
 
                                     @endforeach
@@ -195,7 +225,66 @@
 
 @push('scripts')
     <script type="text/javascript">
-        jQuery(document).ready(function(){
+        $(document).ready(function(){
+
+
+            
+            $('.eliminar-unidad').click(function(){
+                var unidad_id =   $(this).data('unidad_id');
+                var producto_id =   $(this).data('producto_id');
+                var unidad_movimiento_id =   $(this).data('unidad_movimiento_id');
+                
+                $.ajax({
+                    url: "{{ route('admin.informe.movimiento.eliminar.unidad') }}",
+                    method: 'post',
+                    data: { unidad_id:unidad_id,
+                            producto_id:producto_id,
+                            unidad_movimiento_id:unidad_movimiento_id 
+                    },
+                    success: function(data){
+                        /*jQuery.each(data.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<p>'+value+'</p>');
+                        }); */
+                        $('#unidad_'+unidad_movimiento_id).remove();
+                                                
+                    }
+
+                });
+
+            });
+
+
+            $('.eliminar-producto').click(function(){
+                var unidad_id =   $(this).data('unidad_id');
+                var producto_id =   $(this).data('producto_id');
+                var unidad_movimiento_id =   $(this).data('unidad_movimiento_id');
+                var movimiento_id =   $(this).data('movimiento_id');
+                
+                $.ajax({
+                    url: "{{ route('admin.informe.movimiento.eliminar.producto') }}",
+                    method: 'post',
+                    data: { unidad_id:unidad_id,
+                            producto_id:producto_id,
+                            unidad_movimiento_id:unidad_movimiento_id,
+                            movimiento_id:movimiento_id
+                    },
+                    success: function(data){
+                        /*jQuery.each(data.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<p>'+value+'</p>');
+                        }); */
+                        //$('#producto'+producto_id).remove();
+                           // alert("eliminado");                        
+                    }
+
+                });
+
+            });
+
+
+
+
             jQuery('#formulario-editar').submit(function(e){
                 e.preventDefault();
                 jQuery('.alert-danger').hide();

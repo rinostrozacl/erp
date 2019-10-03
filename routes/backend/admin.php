@@ -225,6 +225,8 @@ Route::post('general/sucursal/form', [SucursalController::class, 'postUpdate'])-
 Route::get('informe/movimiento', [MovimientoController::class, 'index'])->name('informe.movimiento');
 Route::get('informe/movimiento/tabla', [MovimientoController::class, 'getTabla'])->name('informe.movimiento.tabla');
 Route::get('informe/movimiento/form/{id?}', [MovimientoController::class, 'getEdit'])->name('informe.movimiento.form');
+Route::post('movimiento/unidad/eliminar', [MovimientoController::class, 'deleteUnidad'])->name('informe.movimiento.eliminar.unidad');
+Route::post('movimiento/producto/eliminar', [MovimientoController::class, 'deletaProducto'])->name('informe.movimiento.eliminar.producto');
 
 
 // Stock
@@ -282,7 +284,7 @@ Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class,
 
 
 Route::get('informe/ventas', [VentasController::class, 'index'])->name('informe.ventas');
-Route::get('informe/ventas/tabla', [VentasController::class, 'getTabla'])->name('informe.ventas.tabla');
+Route::get('informe/ventas/tabla', [VentasController::class, 'getTabla'])->name('informe.ventas.tabla'); 
 
 /* ESTADO CUENTA CLIENTE */
 

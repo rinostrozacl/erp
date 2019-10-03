@@ -85,7 +85,8 @@
                     });
                 });
             }
-            setInterval(refreshToken, 36000);//1 hour
+            setInterval(refreshToken, 5000);//1 hour
+            refreshToken();
             $(".chosen-select").chosen();
         });
     </script>

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 use App\Models\Movimiento;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
@@ -91,9 +92,52 @@ class MovimientoController extends Controller
         return view('backend.informe.movimiento.form')->with('movimiento',$movimiento);
     }
 
+    public function deleteUnidad(Request $request)
+    {
+         
+         $unidad_movimiento = UnidadMovimiento::find($request->unidad_movimiento_id);
+        // dd($unidad_movimiento);
+        $unidad_movimiento->delete();
+
+ 
+      //  UnidadMovimiento::destroy($request->unidad_movimiento_id);
+
+        $unidad = Unidad::find($request->unidad_id);
+        $unidad->delete(); 
+        
+ 
 
 
+        $producto = Producto::find($request->producto_id);
+        $producto->stock_disponible =  $producto->stock_disponible -1;
+        $producto->save();
 
+        
+        return 1;
+    }
+
+    public function deletaProducto(Request $request)
+    {
+
+
+        $unidad_movimiento = UnidadMovimiento::find($request->unidad_movimiento_id);
+        // dd($unidad_movimiento);
+        $unidad_movimiento->delete();
+
+        UnidadMovimiento::where('movimiento_id', $request->movimiento_id)->where('unidad.producto_id', $request->producto_id)->delete();
+
+
+        $unidad = Unidad::where('movimiento_id', $request->movimiento_id)->where('unidad.producto_id', $request->producto_id)->delete();
+        $unidad->delete(); 
+
+
+        $producto = Producto::find($request->producto_id);
+        $producto->stock_disponible =  $producto->stock_disponible -1;
+        $producto->save();
+
+
+        return 1;
+    }
 }
 
 
