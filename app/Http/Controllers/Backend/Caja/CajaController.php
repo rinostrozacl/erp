@@ -189,9 +189,9 @@ class CajaController extends Controller
                     else{
                         $actualizar_venta->pago_credito = $valor;
                     }
-                    */
+                    
                     $actualizar_venta->save();
-                        
+                      */  
                    
 
                 }
