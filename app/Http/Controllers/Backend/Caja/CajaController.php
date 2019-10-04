@@ -169,7 +169,7 @@ class CajaController extends Controller
                     $venta_pago_tipo->save();
 
                     //actualizo la venta anterior, para añadir nro. de comprobantes y valores
-                    $actualizar_venta = Venta::find($venta->id);
+                   /* $actualizar_venta = Venta::find($venta->id);
                     if($clave == 1){
                         $actualizar_venta->pago_efectivo = $valor;
                     }
@@ -189,7 +189,7 @@ class CajaController extends Controller
                     else{
                         $actualizar_venta->pago_credito = $valor;
                     }
-
+                    */
                     $actualizar_venta->save();
                         
                    
