@@ -257,6 +257,7 @@ class VentaController extends Controller
             $venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
             $venta->save();
 
+            //$2y$12$ShzXqI.b7N1mkNjr7kLcQuGD5MqGTBfnUBsugEU/kqPqnI83.VJsC
             //Venta tipo pago 
 
             if($tipo_venta != "6"){
@@ -270,6 +271,7 @@ class VentaController extends Controller
                         $venta_pago_tipo->venta_id = $venta->id;
                         $venta_pago_tipo->pago_tipo_id = $clave;
                         $venta_pago_tipo->monto = $valor;
+                        $venta_pago_tipo->user_id = Auth::user()->id;
                         if($clave == 1){
                             $venta_pago_tipo->comprobante = 0;
                         }else{

@@ -38,7 +38,7 @@ class CajaController extends Controller
 
     public function cambioTurno()
     {
-        $ventas = Venta::where('is_rendido',0)->where('user_id',Auth::user()->id)->get();
+        $ventas = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
        //Cliente::all();
         return view('backend.caja.generar-cierre')
             ->with("ventas", $ventas);
@@ -160,6 +160,7 @@ class CajaController extends Controller
                     $venta_pago_tipo->venta_id = $venta->id;
                     $venta_pago_tipo->pago_tipo_id = $clave;
                     $venta_pago_tipo->monto = $valor;
+                    $venta_pago_tipo->user_id = Auth::user()->id;
                     if($clave == 1){
                         $venta_pago_tipo->comprobante = 0;
                     }else{

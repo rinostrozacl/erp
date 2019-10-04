@@ -16,5 +16,9 @@ class VentaPagoTipo extends Model
 	{
 		return $this->belongsTo('App\Models\PagoTipo', 'pago_tipo_id');
 	}
+	public function user() 
+	{
+		return $this->belongsTo('App\Models\Auth\User', 'user_id');
+	}
 	
 }
