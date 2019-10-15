@@ -44,9 +44,8 @@
                             <tr>
                                 <th>Nro</th>
                                 <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Total venta</th>
-                                <th>Total Pagos</th>
+                                <th>Cliente</th> 
+                                <th>Total pagado</th>
                                 <th>Efectivo</th>
                                 <th>Tarjeta</th>
                                 <th>Transferencia</th>
@@ -65,7 +64,7 @@
                             @endphp
                             @foreach ( $ventas as  $venta)
                                 @php
-                                    $t_total =0;
+                                     
 
                                     $user_id= auth()->user()->id;
                                     $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first();
@@ -95,8 +94,7 @@
                                 <tr>
                                     <td>{{ $venta->id }}</td>
                                     <td>{{ $venta->created_at }}</td>
-                                    <td>{{ $venta->cliente->nombre }}</td>
-                                    <td>{{ $venta->pagado }}</td>
+                                    <td>{{ $venta->cliente->nombre }}</td> 
                                     <td>{{ $t_total  }}</td>
                                     <td>{{ $efectivo }}</td>
                                     <td>{{ $pago_tarjeta }}</td>
@@ -110,8 +108,7 @@
                                 <tr>
                                         <td> </td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td></td> 
                                         <td>{{ $t_total }}</td>
                                         <td>{{ $t_efectivo }}  </td>
                                         <td>{{ $t_pago_tarjeta }}  </td>
