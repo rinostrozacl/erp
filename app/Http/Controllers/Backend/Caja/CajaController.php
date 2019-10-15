@@ -105,7 +105,7 @@ class CajaController extends Controller
 
     public function recibirPago()
     {
-        $ventas = Venta::where('is_pagado',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
+        $ventas = Venta::where('is_pagado',0)->where('sucursal_id',Auth::user()->sucursal_id)->orderBy("id", "desc")->get();
         //dd($ventas);
         return view('backend.caja.recibir-pago')
             ->with("ventas", $ventas);
