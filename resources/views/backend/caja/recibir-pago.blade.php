@@ -69,7 +69,7 @@
                                 <td> <a href="{{ route('admin.caja.pago.recibir.pagar',$venta->id ) }}" 
                                         class="btn btn-sm btn-block btn-success">
                                             <i class="glyphicon glyphicon-edit"></i> Ingresar
-                                    </a> ';
+                                    </a> 
                                 </td>
                             </tr>
                             @endforeach
@@ -149,7 +149,9 @@
                     alert("Caja cerrada");
                     window.open('{{ route('admin.caja.turno.verimprimir') }}/' + respuesta, '_blank');
                     alert("Comprobante generado");
-                    location.reload();
+                     
+                    //location.reload();
+                  
                 }
             });
 

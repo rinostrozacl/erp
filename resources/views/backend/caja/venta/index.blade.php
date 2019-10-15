@@ -28,13 +28,16 @@
     <form id="formulario">
 
 @php
-if(Auth::user()->is_vende == "1"){
+if(Auth::user()->is_recibe_pago == 1){
     $estado_tabla = "";
     $estado_check = "";
+    $valida_pago = "true";
 }
 else{
     $estado_tabla = "visibility: collapse;";
     $estado_check = "disabled";
+    $valida_pago = "false";
+
 }
     
 
@@ -341,10 +344,10 @@ else{
                                         <input class="form-check-input"   type="radio" value="4" name="tipo_venta" id="tp_4" {{$estado_check}}>
                                         <label class="form-check-label" for="radio1">Venta - Guia</label>
                                     </div>
-                                    <div class="form-check">
+                                    {{-- <div class="form-check">
                                         <input class="form-check-input"  type="radio" value="5" name="tipo_venta" id="tp_5">
                                         <label class="form-check-label" for="radio1">Cargar Cotizacion</label>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-check">
                                         <input class="form-check-input"   type="radio" value="6" name="tipo_venta" id="tp_6">
                                         <label class="form-check-label" for="radio1">Preventa</label>
@@ -975,59 +978,73 @@ else{
             var total_pagado =  $("#pagado").val();
 
 
-            if(!($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked"))){
+
+            if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) ) && {{ $valida_pago}}){
                 
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");
                 
             }else{
 
-            $.ajax({
-                url: "{{route('admin.caja.venta.nuevo.guardar')}}",
-                type: "post",
-                data: $("#formulario").serialize(),
-                success: function (data) {
-                    var respuesta = JSON.parse(data);
-                    //console.log(respuesta);
+                var tipo_venta =   $("input[name='tipo_venta'").val();
+                if(tipo_venta>0){
+                    $.ajax({
+                        url: "{{route('admin.caja.venta.nuevo.guardar')}}",
+                        type: "post",
+                        data: $("#formulario").serialize(),
+                        success: function (data) {
+                            var respuesta = JSON.parse(data);
+                            //console.log(respuesta);
+
+                            
+                                
+                            if(respuesta.imprimir==1){
+                                window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
+                                
+                            }else{
+                                $("#btn_guardar").removeAttr("disabled");
+                            }
 
 
-                    if(respuesta.imprimir==1){
-                        window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
-                        
-                        
-                    }else{
-                        $("#btn_guardar").removeAttr("disabled");
-                    }
+                            if(respuesta.mensaje){
+                                
+                                if(respuesta.preventa==1){
+                                    alert("Preventa registrada correctamente. N°:" + respuesta.venta_id);
+                                }else{
+                                    alert(respuesta.mensaje);
+                                    
+                                }
+                            }
+
+                            if(respuesta.correcto == 1){
+
+                                location.reload();
+                            }
 
 
-                    if(respuesta.mensaje){
-                        
-                        if(respuesta.preventa==1){
-                            alert("Preventa registrada correctamente. N°:" + respuesta.venta_id);
-                        }else{
-                            alert(respuesta.mensaje);
+                        },
+                        error: function(xhr, status, error){
+                            var errorMessage = xhr.status + ': ' + xhr.statusText
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                            alert('Error - ' + errorMessage + ' - ' + xhr.responseJSON.message);
+                        },
+                        complete: function(data) {
+                            $("#btn_guardar").removeAttr("disabled");
                         }
-                    }
-
-                    if(respuesta.correcto == 1){
+                    });
 
 
-                        location.reload();
-                    }
-
-
-                },
-                error: function(xhr, status, error){
-                    var errorMessage = xhr.status + ': ' + xhr.statusText
-                    console.log(xhr);
-                    console.log(status);
-                    console.log(error);
-                    alert('Error - ' + errorMessage + ' - ' + xhr.responseJSON.message);
-                },
-                complete: function(data) {
-                     $("#btn_guardar").removeAttr("disabled");
+                    
+                }else{
+                    alert("Debe  Seleccionar un tipo de operacion");
+                    $("#btn_guardar").removeAttr("disabled");
                 }
-            });
+                
+
+
+
             }
 
         });

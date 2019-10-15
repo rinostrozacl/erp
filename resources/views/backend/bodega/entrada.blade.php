@@ -121,12 +121,16 @@
                                         <div class="form-group row movimiento_tipo_3 hide">
                                             <label for="vat" class="col-sm-4"></label>
 
+                                            @if(count($bag['ventas'])>0) 
                                             <select class="form-control col-sm-8" data-live-search="true" id="venta_id" name="venta_id">
-                                                <option value="0">Buscador</option>
+                                                <option value="0">Seleccione venta</option>
                                                 @foreach($bag['ventas'] as $p)
                                                     <option value="{{$p->id}}">(Nº:{{$p->id}}) {{$p->cliente->nombre}}</option>
                                                 @endforeach
                                             </select>
+                                            @else 
+                                                No hay ventas que entregar
+                                            @endif
                                         </div>
 
 
@@ -476,9 +480,24 @@
                         alert(respuesta.mensaje);
                     }
 
-                    if(respuesta.correcto == 1){
+                        if(respuesta.correcto == 1){
+                        var movimiento_tipo_id =  $('#movimiento_tipo_id').val();
+                        if(movimiento_tipo_id==1){ // Entrada compra
+                            alert("Productos ingresados correctamente");
+                        }
+                        if(movimiento_tipo_id==2){
+                            alert("Productos XX correctamente");
+                        }
+                        if(movimiento_tipo_id==3){ // Salida a cliente
+                            alert("Productos descontados correctamente");
 
-                        alert("Productos ingresados correctamente");
+                        }
+                        if(movimiento_tipo_id==4){
+                            alert("Productos XXX correctamente");
+                        }
+
+
+
                         location.reload();
                     }else{
                         $("#btn_guardar").removeAttr("disabled");
@@ -519,32 +538,36 @@
                         $.each(respuesta.venta_detalle, function(index, detalle) {
                            // $("#ubicacion_destino_id").append('<option value=' + name.id + '>' + name.nombre + '</option>');
                            console.log(detalle);
-
-
                             //alert("cilindro");
                             var producto_id = detalle.producto_id;
+                            var is_entregado = detalle.is_entregado;
                             var producto = detalle.producto;
                             var cantidad = parseInt(detalle.cantidad_vendida);
-                            if($("input[name='productos_id["+ producto_id +"]']").length != 0){
-                                console.log("Producto ya existente " + producto_id);
-                                var cantidad_actual = parseInt($("input[name='cantidad["+ producto_id +"]']").val());
-                                var nueva_cantidad = cantidad_actual+cantidad;
-                                $("input[name='cantidad["+ producto_id +"]']").val(nueva_cantidad);
-                            }else{
-                                console.log("Producto Nuevo");
-                                var tr = ` <tr>
-                                    <td>`  +  producto.codigo_ean13  +  `<input type="hidden"
-                                        id="productos_id_`  +  producto.id  +  `" name="productos_id[` + producto.id + `]" value="`  +  producto.id  +  `" /> </td>
-                                    <td>`  +  producto.nombre  +  `  </td>
-                                    <td>`  +  producto.familia.nombre  +  `</td>
-                                    <td>`  +  producto.familia.linea.nombre  +  `</td>
-                                    <td><input class="form-control" id="cantidad" type="text"  readonly name="cantidad[` + producto.id + `]" value="` + cantidad + `"></td>
-                                    <td><input class="form-control" id="valor_neto_compra" type="text" readonly name="valor_neto_compra[` + producto.id + `]" value="0"></td>
-                                    <td><input type="checkbox" name="entregado[` + producto.id + `]"checked value="` + producto.id + `"></td>
-                               </tr>`
+                            if(is_entregado==0){
+                                if($("input[name='productos_id["+ producto_id +"]']").length != 0){
+                                    console.log("Producto ya existente " + producto_id);
+                                    var cantidad_actual = parseInt($("input[name='cantidad["+ producto_id +"]']").val());
+                                    var nueva_cantidad = cantidad_actual+cantidad;
+                                    $("input[name='cantidad["+ producto_id +"]']").val(nueva_cantidad);
+                                }else{
+                                    console.log("Producto Nuevo");
+                                    var tr = ` <tr>
+                                        <td>`  +  producto.codigo_ean13  +  `<input type="hidden"
+                                            id="productos_id_`  +  producto.id  +  `" name="productos_id[` + producto.id + `]" value="`  +  producto.id  +  `" /> </td>
+                                        <td>`  +  producto.nombre  +  `  </td>
+                                        <td>`  +  producto.familia.nombre  +  `</td>
+                                        <td>`  +  producto.familia.linea.nombre  +  `</td>
+                                        <td><input class="form-control" id="cantidad" type="text"  readonly name="cantidad[` + producto.id + `]" value="` + cantidad + `"></td>
+                                        <td><input class="form-control" id="valor_neto_compra" type="text" readonly name="valor_neto_compra[` + producto.id + `]" value="0"></td>
+                                        <td><input type="checkbox" name="entregado[` + producto.id + `]"checked value="` + producto.id + `"></td>
+                                </tr>`
 
-                                $('#tabla_item tbody').append(tr);
+                                    $('#tabla_item tbody').append(tr);
+                                }
+
                             }
+                            
+                            
 
 /*   <td>' . producto.familia->nombre . '</td>
                                     <td>' . producto->familia->linea->nombre . '</td>*/

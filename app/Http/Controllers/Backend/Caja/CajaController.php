@@ -40,6 +40,7 @@ class CajaController extends Controller
     {
         $ventas = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
        //Cliente::all();
+       dd($ventas);
         return view('backend.caja.generar-cierre')
             ->with("ventas", $ventas);
     }
@@ -145,6 +146,7 @@ class CajaController extends Controller
             $venta->pagado =  $venta->pagado + $request->pagado;
             $venta->pendiente_pago = $request->pendiente_pago;
             $venta->is_pagado = ($request->pendiente_pago == 0) ?  1: 0;
+            $venta->venta_estado_id = 2;
             //$venta->user_id = Auth::user()->id; 
             //$venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
             $venta->save();

@@ -46,7 +46,7 @@
                                 <th>Fecha</th>
                                 <th>Cliente</th>
                                 <th>Total venta</th>
-                                <th>Pagado</th>
+                                <th>Total ventas</th>
                                 <th>Efectivo</th>
                                 <th>Tarjeta</th>
                                 <th>Transferencia</th>
@@ -111,7 +111,8 @@
                                         <td> </td>
                                         <td></td>
                                         <td></td>
-                                        <td>{{ $ventas->sum('pagado') }}</td>
+                                        <td></td>
+                                        <td>{{ $t_total }}</td>
                                         <td>{{ $t_efectivo }}  </td>
                                         <td>{{ $t_pago_tarjeta }}  </td>
                                         <td>{{ $t_pago_transferencia }}  </td>
