@@ -159,7 +159,7 @@
 
 
 
-                            <div class="form-group row  movimiento_tipo_1 hide">
+                            <div class="form-group row  movimiento_tipo_1  movimiento_tipo_2 hide">
 
                                 <div class="col-md-2">
                                     <input class="form-control" id="codigoproducto" type="text" name="codigoproducto" placeholder="Buscar por codigo">
@@ -486,7 +486,7 @@
                             alert("Productos ingresados correctamente");
                         }
                         if(movimiento_tipo_id==2){
-                            alert("Productos XX correctamente");
+                            alert("Productos Trasladados correctamente");
                         }
                         if(movimiento_tipo_id==3){ // Salida a cliente
                             alert("Productos descontados correctamente");

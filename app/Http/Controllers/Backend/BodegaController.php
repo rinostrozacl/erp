@@ -190,16 +190,13 @@ class BodegaController extends Controller
                 $compra->save();
 
             } else if($request->movimiento_tipo_id==2){ //salida traslado
-                //TODO Salida traslado
-            } else if($request->movimiento_tipo_id==3){ //salida cliente
+
 
 
                 $list_productos_entregado_id = $request->entregado;
                 foreach ($list_productos_entregado_id as $clave => $valor) {
-
                     //if(is_entregado)
                     $producto = Producto::find($valor);
-
                     if($producto->stock_disponible>=$list_cantidades[$clave]){
                         if($producto->is_fungible==0){
                             for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
@@ -218,21 +215,45 @@ class BodegaController extends Controller
                     }
                     $producto->save();
                 }
+             
+                
 
+
+                
+                //TODO Salida traslado
+            } else if($request->movimiento_tipo_id==3){ //salida cliente
+                $list_productos_entregado_id = $request->entregado;
+                foreach ($list_productos_entregado_id as $clave => $valor) {
+                    //if(is_entregado)
+                    $producto = Producto::find($valor);
+                    if($producto->stock_disponible>=$list_cantidades[$clave]){
+                        if($producto->is_fungible==0){
+                            for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
+                                $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
+                                $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                                $unidad->is_vendido = 1;
+                                $unidad->save();
+
+                                $unidad_movimiento = new UnidadMovimiento();
+                                $unidad_movimiento->movimiento_id= $movimiento->id;
+                                $unidad_movimiento->unidad_id= $unidad->id;
+                                $unidad_movimiento->save();
+                            }
+                        }
+                        $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
+                    }
+                    $producto->save();
+                }
                 $venta = Venta::find($request->venta_id);
-
                 foreach($list_productos_entregado_id as $producto_id ){
 
                     $detalle= VentaDetalle::where("venta_id", $venta->id)->where("producto_id", $producto_id)->first();
                     $detalle->is_entregado = 1; 
                     $detalle->save();
                 }
-
-
                 if(count($list_productos_entregado_id) == $venta->venta_detalle->count()){
                     $venta->venta_estado_id = 3;
                 }else{
-
                     $detalle_buscar= VentaDetalle::where("venta_id", $venta->id)->where("is_entregado", 0)->first();
                     if(!$detalle_buscar){
                         $venta->venta_estado_id = 3;
@@ -241,12 +262,10 @@ class BodegaController extends Controller
                     }
                     
                 }
-
-
                 $venta->movimiento_id=$movimiento->id;
                 $venta->save();
-            } else if($request->movimiento_tipo_id==2){ //Entrada traslado
-                //TODO Salida traslado
+            } else if($request->movimiento_tipo_id==4){ //Entrada traslado
+                //TODO Entrada traslado
             }else{
 
 
