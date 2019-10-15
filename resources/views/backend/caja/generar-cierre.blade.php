@@ -64,7 +64,7 @@
                             @endphp
                             @foreach ( $ventas as  $venta)
                                 @php
-                                     
+                                     $t_total_venta=0;
 
                                     $user_id= auth()->user()->id;
                                     $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first();
@@ -88,14 +88,14 @@
                                     $pago_credito =  $p_pago_credito ? $p_pago_credito->monto : 0;  
                                     $t_pago_credito += $pago_credito;
 
-
-                                    $t_total = $t_total + $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
+                                    $t_total_venta = $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
+                                    $t_total = $t_total + $t_total_venta;
                                 @endphp
                                 <tr>
                                     <td>{{ $venta->id }}</td>
                                     <td>{{ $venta->created_at }}</td>
                                     <td>{{ $venta->cliente->nombre }}</td> 
-                                    <td>{{ $t_total  }}</td>
+                                    <td>{{ $t_total_venta  }}</td>
                                     <td>{{ $efectivo }}</td>
                                     <td>{{ $pago_tarjeta }}</td>
                                     <td>{{ $pago_transferencia }}</td>
