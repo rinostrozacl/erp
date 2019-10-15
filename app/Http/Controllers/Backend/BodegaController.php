@@ -52,7 +52,7 @@ class BodegaController extends Controller
 
 
         
-        $ventas =Venta::with('user')->where("venta_estado_id",2)->orWhere("venta_estado_id",4)->get();
+        $ventas =Venta::with('user')->where("venta_estado_id",2)->orWhere("venta_estado_id",4)->orderBy('id', 'desc')->get();
 
 
 
@@ -64,7 +64,7 @@ class BodegaController extends Controller
                                 ->where("is_entregado",0);
 
         }else if(Auth::user()->is_entrega== 1){
-            
+             
             $bag['ventas'] = $ventas
                                 ->where("user.sucursal_id",Auth::user()->sucursal_id)
                                 ->where("is_entregado",0)

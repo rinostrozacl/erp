@@ -111,6 +111,7 @@
                                         <td> </td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
                                         <td>{{ $t_total }}</td>
                                         <td>{{ $t_efectivo }}  </td>
                                         <td>{{ $t_pago_tarjeta }}  </td>
