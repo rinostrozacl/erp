@@ -17,6 +17,7 @@ use App\Models\Producto;
 use App\Models\Ubicacion;
 
 use App\Models\ProductoUbicacion;
+use App\Models\VentaDetalle;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use App\Models\System\Session;
@@ -37,12 +38,44 @@ class BodegaController extends Controller
     public function entrada_index()
     {
         $bag=[];
-        $bag['tipos_movimiento']= MovimientoTipo::all();
+        if(Auth::user()->is_entrega_global== 1){
+            $bag['tipos_movimiento']= MovimientoTipo::all();
+        }else if(Auth::user()->is_entrega== 1){
+            $bag['tipos_movimiento']= MovimientoTipo::where("is_venta",1)->get();
+        }
+
+      
+
+
         $bag['doc_tipo_compra']= DocTipoCompra::all();
         $bag['proveedor']= Proveedor::all();
-        $ventas =Venta::with('user')->where("venta_estado_id",2)->orWhere("venta_estado_id",4)->get();
-        $bag['ventas'] = $ventas->where("user.sucursal_id",Auth::user()->sucursal_id);
 
+
+        
+        $ventas =Venta::with('user')->where("venta_estado_id",2)->orWhere("venta_estado_id",4)->get();
+
+
+
+        if(Auth::user()->is_entrega_global== 1){
+           
+          
+            $bag['ventas'] = $ventas
+                                ->where("user.sucursal_id",Auth::user()->sucursal_id)
+                                ->where("is_entregado",0);
+
+        }else if(Auth::user()->is_entrega== 1){
+            
+            $bag['ventas'] = $ventas
+                                ->where("user.sucursal_id",Auth::user()->sucursal_id)
+                                ->where("is_entregado",0)
+                                ->where("user_id",Auth::user()->id);
+            //dd($bag['ventas'] );
+
+        }
+
+
+        
+        
 
         //dd($request);
         return view('backend.bodega.entrada', ['bag' => $bag]);
@@ -187,11 +220,29 @@ class BodegaController extends Controller
                 }
 
                 $venta = Venta::find($request->venta_id);
+
+                foreach($list_productos_entregado_id as $producto_id ){
+
+                    $detalle= VentaDetalle::where("venta_id", $venta->id)->where("producto_id", $producto_id)->first();
+                    $detalle->is_entregado = 1; 
+                    $detalle->save();
+                }
+
+
                 if(count($list_productos_entregado_id) == $venta->venta_detalle->count()){
                     $venta->venta_estado_id = 3;
                 }else{
-                    $venta->venta_estado_id = 4;
+
+                    $detalle_buscar= VentaDetalle::where("venta_id", $venta->id)->where("is_entregado", 0)->first();
+                    if(!$detalle_buscar){
+                        $venta->venta_estado_id = 3;
+                    }else{
+                        $venta->venta_estado_id = 4;
+                    }
+                    
                 }
+
+
                 $venta->movimiento_id=$movimiento->id;
                 $venta->save();
             } else if($request->movimiento_tipo_id==2){ //Entrada traslado

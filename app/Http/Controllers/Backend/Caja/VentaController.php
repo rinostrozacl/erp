@@ -41,18 +41,17 @@ class VentaController extends Controller
         $ubicacion = Ubicacion::where('activo',1)->where('is_inventariable',1)->get();
         $familias = Familia::where('activo',1)->where('linea_id',0)->get();
         $lineas = Linea::where('activo',1)->get();
-        $clientes= DB::table('cliente')->select('id',DB::raw("CONCAT(rut,' => ',nombre) AS nombre"))
-            ->get();
+        $clientes= DB::table('cliente')->select('id',DB::raw("CONCAT(rut,' => ',nombre) AS nombre"))->get();
 
 
-        //Cliente::all();
-        return view('backend.caja.venta.index')
-            ->with("clientes", $clientes)
-            ->with('ubicacion',$ubicacion)
-            ->with('lineas',$lineas)
-            ->with('marcas',$marcas)
-            ->with('familias',$familias)
-            ->with('pago_tipos',$pago_tipos);
+            //Cliente::all();
+            return view('backend.caja.venta.index')
+                ->with("clientes", $clientes)
+                ->with('ubicacion',$ubicacion)
+                ->with('lineas',$lineas)
+                ->with('marcas',$marcas)
+                ->with('familias',$familias)
+                ->with('pago_tipos',$pago_tipos);
     }
 
 
@@ -220,6 +219,8 @@ class VentaController extends Controller
 
             $impresora_bodega = Impresora::find(Auth::user()->sucursal->impresora_id);
 
+
+
             if($request->tipo_venta == 2 || $request->tipo_venta == 3 ||  $request->tipo_venta == 4   ){
                 $tipo_venta=2;
             }else{
@@ -344,7 +345,8 @@ class VentaController extends Controller
             }
 
 
-            $respuesta["mensaje"]="Registrado!";
+            $respuesta["mensaje"]="Numero de atencion nro  " . $venta->id;
+            $respuesta["imprimir"]=1;
             $respuesta["correcto"]=1;// camniado a 0 para debug
 
 

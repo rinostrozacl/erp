@@ -54,25 +54,27 @@
                             Nueva Venta
                         </a>
                     </li>
+                    @if(Auth::user()->is_recibe_pago == 1)
+                  
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/pago/recibir')) }}" href="{{ route('admin.caja.pago.recibir') }}">
+                                Recibir Pago
+                            </a>
+                        </li> 
+                        
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/pago/recibir')) }}" href="{{ route('admin.caja.pago.recibir') }}">
-                            Recibir Pago
-                        </a>
-                    </li> 
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/turno')) }}" href="{{ route('admin.caja.turno') }}">
+                                Cierre Caja
+                            </a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/turno')) }}" href="{{ route('admin.caja.turno') }}">
-                            Cierre Caja
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/rendir')) }}" href="{{ route('admin.caja.rendir') }}">
-                            Rendir caja
-                        </a>
-                    </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/caja/rendir')) }}" href="{{ route('admin.caja.rendir') }}">
+                                Rendir caja
+                            </a>
+                        </li>
+                    @endif
 
 
                 </ul>

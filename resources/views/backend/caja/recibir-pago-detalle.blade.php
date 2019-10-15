@@ -468,10 +468,10 @@
                     //console.log(respuesta);
 
                     if(respuesta.imprimir==1){
-                        alert(respuesta.mensaje);
+                       
                         window.open('{{route('admin.caja.venta.imprimir')}}/' + respuesta.venta_id, '_blank');
-                        
-                        
+                        alert(respuesta.mensaje);
+                       
                     }else{
                         $("#btn_guardar").removeAttr("disabled");
                     }
@@ -484,7 +484,8 @@
                     if(respuesta.correcto == 1){
 
 
-                        location.reload();
+                       // location.reload();
+                       window.location.href = "/admin/caja/pago/recibir";
                     }
 
 

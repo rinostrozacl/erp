@@ -145,6 +145,7 @@ class CajaController extends Controller
             $venta->pagado =  $venta->pagado + $request->pagado;
             $venta->pendiente_pago = $request->pendiente_pago;
             $venta->is_pagado = ($request->pendiente_pago == 0) ?  1: 0;
+            $venta->venta_estado_id = 2;
             //$venta->user_id = Auth::user()->id; 
             //$venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
             $venta->save();
