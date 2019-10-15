@@ -40,7 +40,7 @@ class CajaController extends Controller
     {
         $ventas = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
        //Cliente::all();
-       dd($ventas);
+       //dd($ventas);
         return view('backend.caja.generar-cierre')
             ->with("ventas", $ventas);
     }
