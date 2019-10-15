@@ -46,7 +46,7 @@
                                 <th>Fecha</th>
                                 <th>Cliente</th>
                                 <th>Total venta</th>
-                                <th>Total ventas</th>
+                                <th>Total Pagos</th>
                                 <th>Efectivo</th>
                                 <th>Tarjeta</th>
                                 <th>Transferencia</th>
@@ -68,7 +68,7 @@
                                     $t_total =0;
 
                                     $user_id= auth()->user()->id;
-                                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->first();
+                                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first();
                                     //dd($p_efectivo);
                                     $efectivo = $p_efectivo? $p_efectivo->monto: 0;  
                                     $t_efectivo += $efectivo;
