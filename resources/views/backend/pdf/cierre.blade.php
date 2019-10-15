@@ -123,68 +123,85 @@
 </table>
     </table>
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                            <th>Nro</th>
-                            <th>Fecha</th>
-                            <th>Cliente</th>
-                            <th>Pagado</th>
-                            <th>Efectivo</th>
-                            <th>Tarjeta</th>
-                            <th>Transferencia</th>
-                            <th>Cheque</th>
-                            <th>Credito</th>
+    <table class="table dataTable-small" id="tabla_venta">
+        <thead>
+            <tr>
+                <th>Nro</th>
+                <th>Fecha</th>
+                <th>Cliente</th> 
+                <th>Total pagado</th>
+                <th>Efectivo</th>
+                <th>Tarjeta</th>
+                <th>Transferencia</th>
+                <th>Cheque</th>
+                <th>Credito</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $t_efectivo=0;
+                $t_pago_tarjeta=0;
+                $t_pago_transferencia  = 0;
+                $t_pago_cheque = 0;
+                $t_pago_credito = 0;
+                $t_total =0;
+            @endphp
+            @foreach ( $ventas as  $venta)
+                @php
+                     $t_total_venta=0;
+
+                    $user_id= auth()->user()->id;
+                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first();
+                    //dd($p_efectivo);
+                    $efectivo = $p_efectivo? $p_efectivo->monto: 0;  
+                    $t_efectivo += $efectivo;
+
+                    $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->first();
+                    $pago_tarjeta =  $p_pago_tarjeta? $p_pago_tarjeta->monto: 0;   
+                    $t_pago_tarjeta += $pago_tarjeta;
+                    
+                    $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->first();
+                    $pago_transferencia=  $p_pago_transferencia ? $p_pago_transferencia->monto: 0;   
+                    $t_pago_transferencia += $pago_transferencia;
+
+                    $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first() ;
+                    $pago_cheque =  $p_pago_cheque ?  $p_pago_cheque->monto :0;    
+                    $t_pago_cheque += $pago_cheque; 
+
+                    $p_pago_credito = $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first();
+                    $pago_credito =  $p_pago_credito ? $p_pago_credito->monto : 0;  
+                    $t_pago_credito += $pago_credito;
+
+                    $t_total_venta = $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
+                    $t_total = $t_total + $t_total_venta;
+                @endphp
+                <tr>
+                    <td>{{ $venta->id }}</td>
+                    <td>{{ $venta->created_at }}</td>
+                    <td>{{ $venta->cliente->nombre }}</td> 
+                    <td>{{ $t_total_venta  }}</td>
+                    <td>{{ $efectivo }}</td>
+                    <td>{{ $pago_tarjeta }}</td>
+                    <td>{{ $pago_transferencia }}</td>
+                    <td>{{ $pago_cheque }}</td>
+                    <td>{{ $pago_credito }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+        <tfoot>
+                <tr>
+                        <td> </td>
+                        <td></td>
+                        <td></td> 
+                        <td>{{ $t_total }}</td>
+                        <td>{{ $t_efectivo }}  </td>
+                        <td>{{ $t_pago_tarjeta }}  </td>
+                        <td>{{ $t_pago_transferencia }}  </td>
+                        <td>{{ $t_pago_cheque }}  </td>
+                        <td>{{ $t_pago_credito}} </td>
                     </tr>
-                </thead>
-                <tbody>
-                        @php
-                            $t_efectivo=0;
-                            $t_pago_tarjeta=0;
-                            $t_pago_transferencia  = 0;
-                            $t_pago_cheque = 0;
-                            $t_pago_credito = 0;
-                        @endphp
-                        @foreach ( $ventas as  $venta)
-                        @php
-                            $efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first()? $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first()->monto: 0;   
-                            $t_efectivo += $efectivo;
-                            $pago_tarjeta =  $venta->venta_pago_tipo->where("pago_tipo_id", 2)->first()? $venta->venta_pago_tipo->where("pago_tipo_id", 2)->first()->monto: 0;   
-                            $t_pago_tarjeta += $pago_tarjeta;
-                            $pago_transferencia= $venta->venta_pago_tipo->where("pago_tipo_id", 3)->first() ? $venta->venta_pago_tipo->where("pago_tipo_id", 3)->first()->monto: 0;   
-                            $t_pago_transferencia += $pago_transferencia;
-                            $pago_cheque =  $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first() ? $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first()->monto :0;    
-                            $t_pago_cheque += $pago_cheque;
-                            $pago_credito =  $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first() ? $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first()->monto : 0;  
-                            $t_pago_credito += $pago_credito;
-                        @endphp
-                        <tr>
-                            <td>{{ $venta->id }}</td>
-                            <td>{{ $venta->created_at }}</td>
-                            <td>{{ $venta->cliente->nombre }}</td>
-                            <td>{{ $venta->pagado }}</td>
-                            <td>{{ $efectivo }}</td>
-                            <td>{{ $pago_tarjeta }}</td>
-                            <td>{{ $pago_transferencia }}</td>
-                            <td>{{ $pago_cheque }}</td>
-                            <td>{{ $pago_credito }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                            <tr>
-                                    <td> </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{ $ventas->sum('pagado') }}</td>
-                                    <td>{{ $t_efectivo }}  </td>
-                                    <td>{{ $t_pago_tarjeta }}  </td>
-                                    <td>{{ $t_pago_transferencia }}  </td>
-                                    <td>{{ $t_pago_cheque }}  </td>
-                                    <td>{{ $t_pago_credito}} </td>
-                                </tr>
-                    </tfoot>
-            </table>
+        </tfoot>
+    </table>
 
 <table class="table">
     <tr >
