@@ -452,12 +452,13 @@
             var total_pagado =  $("#pagado").val();
 
 
-            if(total_a_pagar != total_pagado){
+            if( (total_a_pagar != total_pagado ) &&  !$('#venta_adelanto').is(":checked") ){
                 
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");
                 
             }else{
+
 
             $.ajax({
                 url: "{{route('admin.caja.pago.recibir.pagar.procesar')}}",
