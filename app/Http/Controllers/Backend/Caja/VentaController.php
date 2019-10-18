@@ -77,7 +77,6 @@ class VentaController extends Controller
             ->join('marca', 'marca.id', '=', 'producto.marca_id')
             ->join('familia', 'familia.id', '=', 'producto.familia_id')
             ->join('unidad_medida', 'unidad_medida.id', '=', 'producto.unidad_medida_id')
-            ->join('producto_ubicacion', 'producto_ubicacion.producto_id', '=', 'producto.id') 
             ->when($_GET['marca_id'], function ($query, $role) {
                 return $query->where('producto.marca_id', '=', $_GET['marca_id']);
             })
@@ -125,7 +124,7 @@ class VentaController extends Controller
                 return $bt;
             })->editColumn('id', '{{$id}}'
             )->addColumn('stock', function ($item) {
-                /*$txt_ubicaciones="";
+                $txt_ubicaciones="";
                 $ubicaciones = ProductoUbicacion::where('producto_id', $item->id)->get();
                 $ubicaciones->each(function ($p_ubicacion) use (&$txt_ubicaciones) {
 
@@ -137,8 +136,8 @@ class VentaController extends Controller
                 
                // dd( $txt_ubicaciones);
 
-                return  $item->stock_disponible . " > (".$txt_ubicaciones.")" ;*/
-                  return  $item->stock_disponible ;
+                return  $item->stock_disponible . " > (".$txt_ubicaciones.")" ;
+                 // return  $item->stock_disponible ;
             })->addColumn('descuento', function ($item) {
                 return  0 ;
             })->editColumn('nombre', function ($item) {
