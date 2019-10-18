@@ -22,6 +22,9 @@
         .hide{
             display: none;
         }
+        .hide_salida{
+            display: none;
+        }
         .show{
             display: flex;
         }
@@ -118,7 +121,7 @@
 
                                         </div>
 
-                                        <div class="form-group row movimiento_tipo_3 hide">
+                                        <div class="form-group row movimiento_tipo_3 salida_venta hide">
                                             <label for="vat" class="col-sm-4"></label>
 
                                             @if(count($bag['ventas'])>0) 
@@ -130,6 +133,22 @@
                                             </select>
                                             @else 
                                                 No hay ventas que entregar
+                                            @endif
+                                        </div>
+
+
+                                        <div class="form-group row  salida_merma hide_salida">
+                                            <label for="vat" class="col-sm-4"></label>
+
+                                            @if(count($bag['mermas'])>0) 
+                                            <select class="form-control col-sm-8" data-live-search="true" id="merma_venta_id" name="merma_venta_id">
+                                                <option value="0">Seleccione merma</option>
+                                                @foreach($bag['mermas'] as $p)
+                                                    <option value="{{$p->id}}">(Nº:{{$p->id}}) {{$p->cliente->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                            @else 
+                                                No hay Mermas pendientes
                                             @endif
                                         </div>
 
@@ -348,6 +367,41 @@
 
         //$('#codigoproducto').focus();
 
+
+
+        
+
+
+        $('#ubicacion_destino_id').on('change', function() {
+
+        var ubicacion_destino_id = $(this).val();
+
+        $(".salida_merma").removeClass('show').addClass('hide');
+        $(".salida_venta").removeClass('show').addClass('hide');
+
+        if(ubicacion_destino_id==4){
+            $(".salida_venta").removeClass('hide').addClass('show');
+
+        }else if (ubicacion_destino_id==6){
+            //$(".salida_merma").removeClass('hide').addClass('show');
+
+        }else if (ubicacion_destino_id==7){
+            $(".salida_merma").removeClass('hide').addClass('show');
+
+        }
+        //alert(ubicacion_destino_id);
+
+       /* var action_id_origen = 0;
+        var action_id_destino = 0;
+        $(".movimiento_tipo_1").removeClass('show').addClass('hide');
+        $(".movimiento_tipo_2").removeClass('show').addClass('hide');
+        $(".movimiento_tipo_3").removeClass('show').addClass('hide');
+        $(".movimiento_tipo_4").removeClass('show').addClass('hide');
+*/
+
+        });
+
+
         $('#movimiento_tipo_id').on('change', function() {
 
             var movimiento_tipo_id = $(this).val();
@@ -380,7 +434,8 @@
                 action_id_origen = 3;
                 action_id_destino = 4;
             }
-            console.log(movimiento_tipo_id);
+
+            //console.log(movimiento_tipo_id);
 
             $.ajax({
                 url: "{{route('admin.global.info.getUbicacionByAccion')}}/"+action_id_origen,
@@ -519,10 +574,11 @@
 
         });
 
-        $('#formulario').on("change", "#venta_id",function(){
+        $('#formulario').on("change", "#venta_id, #merma_venta_id",function(){
             //e.preventDefault();
             var valor=  jQuery(this).val();
 
+            $('#tabla_item tbody').html("");
             if(parseInt(valor)>0){
                 $.ajax({
                     url: "{{route('admin.global.info.getVentaById')}}/"+valor,

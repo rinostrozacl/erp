@@ -21,6 +21,7 @@ use App\Models\UnidadMedida;
 use App\Models\Linea;
 use App\Models\Familia;
 use App\Models\PeriodoContable;
+use App\Models\ProductoUbicacion;
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
@@ -76,6 +77,7 @@ class VentaController extends Controller
             ->join('marca', 'marca.id', '=', 'producto.marca_id')
             ->join('familia', 'familia.id', '=', 'producto.familia_id')
             ->join('unidad_medida', 'unidad_medida.id', '=', 'producto.unidad_medida_id')
+            ->join('producto_ubicacion', 'producto_ubicacion.producto_id', '=', 'producto.id') 
             ->when($_GET['marca_id'], function ($query, $role) {
                 return $query->where('producto.marca_id', '=', $_GET['marca_id']);
             })
@@ -123,7 +125,19 @@ class VentaController extends Controller
                 return $bt;
             })->editColumn('id', '{{$id}}'
             )->addColumn('stock', function ($item) {
-                return  $item->stock_disponible ;
+                $txt_ubicaciones="";
+                $ubicaciones = ProductoUbicacion::where('producto_id', $item->id)->get();
+                $ubicaciones->each(function ($p_ubicacion) use (&$txt_ubicaciones) {
+
+                  
+                    $txt_ubicaciones .=  $p_ubicacion->ubicacion->sigla  .":" .$p_ubicacion->stock_disponible  .  " ";
+                    //dd($txt_ubicaciones);
+            
+                });
+                
+               // dd( $txt_ubicaciones);
+
+                return  $item->stock_disponible . " > (".$txt_ubicaciones.")" ;
             })->addColumn('descuento', function ($item) {
                 return  0 ;
             })->editColumn('nombre', function ($item) {
@@ -208,7 +222,11 @@ class VentaController extends Controller
         $list_total = $request->total;
         $tipo_venta=0;
 
-        if($request->cliente_id==0 && $request->cliente_nuevo == ""){
+        if($request->tipo_venta){
+            $tipo_venta = $request->tipo_venta;
+        }
+
+        if($request->cliente_id==0 && $request->cliente_nuevo == "" && $tipo_venta!=7){
             $respuesta["mensaje"]="Debe seleccionar un cliente";
         }else if(count($list_cantidad_vendida) == 0){
             $respuesta["mensaje"]="Debe ingresar productos para venta o preventa";
@@ -231,11 +249,18 @@ class VentaController extends Controller
 
 
             $venta->venta_estado_id= $tipo_venta;
-            if($request->cliente_nuevo != ""){
-                $venta->cliente_id = $request->cliente_nuevo;
+            if($tipo_venta!=7){
+                if($request->cliente_nuevo != ""){
+                    $venta->cliente_id = $request->cliente_nuevo;
+                }else{
+                    $venta->cliente_id = $request->cliente_id;
+                }
+
             }else{
-                $venta->cliente_id = $request->cliente_id;
+                $venta->cliente_id=1;
+
             }
+            
             
 
             $venta->suma_neto = $request->total_subtotal_neto;

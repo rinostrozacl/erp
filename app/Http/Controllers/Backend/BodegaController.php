@@ -54,6 +54,7 @@ class BodegaController extends Controller
         
         $ventas =Venta::with('user')->where("venta_estado_id",2)->orWhere("venta_estado_id",4)->orderBy('id', 'desc')->get();
 
+        $mermas =Venta::with('user')->where("venta_estado_id",7)->orderBy('id', 'desc')->get();
 
 
         if(Auth::user()->is_entrega_global== 1){
@@ -62,6 +63,7 @@ class BodegaController extends Controller
             $bag['ventas'] = $ventas
                                 ->where("user.sucursal_id",Auth::user()->sucursal_id)
                                 ->where("is_entregado",0);
+           $bag['mermas'] = $mermas;
 
         }else if(Auth::user()->is_entrega== 1){
              
@@ -70,6 +72,7 @@ class BodegaController extends Controller
                                 ->where("is_entregado",0)
                                 ->where("user_id",Auth::user()->id);
             //dd($bag['ventas'] );
+            $bag['mermas'] = [];
 
         }
 
@@ -122,6 +125,10 @@ class BodegaController extends Controller
 
 
         $respuesta["correcto"]=0;
+
+
+
+       
         // Registra el movimiento
         $movimiento = new Movimiento();
         $movimiento->cantidad =  count($request->productos_id);
@@ -130,6 +137,14 @@ class BodegaController extends Controller
         $movimiento->ubicacion_origen_id = $request->ubicacion_origen_id;
         $movimiento->ubicacion_destino_id = $request->ubicacion_destino_id;
         $movimiento->save();
+
+        if($request->ubicacion_destino_id = 7){
+            $venta_id =$request->merma_venta_id;
+        }else{
+            $venta_id =$request->venta_id;
+        }
+        
+
 
         //dd($movimiento);
         $list_cantidades= $request->cantidad;
@@ -244,13 +259,17 @@ class BodegaController extends Controller
                     }
                     $producto->save();
                 }
-                $venta = Venta::find($request->venta_id);
-                foreach($list_productos_entregado_id as $producto_id ){
+                $venta = Venta::find($venta_id);
 
+                //dd($list_productos_entregado_id);
+                foreach($list_productos_entregado_id as $producto_id ){
+                
                     $detalle= VentaDetalle::where("venta_id", $venta->id)->where("producto_id", $producto_id)->first();
                     $detalle->is_entregado = 1; 
                     $detalle->save();
                 }
+
+                
                 if(count($list_productos_entregado_id) == $venta->venta_detalle->count()){
                     $venta->venta_estado_id = 3;
                 }else{
