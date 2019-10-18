@@ -42,6 +42,7 @@ Route::get('bodega/producto', [ProductoController::class, 'index'])->name('bodeg
 Route::get('bodega/producto/tabla', [ProductoController::class, 'getTabla'])->name('bodega.producto.tabla');
 Route::get('bodega/producto/tabla/detalle/{id?}', [ProductoController::class, 'getDetailsData'])->name('bodega.producto.tabla.detalle');
 Route::post('bodega/producto/activar', [ProductoController::class, 'postActivar'])->name('bodega.producto.activar');
+Route::post('bodega/producto/activarfungible', [ProductoController::class, 'postActivarFun'])->name('bodega.producto.activar_f');
 Route::post('bodega/producto/eliminar', [ProductoController::class, 'postEliminar'])->name('bodega.producto.eliminar');
 Route::get('general/producto/form/{id?}', [ProductoController::class, 'getForm'])->name('bodega.producto.form');
 Route::post('general/producto/form', [ProductoController::class, 'postUpdate'])->name('bodega.producto.form.update');

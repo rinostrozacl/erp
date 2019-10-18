@@ -53,6 +53,11 @@ class ProductoController extends Controller
                 }else{
                     $bt.='<button class="btn btn-sm btn-block btn-secondary bt-desactivar" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Activar</span></button> ';
                 }
+                if($item->is_fungible==1){
+                    $bt.='<button class="btn btn-sm btn-block btn-primary  bt-desactivar_f" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Desactivar Fungible</span></button> ';
+                }else{
+                    $bt.='<button class="btn btn-sm btn-block btn-secondary bt-desactivar_f" data-id="'.$item->id.'"><i class="glyphicon glyphicon-edit" ></i><span>  Activar Fungible</span></button> ';
+                }
                 return $bt;
             })->editColumn('id', '{{$id}}'
             )->addColumn('stock', function ($item) {
@@ -163,6 +168,27 @@ class ProductoController extends Controller
         $producto->save();
         return $resp;
     }
+
+
+
+    public function postActivarFun(Request $request)
+    {
+        $resp=[];
+        $producto = Producto::findOrFail($request->id);
+        $resp['estado']=0;
+        if($producto->is_fungible==1){
+            $producto->is_fungible=0;
+            $resp['msg']="Se ha desactivado";
+            $resp['estado']=1;
+        }else{
+            $producto->is_fungible=1;
+            $resp['msg']="Se ha activado";
+            $resp['estado']=1;
+        }
+        $producto->save();
+        return $resp;
+    }
+
 
 
     public function postEliminar(Request $request)
