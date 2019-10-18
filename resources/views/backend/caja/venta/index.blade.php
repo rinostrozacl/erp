@@ -344,6 +344,8 @@ else{
                                         <input class="form-check-input"   type="radio" value="4" name="tipo_venta" id="tp_4" {{$estado_check}}>
                                         <label class="form-check-label" for="radio1">Venta - Guia</label>
                                     </div>
+
+                                    
                                     {{-- <div class="form-check">
                                         <input class="form-check-input"  type="radio" value="5" name="tipo_venta" id="tp_5">
                                         <label class="form-check-label" for="radio1">Cargar Cotizacion</label>
@@ -352,6 +354,13 @@ else{
                                         <input class="form-check-input"   type="radio" value="6" name="tipo_venta" id="tp_6">
                                         <label class="form-check-label" for="radio1">Preventa</label>
                                     </div>
+
+                                    @if(Auth::user()->is_genera_merma == 1)
+                                    <div class="form-check">
+                                        <input class="form-check-input"   type="radio" value="7" name="tipo_venta" id="tp_7" {{$estado_check}}>
+                                        <label class="form-check-label" for="radio1">Merma</label>
+                                    </div>
+                                    @endif
 
                                 </div>
                             </div>
@@ -979,7 +988,7 @@ else{
 
 
 
-            if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) ) && {{ $valida_pago}}){
+            if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) && !($('#tp_7').is(":checked")) ) && {{ $valida_pago}}){
                 
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");
