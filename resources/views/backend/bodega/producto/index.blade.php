@@ -169,6 +169,38 @@
                     }
                 });
             });
+            
+
+            jQuery('#datatable tbody').on( "click", ".bt-desactivar_f",function(){
+                //e.preventDefault();
+                var boton=  jQuery(this);
+                var id=  boton.data('id');
+                if(boton.hasClass('btn-primary')){
+                    boton.removeClass('btn-primary');
+                    boton.addClass('btn-secondary');
+                    boton.find('span').html("Activar Fungible")
+
+                }else{
+                    boton.removeClass('btn-secondary');
+                    boton.addClass('btn-primary');
+                    boton.find('span').html("Desactivar Fungible")
+                }
+                jQuery.ajax({
+                    url: "{{ route('admin.bodega.producto.activar_f') }}",
+                    method: 'post',
+                    data: { id: id},
+                    success: function(data){
+                        jQuery.each(data.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<p>'+value+'</p>');
+                        });
+                        if(data.estado==1){
+                            bootbox.alert(data.msg);
+                        }
+                    }
+                });
+            });
+
 
             jQuery('#datatable tbody').on( "click", ".bt-eliminar",function(){
                 //e.preventDefault();
