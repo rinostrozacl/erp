@@ -93,6 +93,7 @@
                                     $t_total = $t_total + $t_total_venta;
                                 @endphp
                                
+                                @if($t_total_venta > 0)
                                 <tr>
                                     <td>{{ $venta->id }}</td>
                                     <td>{{ $venta->created_at }}</td>
@@ -104,7 +105,7 @@
                                     <td>{{ $pago_cheque }}</td>
                                     <td>{{ $pago_credito }}</td>
                                 </tr>
-                                
+                                @endif
 
                             @endforeach
                         </tbody>
