@@ -63,6 +63,7 @@
                                 $t_total =0;
                             @endphp
                             @foreach ( $ventas as  $venta)
+
                                 @php
                                      $t_total_venta=0;
 
@@ -91,6 +92,8 @@
                                     $t_total_venta = $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
                                     $t_total = $t_total + $t_total_venta;
                                 @endphp
+
+                                @if($t_total > 0)
                                 <tr>
                                     <td>{{ $venta->id }}</td>
                                     <td>{{ $venta->created_at }}</td>
@@ -102,6 +105,8 @@
                                     <td>{{ $pago_cheque }}</td>
                                     <td>{{ $pago_credito }}</td>
                                 </tr>
+                                @endif
+
                             @endforeach
                         </tbody>
                         <tfoot>

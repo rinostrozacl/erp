@@ -243,6 +243,7 @@ class BodegaController extends Controller
                     $producto = Producto::find($valor);
                     if($producto->stock_disponible>=$list_cantidades[$clave]){
                         if($producto->is_fungible==0){
+
                             for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
                                 $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
                                 $unidad->ubicacion_id = $request->ubicacion_destino_id;
@@ -262,6 +263,7 @@ class BodegaController extends Controller
                 $venta = Venta::find($venta_id);
 
                 //dd($list_productos_entregado_id);
+                // deja como entregado los productos
                 foreach($list_productos_entregado_id as $producto_id ){
                 
                     $detalle= VentaDetalle::where("venta_id", $venta->id)->where("producto_id", $producto_id)->first();
@@ -285,6 +287,9 @@ class BodegaController extends Controller
                 $venta->save();
             } else if($request->movimiento_tipo_id==4){ //Entrada traslado
                 //TODO Entrada traslado
+
+
+
             }else{
 
 
