@@ -93,7 +93,7 @@
                                     $t_total = $t_total + $t_total_venta;
                                 @endphp
 
-                                @if($t_total > 0)
+                                @if($t_total_venta > 0)
                                 <tr>
                                     <td>{{ $venta->id }}</td>
                                     <td>{{ $venta->created_at }}</td>
