@@ -175,17 +175,19 @@
                     $t_total_venta = $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
                     $t_total = $t_total + $t_total_venta;
                 @endphp
-                <tr>
-                    <td>{{ $venta->id }}</td>
-                    <td>{{ $venta->created_at }}</td>
-                    <td>{{ $venta->cliente->nombre }}</td> 
-                    <td>{{ $t_total_venta  }}</td>
-                    <td>{{ $efectivo }}</td>
-                    <td>{{ $pago_tarjeta }}</td>
-                    <td>{{ $pago_transferencia }}</td>
-                    <td>{{ $pago_cheque }}</td>
-                    <td>{{ $pago_credito }}</td>
-                </tr>
+                 @if($t_total_venta > 0)
+                 <tr>
+                     <td>{{ $venta->id }}</td>
+                     <td>{{ $venta->created_at }}</td>
+                     <td>{{ $venta->cliente->nombre }}</td> 
+                     <td>{{ $t_total_venta  }}</td>
+                     <td>{{ $efectivo }}</td>
+                     <td>{{ $pago_tarjeta }}</td>
+                     <td>{{ $pago_transferencia }}</td>
+                     <td>{{ $pago_cheque }}</td>
+                     <td>{{ $pago_credito }}</td>
+                 </tr>
+                 @endif
             @endforeach
         </tbody>
         <tfoot>
