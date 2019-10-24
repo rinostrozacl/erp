@@ -67,16 +67,28 @@ class CajaController extends Controller
                 $pago->save();
             });
 
-         
-            $pagos_pendiente = $venta->venta_pago_tipo->where("user_id", $user_id)->where("is_rendido",0)->first();
-
-            if(!$pagos_pendiente ){
-                $venta->cierre_caja_id = $cierre_caja->id;
-                $venta->is_rendido = 1;
-                $venta->save();
-            }
+          
             
         });
+
+
+
+        $ventas->each(function ($venta) use ($cierre_caja,  $user_id) {
+            //dd($venta->venta_pago_tipo);
+       
+            if($venta->venta_pago_tipo->where("user_id", $user_id)->count() > 0){
+                $pagos_pendiente = $venta->venta_pago_tipo->where("user_id", $user_id)->where("is_rendido",0)->count();
+
+                if( $pagos_pendiente == 0 ){
+                    $venta->cierre_caja_id = $cierre_caja->id;
+                    $venta->is_rendido = 1;
+                    $venta->save();
+                }
+            }
+            
+            
+        });
+
 
        //Cliente::all();
         return  $cierre_caja->id;
