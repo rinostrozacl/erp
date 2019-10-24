@@ -138,7 +138,7 @@ class BodegaController extends Controller
         $movimiento->ubicacion_destino_id = $request->ubicacion_destino_id;
         $movimiento->save();
 
-        if($request->ubicacion_destino_id = 7){
+        if($request->ubicacion_destino_id == 7){
             $venta_id =$request->merma_venta_id;
         }else{
             $venta_id =$request->venta_id;
