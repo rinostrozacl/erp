@@ -362,6 +362,13 @@ else{
                                     </div>
                                     @endif
 
+                                    @if(Auth::user()->is_genera_traslado == 1)
+                                    <div class="form-check">
+                                        <input class="form-check-input"   type="radio" value="8" name="tipo_venta" id="tp_8" {{$estado_check}}>
+                                        <label class="form-check-label" for="radio1">Traslado</label>
+                                    </div>
+                                    @endif
+
                                 </div>
                             </div>
 
@@ -988,7 +995,7 @@ else{
 
 
 
-            if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) && !($('#tp_7').is(":checked")) ) && {{ $valida_pago}}){
+            if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) && !($('#tp_7').is(":checked")) && !($('#tp_8').is(":checked"))  ) && {{ $valida_pago}}){
                 
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");

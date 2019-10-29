@@ -227,6 +227,9 @@ class BodegaController extends Controller
                             }
                         }
                         $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
+                        $p_u = ProductoUbicacion::where('producto_id',$producto->id)->where('ubicacion_id',$request->ubicacion_destino_id)->first();
+                        $p_u->stock_disponible=$p_u->stock_disponible  - $list_cantidades[$clave];
+                        $p_u->save();
                     }
                     $producto->save();
                 }
@@ -234,8 +237,7 @@ class BodegaController extends Controller
                 
 
 
-                
-                //TODO Salida traslado
+                 
             } else if($request->movimiento_tipo_id==3){ //salida cliente
                 $list_productos_entregado_id = $request->entregado;
                 foreach ($list_productos_entregado_id as $clave => $valor) {
@@ -257,6 +259,11 @@ class BodegaController extends Controller
                             }
                         }
                         $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
+
+                        $p_u = ProductoUbicacion::where('producto_id',$producto->id)->where('ubicacion_id',$request->ubicacion_destino_id)->first();
+                        $p_u->stock_disponible=$p_u->stock_disponible  - $list_cantidades[$clave];
+                        $p_u->save();
+
                     }
                     $producto->save();
                 }
