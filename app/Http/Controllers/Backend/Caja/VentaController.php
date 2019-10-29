@@ -226,7 +226,7 @@ class VentaController extends Controller
             $tipo_venta = $request->tipo_venta;
         }
 
-        if($request->cliente_id==0 && $request->cliente_nuevo == "" && $tipo_venta!=7){
+        if($request->cliente_id==0 && $request->cliente_nuevo == "" && $tipo_venta!=7 && $tipo_venta!=8 ){
             $respuesta["mensaje"]="Debe seleccionar un cliente";
         }else if(count($list_cantidad_vendida) == 0){
             $respuesta["mensaje"]="Debe ingresar productos para venta o preventa";
@@ -249,7 +249,7 @@ class VentaController extends Controller
 
 
             $venta->venta_estado_id= $tipo_venta;
-            if($tipo_venta!=7){
+            if($tipo_venta!=7 && $tipo_venta!=8){
                 if($request->cliente_nuevo != ""){
                     $venta->cliente_id = $request->cliente_nuevo;
                 }else{
