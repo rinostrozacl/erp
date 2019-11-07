@@ -153,6 +153,26 @@
                                         </div>
 
 
+                                        <div class="form-group row  movimiento_tipo_2 hide_salida">
+                                            <label for="vat" class="col-sm-4">Salidas de traslado</label>
+
+                                            
+                                            <select class="form-control col-sm-8" data-live-search="true" id="salida_venta_id" name="salida_venta_id">
+                                                 
+                                            </select>
+                                          
+                                        </div>
+
+                                        <div class="form-group row  movimiento_tipo_4 hide_salida">
+                                            <label for="vat" class="col-sm-4">Entradas de traslado</label>
+
+                                            
+                                            <select class="form-control col-sm-8" data-live-search="true" id="entrada_venta_id" name="entrada_venta_id">
+                                                 
+                                            </select>
+                                          
+                                        </div>
+
 
 
                                     </div>
@@ -388,7 +408,9 @@
         }else if (ubicacion_destino_id==7){
             $(".salida_merma").removeClass('hide').addClass('show');
 
-        }
+        } 
+
+        
         //alert(ubicacion_destino_id);
 
        /* var action_id_origen = 0;
@@ -422,6 +444,8 @@
                 $(".movimiento_tipo_2").removeClass('hide').addClass('show');
                 action_id_origen = 4;
                 action_id_destino = 3;
+
+               
             }
             if(movimiento_tipo_id==3){ // Salida a cliente
                 $(".movimiento_tipo_3").removeClass('hide').addClass('show');
@@ -446,7 +470,8 @@
                     $.each(JSON.parse(data), function(id, name) {
                         $("#ubicacion_origen_id").append('<option value=' + name.id + '>' + name.nombre + '</option>');
                     });
-                    //$("#ubicacion_origen_id").trigger("chosen:updated");
+                    //$("#ubicacion_origen_id").trigger("chosen:updated");.
+                    $("#ubicacion_origen_id").change();
                 }
             });
 
@@ -463,6 +488,9 @@
                 }
             });
 
+
+
+            
 
 /*            if (seleccion == 1) {
                 $('#ocultoentrada').css('display', 'block');
@@ -541,14 +569,14 @@
                             alert("Productos ingresados correctamente");
                         }
                         if(movimiento_tipo_id==2){
-                            alert("Productos Trasladados correctamente");
+                            alert("Productos Despachados correctamente");
                         }
                         if(movimiento_tipo_id==3){ // Salida a cliente
                             alert("Productos descontados correctamente");
 
                         }
                         if(movimiento_tipo_id==4){
-                            alert("Productos XXX correctamente");
+                            alert("Productos Trasladados correctamente");
                         }
 
 
@@ -574,7 +602,67 @@
 
         });
 
-        $('#formulario').on("change", "#venta_id, #merma_venta_id",function(){
+
+
+        
+
+        $('#formulario').on("change", "#ubicacion_origen_id",function(){
+            //e.preventDefault();
+            var valor=  jQuery(this).val();
+
+            if(parseInt(valor)>0){
+                var tipo_movimiento = $('#movimiento_tipo_id').val();
+                if(tipo_movimiento==2){
+                    $.ajax({
+                        url: "{{route('admin.global.autocomplete.getVentasByTipo')}}/8/"+valor,
+                        type: "get",
+                        data: $("#formulario").serialize(),
+                        success: function (data) {
+                            var respuesta = $.parseJSON( data);
+
+
+                            $("#salida_venta_id").html("");
+                            $("#salida_venta_id").append('<option value="0" selected>Seleccione</option>');
+                            $.each(respuesta.ventas, function(index, detalle) {
+                                $("#salida_venta_id").append('<option value=' + detalle.id + '>' + detalle.id + '</option>');
+                            });
+                        }
+                    });
+
+                }else if(tipo_movimiento==4){
+                    $.ajax({
+                        url: "{{route('admin.global.autocomplete.getVentasByTipo')}}/9/"+valor,
+                        type: "get",
+                        data: $("#formulario").serialize(),
+                        success: function (data) {
+                            var respuesta = $.parseJSON( data);
+                            $("#entrada_venta_id").html("");
+                            $("#entrada_venta_id").append('<option value="0" selected>Seleccione</option>');
+                            $.each(respuesta.ventas, function(index, detalle) {
+                                $("#entrada_venta_id").append('<option value=' + detalle.id + '>' + detalle.id + '</option>');
+                            });
+                        }
+                    });
+                }
+                 
+                
+
+
+                
+
+
+
+
+            }else{
+               // $('#tabla_item tbody').html("");
+            }
+ 
+        });
+
+
+
+
+        $('#formulario').on("change", "#venta_id, #merma_venta_id, #salida_venta_id, #entrada_venta_id",function(){
             //e.preventDefault();
             var valor=  jQuery(this).val();
 

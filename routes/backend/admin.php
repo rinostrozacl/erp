@@ -261,6 +261,8 @@ Route::get('global/info/getVentaById/{id?}', [ComboController::class, 'getVentaB
 
 
 Route::post('global/autocomplete/fetchProducto', [AutoCompleteController::class, 'fetchProducto'])->name('global.autocomplete.fetchProducto');
+
+Route::get('global/info/getVentasbytipo/{id?}/{origen_id?}', [ComboController::class, 'getVentasByTipo'])->name('global.autocomplete.getVentasByTipo');
 /*
  * Fin Funciones globales
  */
