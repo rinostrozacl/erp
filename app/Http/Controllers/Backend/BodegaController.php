@@ -271,6 +271,11 @@ class BodegaController extends Controller
             } else if($request->movimiento_tipo_id==4){ //Entrada traslado
                 //TODO Entrada traslado
 
+
+                $venta = Venta::find($request->entrada_venta_id); 
+                $venta->venta_estado_id = 10;
+                $venta->save();
+
                 foreach ($list_productos_id as $clave => $valor) {
 
                     
