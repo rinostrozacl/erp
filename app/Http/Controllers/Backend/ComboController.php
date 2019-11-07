@@ -65,6 +65,11 @@ class ComboController extends Controller
     }
 
 
+    public function getVentasByTipo($id,$origen_id)
+    {
+        $v["ventas"] = Venta::where('venta_estado_id',$id)->where('sucursal_id',$origen_id)->get();
+         return json_encode($v);
+    }
 
 
 
