@@ -25,6 +25,23 @@
 
 @section('content')
 
+<style type="text/css">
+    .box{
+        width:600px;
+        margin:0 auto;
+    }
+    .hide{
+        display: none;
+    }
+    .hide_salida{
+        display: none;
+    }
+    .show{
+        display: flex;
+    }
+</style>
+
+
     <form id="formulario">
 
 @php
@@ -367,6 +384,30 @@ else{
                                         <input class="form-check-input"   type="radio" value="8" name="tipo_venta" id="tp_8" {{$estado_check}}>
                                         <label class="form-check-label" for="radio1">Traslado</label>
                                     </div>
+
+                                    <div class="form-check hide" id="dv_traslado"  >
+                                        @component('backend.component.select-form',
+                                            [
+                                            'name' => 'origen_id',
+                                            'lista' => $ubicacion->where('is_traslado_origen',1),
+                                            'valor_seleccionado' => 0,
+                                            'msg_o' => "Seleccione origen",
+                                            'elemento_editar' => null,
+                                            ])
+                                        @endcomponent
+
+                                        @component('backend.component.select-form',
+                                            [
+                                            'name' => 'destino_id',
+                                            'lista' => $ubicacion->where('is_traslado_destino',1),
+                                            'valor_seleccionado' => 0,
+                                            'msg_o' => "Seleccione destino",
+                                            'elemento_editar' => null,
+                                            ])
+                                        @endcomponent
+                                    </div>
+                                    
+
                                     @endif
 
                                 </div>
@@ -904,6 +945,19 @@ else{
         });
 
 
+        $('input[type=radio][name="tipo_venta"]').change(function() { 
+            var tipo_venta = $(this).val();  
+
+            $("#dv_traslado").hide();
+
+            //alert(tipo_venta);
+            if(tipo_venta==8){
+                $("#dv_traslado").show();
+            }  
+
+        });
+
+
         //inicio boton cargar venta anterior
         $('body').on( "click", "#bt-buscar-venta",function(){
             var venta_id_buscar = $("#venta_id_buscar").val();
@@ -939,6 +993,7 @@ else{
                 }
             });
 
+         
             
 
            /* $.ajax({
