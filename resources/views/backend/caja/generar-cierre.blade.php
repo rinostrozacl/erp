@@ -79,8 +79,8 @@
                                     $pago_tarjeta =  $p_pago_tarjeta? $p_pago_tarjeta->monto: 0;   
                                     $t_pago_tarjeta += $pago_tarjeta;
                                     if($p_pago_tarjeta){
-                                        $comprobante_debito =   $comprobante_debito . " [" . $comprobante_debito->compobante ." x $" . $comprobante_debito->monto . "]";
-                                        $comp_deb ="(". $comprobante_debito->compobante .")";
+                                        $comprobante_debito =   $comprobante_debito . " [" . $p_pago_tarjeta->compobante ." x $" . $p_pago_tarjeta->monto . "]";
+                                        $comp_deb ="(". $p_pago_tarjeta->compobante .")";
                                     }
 
 
