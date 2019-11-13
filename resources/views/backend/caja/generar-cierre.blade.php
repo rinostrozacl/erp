@@ -67,6 +67,7 @@
 
                                 @php
                                      $t_total_venta=0;
+                                     $comp_deb="";
 
                                     $user_id= auth()->user()->id;
                                     $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->first();
@@ -79,7 +80,9 @@
                                     $t_pago_tarjeta += $pago_tarjeta;
                                     if($p_pago_tarjeta){
                                         $comprobante_debito =   $comprobante_debito . " [" . $comprobante_debito->compobante ." x $" . $comprobante_debito->monto . "]";
+                                        $comp_deb ="(". $comprobante_debito->compobante .")";
                                     }
+
 
                                     
                                     $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->where("user_id", $user_id)->first();
@@ -106,7 +109,7 @@
                                     <td>{{ $venta->cliente->nombre }}</td> 
                                     <td>{{ $t_total_venta  }}</td>
                                     <td>{{ $efectivo }}</td>
-                                    <td>{{ $pago_tarjeta }}</td>
+                                    <td>{{ $pago_tarjeta }} {{ $comp_deb }}</td>
                                     <td>{{ $pago_transferencia }}</td>
                                     <td>{{ $pago_cheque }}</td>
                                     <td>{{ $pago_credito }}</td>
