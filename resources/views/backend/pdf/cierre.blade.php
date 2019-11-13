@@ -145,11 +145,13 @@
                 $t_pago_cheque = 0;
                 $t_pago_credito = 0;
                 $t_total =0;
+                $comprobante_debito="";
             @endphp
             @foreach ( $ventas as  $venta)
 
                 @php
                      $t_total_venta=0;
+                     $comp_deb="";
 
                     $user_id= auth()->user()->id;
                     $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->first();
@@ -160,9 +162,16 @@
                     $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->where("user_id", $user_id)->first();
                     $pago_tarjeta =  $p_pago_tarjeta? $p_pago_tarjeta->monto: 0;   
                     $t_pago_tarjeta += $pago_tarjeta;
+                    if($p_pago_tarjeta){
+                        $comprobante_debito =   $comprobante_debito . " [" . $comprobante_debito->compobante ." x $" . $comprobante_debito->monto . "]";
+                        $comp_deb ="(". $comprobante_debito->compobante .")";
+                    }
+
+
                     
                     $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->where("user_id", $user_id)->first();
                     $pago_transferencia=  $p_pago_transferencia ? $p_pago_transferencia->monto: 0;   
+
                     $t_pago_transferencia += $pago_transferencia;
 
                     $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->where("user_id", $user_id)->first() ;
@@ -184,7 +193,7 @@
                     <td>{{ $venta->cliente->nombre }}</td> 
                     <td>{{ $t_total_venta  }}</td>
                     <td>{{ $efectivo }}</td>
-                    <td>{{ $pago_tarjeta }}</td>
+                    <td>{{ $pago_tarjeta }} {{ $comp_deb }}</td>
                     <td>{{ $pago_transferencia }}</td>
                     <td>{{ $pago_cheque }}</td>
                     <td>{{ $pago_credito }}</td>
