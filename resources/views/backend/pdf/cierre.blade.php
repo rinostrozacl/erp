@@ -147,47 +147,50 @@
                 $t_total =0;
             @endphp
             @foreach ( $ventas as  $venta)
+
                 @php
                      $t_total_venta=0;
 
                     $user_id= auth()->user()->id;
-                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->first();
+                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->first();
                     //dd($p_efectivo);
                     $efectivo = $p_efectivo? $p_efectivo->monto: 0;  
                     $t_efectivo += $efectivo;
 
-                    $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->first();
+                    $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->where("user_id", $user_id)->first();
                     $pago_tarjeta =  $p_pago_tarjeta? $p_pago_tarjeta->monto: 0;   
                     $t_pago_tarjeta += $pago_tarjeta;
                     
-                    $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->first();
+                    $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->where("user_id", $user_id)->first();
                     $pago_transferencia=  $p_pago_transferencia ? $p_pago_transferencia->monto: 0;   
                     $t_pago_transferencia += $pago_transferencia;
 
-                    $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->first() ;
+                    $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->where("user_id", $user_id)->first() ;
                     $pago_cheque =  $p_pago_cheque ?  $p_pago_cheque->monto :0;    
                     $t_pago_cheque += $pago_cheque; 
 
-                    $p_pago_credito = $venta->venta_pago_tipo->where("pago_tipo_id", 5)->first();
+                    $p_pago_credito = $venta->venta_pago_tipo->where("pago_tipo_id", 5)->where("user_id", $user_id)->first();
                     $pago_credito =  $p_pago_credito ? $p_pago_credito->monto : 0;  
                     $t_pago_credito += $pago_credito;
 
                     $t_total_venta = $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
                     $t_total = $t_total + $t_total_venta;
                 @endphp
-                 @if($t_total_venta > 0)
-                 <tr>
-                     <td>{{ $venta->id }}</td>
-                     <td>{{ $venta->created_at }}</td>
-                     <td>{{ $venta->cliente->nombre }}</td> 
-                     <td>{{ $t_total_venta  }}</td>
-                     <td>{{ $efectivo }}</td>
-                     <td>{{ $pago_tarjeta }}</td>
-                     <td>{{ $pago_transferencia }}</td>
-                     <td>{{ $pago_cheque }}</td>
-                     <td>{{ $pago_credito }}</td>
-                 </tr>
-                 @endif
+               
+                @if($t_total_venta > 0)
+                <tr>
+                    <td>{{ $venta->id }}</td>
+                    <td>{{ $venta->created_at }}</td>
+                    <td>{{ $venta->cliente->nombre }}</td> 
+                    <td>{{ $t_total_venta  }}</td>
+                    <td>{{ $efectivo }}</td>
+                    <td>{{ $pago_tarjeta }}</td>
+                    <td>{{ $pago_transferencia }}</td>
+                    <td>{{ $pago_cheque }}</td>
+                    <td>{{ $pago_credito }}</td>
+                </tr>
+                @endif
+
             @endforeach
         </tbody>
         <tfoot>
