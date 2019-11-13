@@ -51,7 +51,7 @@ class CajaController extends Controller
         $cierre_caja->user_id = Auth::user()->id;
         $cierre_caja->save();
 
-        //$ventas = Venta::where('is_rendido',0)->get();
+        //$ventas = Venta::where('is_rendido',0)->get(); 
         $ventas = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
 
         //dd($ventas);
