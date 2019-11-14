@@ -62,6 +62,7 @@
                                 $t_total =0;
                                 $comprobante_debito="";
                                 $comprobante_trasnferencia="";
+                                $comprobante_ch="";
                                 
                             @endphp
                             @foreach ( $ventas_pago as  $venta_pago)
@@ -70,6 +71,7 @@
                                      $t_total_venta=0;
                                      $comp_deb="";
                                      $comp_trans="";
+                                     $comp_ch="";
 
                                     $user_id= auth()->user()->id;
 
@@ -89,19 +91,22 @@
                                         $t_pago_tarjeta += $p_pago_tarjeta;
 
                                         $comprobante_debito =   $comprobante_debito . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
-                                        $comp_deb ="(". $venta_pago->comprobante .")";
+                                        $comp_deb = "(". $venta_pago->comprobante .")";
                                     } else if($venta_pago->pago_tipo_id == 3){
 
                                         $p_pago_transferencia =  $venta_pago->monto;   
                                         $t_pago_transferencia += $p_pago_transferencia;
 
                                         $comprobante_trasnferencia =   $comprobante_trasnferencia . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
-                                        $comp_trans ="(". $venta_pago->comprobante .")";
+                                        $comp_trans = "(". $venta_pago->comprobante .")";
  
                                     }else if($venta_pago->pago_tipo_id == 4){
 
                                         $p_pago_cheque =  $venta_pago->monto;   
                                         $t_pago_cheque += $p_pago_cheque;
+
+                                        $comprobante_ch =   $comprobante_ch . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
+                                        $comp_ch = "(". $venta_pago->comprobante .")";
 
                                     }else if($venta_pago->pago_tipo_id == 5){
 
@@ -125,7 +130,7 @@
                                     <td>{{ $p_efectivo }}</td>
                                     <td>{{ $p_pago_tarjeta }} {{ $comp_deb }}</td>
                                     <td>{{ $p_pago_transferencia }} ({{ $comp_trans }})</td>
-                                    <td>{{ $p_pago_cheque }}</td>
+                                    <td>{{ $p_pago_cheque }} ({{ $comp_ch }})</td>
                                     <td>{{ $p_pago_credito }}</td>
                                 </tr>
                               
@@ -165,6 +170,13 @@
                         {{ $comprobante_trasnferencia }}
                         </p>
             </div>
+
+            <div class="card-body">
+                <p class="card-text">
+                      
+                    {{ $comprobante_ch }}
+                    </p>
+        </div>
             <div class="card-footer">
                     <button class="btn btn-md btn-success float-right" type="button" id="btn_guardar">
                         <i class="fa fa-dot-circle-o"></i>
