@@ -70,12 +70,12 @@
                                      $comp_deb="";
 
                                     $user_id= auth()->user()->id;
-                                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->first();
+                                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->where('is_rendido',0)->first();
                                     //dd($p_efectivo);
                                     $efectivo = $p_efectivo? $p_efectivo->monto: 0;  
                                     $t_efectivo += $efectivo;
 
-                                    $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->where("user_id", $user_id)->first();
+                                    $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->where("user_id", $user_id)->where('is_rendido',0)->first();
                                     $pago_tarjeta =  $p_pago_tarjeta? $p_pago_tarjeta->monto: 0;   
                                     $t_pago_tarjeta += $pago_tarjeta;
                                     if($p_pago_tarjeta){
@@ -85,16 +85,16 @@
 
 
                                     
-                                    $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->where("user_id", $user_id)->first();
+                                    $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->where("user_id", $user_id)->where('is_rendido',0)->first();
                                     $pago_transferencia=  $p_pago_transferencia ? $p_pago_transferencia->monto: 0;   
 
                                     $t_pago_transferencia += $pago_transferencia;
 
-                                    $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->where("user_id", $user_id)->first() ;
+                                    $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->where("user_id", $user_id)->where('is_rendido',0)->first() ;
                                     $pago_cheque =  $p_pago_cheque ?  $p_pago_cheque->monto :0;    
                                     $t_pago_cheque += $pago_cheque; 
 
-                                    $p_pago_credito = $venta->venta_pago_tipo->where("pago_tipo_id", 5)->where("user_id", $user_id)->first();
+                                    $p_pago_credito = $venta->venta_pago_tipo->where("pago_tipo_id", 5)->where("user_id", $user_id)->where('is_rendido',0)->first();
                                     $pago_credito =  $p_pago_credito ? $p_pago_credito->monto : 0;  
                                     $t_pago_credito += $pago_credito;
 
