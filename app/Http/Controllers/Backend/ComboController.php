@@ -86,9 +86,12 @@ class ComboController extends Controller
         }elseif ($id==4){
             $ubicacion = Ubicacion::where('is_traslado_origen',1)->get();
         }elseif ($id==5){
-            $bodega_id = Auth::user()->sucursal->bodega_id;
+            /*$bodega_id = Auth::user()->sucursal->bodega_id;
             
-            $ubicacion = Ubicacion::where('id',$bodega_id)->get();
+            $ubicacion = Ubicacion::where('id',$bodega_id)->get();*/
+
+            $ubicacion = Ubicacion::where('is_salida_origen',1)->get();
+            
         }elseif ($id==6){
             $ubicacion = Ubicacion::where('is_salida_destino',1)->get();
         }
