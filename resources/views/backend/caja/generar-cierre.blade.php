@@ -86,7 +86,7 @@
                                     } else if($venta_pago->pago_tipo_id == 3){
 
                                         $p_pago_transferencia =  $venta_pago->monto;   
-                                        $t_pago_transferencia += $p_pago_transferencia;
+                                        $t_pago_transferencia += $pago_transferencia;
  
                                     }else if($venta_pago->pago_tipo_id == 4){
 
