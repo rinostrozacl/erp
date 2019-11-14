@@ -92,6 +92,7 @@
 
                                         $comprobante_debito =   $comprobante_debito . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
                                         $comp_deb = "(". $venta_pago->comprobante .")";
+
                                     } else if($venta_pago->pago_tipo_id == 3){
 
                                         $p_pago_transferencia =  $venta_pago->monto;   
@@ -129,8 +130,8 @@
                                     <td>{{ $venta_pago->venta->cliente->nombre }}</td>  
                                     <td>{{ $p_efectivo }}</td>
                                     <td>{{ $p_pago_tarjeta }} {{ $comp_deb }}</td>
-                                    <td>{{ $p_pago_transferencia }} ({{ $comp_trans }})</td>
-                                    <td>{{ $p_pago_cheque }} ({{ $comp_ch }})</td>
+                                    <td>{{ $p_pago_transferencia }} {{ $comp_trans }}</td>
+                                    <td>{{ $p_pago_cheque }} {{ $comp_ch }}</td>
                                     <td>{{ $p_pago_credito }}</td>
                                 </tr>
                               
