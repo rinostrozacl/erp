@@ -69,6 +69,7 @@
                                 @php
                                      $t_total_venta=0;
                                      $comp_deb="";
+                                     $comp_trans="";
 
                                     $user_id= auth()->user()->id;
 
@@ -95,7 +96,7 @@
                                         $t_pago_transferencia += $p_pago_transferencia;
 
                                         $comprobante_trasnferencia =   $comprobante_trasnferencia . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
-                                        $comp_deb ="(". $venta_pago->comprobante .")";
+                                        $comp_trans ="(". $venta_pago->comprobante .")";
  
                                     }else if($venta_pago->pago_tipo_id == 4){
 
@@ -122,8 +123,8 @@
                                     <td>{{ $venta_pago->venta->created_at }}</td>
                                     <td>{{ $venta_pago->venta->cliente->nombre }}</td>  
                                     <td>{{ $p_efectivo }}</td>
-                                    <td>{{ $p_pago_tarjeta }} {{ $venta_pago->comprobante }}</td>
-                                    <td>{{ $p_pago_transferencia }} ({{ $venta_pago->comprobante }})</td>
+                                    <td>{{ $p_pago_tarjeta }} {{ $comp_deb }}</td>
+                                    <td>{{ $p_pago_transferencia }} ({{ $comp_trans }})</td>
                                     <td>{{ $p_pago_cheque }}</td>
                                     <td>{{ $p_pago_credito }}</td>
                                 </tr>
