@@ -107,7 +107,7 @@
                                
 
 
-                                @if($t_total_venta > 0)
+                        
                                 <tr>
                                     <td>{{ $venta_pago->venta->id }}</td>
                                     <td>{{ $venta_pago->venta->created_at }}</td>
@@ -118,7 +118,7 @@
                                     <td>{{ $pago_cheque }}</td>
                                     <td>{{ $pago_credito }}</td>
                                 </tr>
-                                @endif
+                              
 
                             @endforeach
                         </tbody>
