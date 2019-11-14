@@ -75,11 +75,11 @@
 
                                     $user_id= auth()->user()->id;
 
-                                    $p_efectivo = 0;
-                                    $p_pago_tarjeta = 0;
-                                    $p_pago_transferencia = 0;
-                                    $p_pago_cheque = 0;
-                                    $p_pago_credito = 0; 
+                                    $p_efectivo = "";
+                                    $p_pago_tarjeta = "";
+                                    $p_pago_transferencia = "";
+                                    $p_pago_cheque = "";
+                                    $p_pago_credito = ""; 
                                     if($venta_pago->pago_tipo_id == 1){
 
                                         $p_efectivo = $venta_pago->monto;  
