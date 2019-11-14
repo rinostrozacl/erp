@@ -171,7 +171,9 @@
                         {{ $comprobante_trasnferencia }}
                         </p>
             </div>
-
+            <div class="card-header">
+                Detalle de los Cheques recepcionados
+        </div>
             <div class="card-body">
                 <p class="card-text">
                       
