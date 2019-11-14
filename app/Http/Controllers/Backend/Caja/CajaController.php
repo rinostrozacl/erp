@@ -38,7 +38,7 @@ class CajaController extends Controller
 
     public function cambioTurno()
     {
-        $ventas_pago = VentaPagoTipo::where('is_rendido',0)->where('user_id',Auth::user()->id)->get();
+        $ventas_pago = VentaPagoTipo::where('is_rendido',0)->where('user_id',Auth::user()->id)->orderBy('venta_id', 'ASC')->get();
        //Cliente::all();
        //dd($ventas);
         return view('backend.caja.generar-cierre')
