@@ -44,8 +44,7 @@
                             <tr>
                                 <th>Nro</th>
                                 <th>Fecha</th>
-                                <th>Cliente</th> 
-                                <th>Total pagado</th>
+                                <th>Cliente</th>  
                                 <th>Efectivo</th>
                                 <th>Tarjeta</th>
                                 <th>Transferencia</th>
@@ -63,51 +62,56 @@
                                 $t_total =0;
                                 $comprobante_debito="";
                             @endphp
-                            @foreach ( $ventas as  $venta)
+                            @foreach ( $ventas_pago as  $venta_pago)
 
                                 @php
                                      $t_total_venta=0;
                                      $comp_deb="";
 
                                     $user_id= auth()->user()->id;
-                                    $p_efectivo = $venta->venta_pago_tipo->where("pago_tipo_id", 1)->where("user_id", $user_id)->where('is_rendido',0)->first();
-                                    //dd($p_efectivo);
-                                    $efectivo = $p_efectivo? $p_efectivo->monto: 0;  
-                                    $t_efectivo += $efectivo;
 
-                                    $p_pago_tarjeta = $venta->venta_pago_tipo->where("pago_tipo_id", 2)->where("user_id", $user_id)->where('is_rendido',0)->first();
-                                    $pago_tarjeta =  $p_pago_tarjeta? $p_pago_tarjeta->monto: 0;   
-                                    $t_pago_tarjeta += $pago_tarjeta;
-                                    if($p_pago_tarjeta){
-                                        $comprobante_debito =   $comprobante_debito . " [" . $p_pago_tarjeta->comprobante ." x $" . $p_pago_tarjeta->monto . "]";
-                                        $comp_deb ="(". $p_pago_tarjeta->comprobante .")";
+                                    $efectivo = 0;
+                                    if($venta_pago->pago_tipo_id == 1){
+
+                                        $efectivo = $venta_pago->monto;  
+                                        $t_efectivo += $efectivo;
+
+                                    } else if($venta_pago->pago_tipo_id == 2){
+
+                                        $pago_tarjeta =  $venta_pago->monto;   
+                                        $t_pago_tarjeta += $pago_tarjeta;
+
+                                        $comprobante_debito =   $comprobante_debito . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
+                                        $comp_deb ="(". $venta_pago->comprobante .")";
+                                    } else if($venta_pago->pago_tipo_id == 3){
+
+                                        $p_pago_transferencia =  $venta_pago->monto;   
+                                        $t_pago_transferencia += $p_pago_transferencia;
+ 
+                                    }else if($venta_pago->pago_tipo_id == 4){
+
+                                        $p_pago_cheque =  $venta_pago->monto;   
+                                        $t_pago_cheque += $p_pago_cheque;
+
+                                    }else if($venta_pago->pago_tipo_id == 4){
+
+                                        $pago_credito =  $venta_pago->monto;   
+                                        $t_pago_credito += $pago_credito;
+
                                     }
-
-
+                                                                            
                                     
-                                    $p_pago_transferencia = $venta->venta_pago_tipo->where("pago_tipo_id", 3)->where("user_id", $user_id)->where('is_rendido',0)->first();
-                                    $pago_transferencia=  $p_pago_transferencia ? $p_pago_transferencia->monto: 0;   
-
-                                    $t_pago_transferencia += $pago_transferencia;
-
-                                    $p_pago_cheque = $venta->venta_pago_tipo->where("pago_tipo_id", 4)->where("user_id", $user_id)->where('is_rendido',0)->first() ;
-                                    $pago_cheque =  $p_pago_cheque ?  $p_pago_cheque->monto :0;    
-                                    $t_pago_cheque += $pago_cheque; 
-
-                                    $p_pago_credito = $venta->venta_pago_tipo->where("pago_tipo_id", 5)->where("user_id", $user_id)->where('is_rendido',0)->first();
-                                    $pago_credito =  $p_pago_credito ? $p_pago_credito->monto : 0;  
-                                    $t_pago_credito += $pago_credito;
-
-                                    $t_total_venta = $efectivo + $pago_tarjeta +  $pago_transferencia + $pago_cheque +$pago_credito;
-                                    $t_total = $t_total + $t_total_venta;
+  
+ 
                                 @endphp
                                
+
+
                                 @if($t_total_venta > 0)
                                 <tr>
-                                    <td>{{ $venta->id }}</td>
-                                    <td>{{ $venta->created_at }}</td>
-                                    <td>{{ $venta->cliente->nombre }}</td> 
-                                    <td>{{ $t_total_venta  }}</td>
+                                    <td>{{ $venta_pago->venta->id }}</td>
+                                    <td>{{ $venta_pago->venta->created_at }}</td>
+                                    <td>{{ $venta_pago->venta->cliente->nombre }}</td>  
                                     <td>{{ $efectivo }}</td>
                                     <td>{{ $pago_tarjeta }} {{ $comp_deb }}</td>
                                     <td>{{ $pago_transferencia }}</td>
@@ -122,8 +126,7 @@
                                 <tr>
                                         <td> </td>
                                         <td></td>
-                                        <td></td> 
-                                        <td>{{ $t_total }}</td>
+                                        <td></td>  
                                         <td>{{ $t_efectivo }}  </td>
                                         <td>{{ $t_pago_tarjeta }}  </td>
                                         <td>{{ $t_pago_transferencia }}  </td>
