@@ -38,11 +38,11 @@ class CajaController extends Controller
 
     public function cambioTurno()
     {
-        $ventas = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
+        $ventas_pago = VentaPagoTipo::where('is_rendido',0)->where('user_id',Auth::user()->id)->get();
        //Cliente::all();
        //dd($ventas);
         return view('backend.caja.generar-cierre')
-            ->with("ventas", $ventas);
+            ->with("ventas_pago", $ventas_pago);
     }
     public function cambioTurnoGuardar(Request $request)
     {
@@ -72,8 +72,9 @@ class CajaController extends Controller
         });
 
 
+        $ventas2 = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
 
-        $ventas->each(function ($venta) use ($cierre_caja,  $user_id) {
+        $ventas2->each(function ($venta) use ($cierre_caja,  $user_id) {
             //dd($venta->venta_pago_tipo);
        
             if($venta->venta_pago_tipo->where("user_id", $user_id)->count() > 0){
