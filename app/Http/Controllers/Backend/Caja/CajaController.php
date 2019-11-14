@@ -73,14 +73,16 @@ class CajaController extends Controller
 
     public function imprimirCierre($id)
     {
-        $ventas = Venta::where('cierre_caja_id',$id)->get();
+        $ventas_pago = VentaPagoTipo::where('cierre_caja_id',$id)->orderBy('venta_id', 'ASC')->get();
+
+       
         $cierre_caja = CierreCaja::find($id);
 
         $tipo= "cierre_caja";
 
         $timbre_fecha = date('Ymdhis', time());
         $nombre_archivo = $timbre_fecha ."_".$tipo."_". $id .".pdf";
-        $data = ['ventas' => $ventas ,
+        $data = ['ventas_pago' => $ventas_pago ,
             'titulo' => $nombre_archivo,
             'cierre_caja' => $cierre_caja];
         $pdf = PDF::loadView('backend/pdf/cierre', $data);
