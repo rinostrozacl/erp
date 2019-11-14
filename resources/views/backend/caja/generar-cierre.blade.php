@@ -61,6 +61,8 @@
                                 $t_pago_credito = 0;
                                 $t_total =0;
                                 $comprobante_debito="";
+                                $comprobante_trasnferencia="";
+                                
                             @endphp
                             @foreach ( $ventas_pago as  $venta_pago)
 
@@ -91,6 +93,9 @@
 
                                         $p_pago_transferencia =  $venta_pago->monto;   
                                         $t_pago_transferencia += $p_pago_transferencia;
+
+                                        $comprobante_trasnferencia =   $comprobante_trasnferencia . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
+                                        $comp_deb ="(". $venta_pago->comprobante .")";
  
                                     }else if($venta_pago->pago_tipo_id == 4){
 
@@ -117,8 +122,8 @@
                                     <td>{{ $venta_pago->venta->created_at }}</td>
                                     <td>{{ $venta_pago->venta->cliente->nombre }}</td>  
                                     <td>{{ $p_efectivo }}</td>
-                                    <td>{{ $p_pago_tarjeta }} {{ $comp_deb }}</td>
-                                    <td>{{ $p_pago_transferencia }}</td>
+                                    <td>{{ $p_pago_tarjeta }} {{ $venta_pago->comprobante }}</td>
+                                    <td>{{ $p_pago_transferencia }} ({{ $venta_pago->comprobante }})</td>
                                     <td>{{ $p_pago_cheque }}</td>
                                     <td>{{ $p_pago_credito }}</td>
                                 </tr>
@@ -156,7 +161,7 @@
             <div class="card-body">
                     <p class="card-text">
                           
-                        
+                        {{ $comprobante_trasnferencia }}
                         </p>
             </div>
             <div class="card-footer">

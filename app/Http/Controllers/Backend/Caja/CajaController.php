@@ -51,45 +51,20 @@ class CajaController extends Controller
         $cierre_caja->user_id = Auth::user()->id;
         $cierre_caja->save();
 
-        //$ventas = Venta::where('is_rendido',0)->get(); 
-        $ventas = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
 
-        //dd($ventas);
 
-        $ventas->each(function ($venta) use ($cierre_caja,  $user_id) {
+        $ventas_pago = VentaPagoTipo::where('is_rendido',0)->where('user_id',Auth::user()->id)->orderBy('venta_id', 'ASC')->get();
+
+        $ventas_pago->each(function ($pago) use ($cierre_caja,  $user_id) {
             //dd($venta->venta_pago_tipo);
-            $pagos = $venta->venta_pago_tipo->where("user_id", $user_id);
-
-            $pagos->each(function ($pago) use ($cierre_caja,  $user_id) {
-
-                $pago->cierre_caja_id = $cierre_caja->id;
-                $pago->is_rendido = 1;
-                $pago->save();
-            });
-
+            $pago->cierre_caja_id = $cierre_caja->id;
+            $pago->is_rendido = 1;
+            $pago->save();
           
             
         });
 
-
-        $ventas2 = Venta::where('is_rendido',0)->where('sucursal_id',Auth::user()->sucursal_id)->get();
-
-        $ventas2->each(function ($venta) use ($cierre_caja,  $user_id) {
-            //dd($venta->venta_pago_tipo);
-       
-            if($venta->venta_pago_tipo->where("user_id", $user_id)->count() > 0){
-                $pagos_pendiente = $venta->venta_pago_tipo->where("user_id", $user_id)->where("is_rendido",0)->count();
-
-                if( $pagos_pendiente == 0 ){
-                    $venta->cierre_caja_id = $cierre_caja->id;
-                    $venta->is_rendido = 1;
-                    $venta->save();
-                }
-            }
-            
-            
-        });
-
+ 
 
        //Cliente::all();
         return  $cierre_caja->id;
