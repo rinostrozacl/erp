@@ -97,7 +97,7 @@
                                         $p_pago_cheque =  $venta_pago->monto;   
                                         $t_pago_cheque += $p_pago_cheque;
 
-                                    }else if($venta_pago->pago_tipo_id == 4){
+                                    }else if($venta_pago->pago_tipo_id == 5){
 
                                         $p_pago_credito =  $venta_pago->monto;   
                                         $t_pago_credito += $p_pago_credito;
