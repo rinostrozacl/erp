@@ -36,7 +36,7 @@
             <div class="card-header">
                 Detalle de las ventas realizadas
             </div>
-             @if($ventas->count()>0)<div class="card-body">
+             @if($ventas_pago->count() > 0)<div class="card-body">
 
                 <div class="table-responsive">
                     <table class="table dataTable-small" id="tabla_venta">
