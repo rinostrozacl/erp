@@ -512,7 +512,7 @@
 
         $('#codigoproducto').on('keypress', function (e) {
             if(e.which === 13){
-                if($('#codigoproducto').val() != ""){
+               /* if($('#codigoproducto').val() != ""){
                     $.ajax({
                     url: "{{route('admin.bodega.entrada.item')}}",
                     type: "post",
@@ -545,7 +545,7 @@
                     }
                 });
 
-                }
+                }*/
                 
 
             }
@@ -600,11 +600,14 @@
 
         jQuery('#tabla_item tbody').on( "click", ".bt-eliminar",function(){
             //e.preventDefault();
-            var boton=  jQuery(this);
+             
+            var opcion = confirm("Desea Eliminar el articulo de la entrada?");
+            if (opcion == true) {
+                $(this).closest('tr').remove();
 
+            }  
 
-            $(this).closest('tr').remove();
-
+            
         });
 
 
