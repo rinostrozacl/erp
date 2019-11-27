@@ -417,7 +417,7 @@ class VentaController extends Controller
         $data = ['titulo' => $nombre_archivo,
             'venta' => $venta,
             'tipo_documento' => $tipo_documento  ];
-        $pdf = PDF::loadView('backend/pdf/venta', $data);
+        $pdf = PDF::loadView('backend/pdf/factura', $data);
 
         return $pdf->stream($nombre_archivo);
 
