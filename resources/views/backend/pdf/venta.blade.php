@@ -122,7 +122,7 @@
             </h1><br>
             <h1> Nº {{$venta->id}} </h1> <br>
             @php
-                echo  date('d/m/Y h:i:s', time());
+                echo  date('d/m/Y h:i:s', $venta->created_at);
             @endphp
 
         </td>
