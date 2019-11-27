@@ -201,7 +201,7 @@
                     }
                                                             
                     
-
+                    $t_total = $t_total +  $p_efectivo +   $p_pago_tarjeta +  $p_pago_transferencia + $p_pago_cheque + $p_pago_credito
 
                 @endphp
                
@@ -239,6 +239,12 @@
 <table class="table">
     <tr >
         <td class="center"  colspan="3" >
+
+                <p class="left"><b>Total recaudacion:</b>
+                    {{ $comprobante_ch }}
+                </p>
+
+
             <p class="left"><b>Pagos con tarjeta:</b>
                 {{  $comprobante_debito  }} 
             </p>
