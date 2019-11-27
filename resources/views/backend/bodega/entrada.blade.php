@@ -508,12 +508,12 @@
 
         });
 
-        $('#codigoproducto').submit
+         
 
         $('#codigoproducto').on('keypress', function (e) {
             if(e.which === 13){
-
-                $.ajax({
+                if($('#codigoproducto').val() != ""){
+                    $.ajax({
                     url: "{{route('admin.bodega.entrada.item')}}",
                     type: "post",
                     data: $("#formulario").serialize(),
@@ -544,6 +544,9 @@
 
                     }
                 });
+
+                }
+                
 
             }
         });
