@@ -83,6 +83,7 @@ Route::get('caja/venta/nueva/buscar', [VentaController::class, 'postTablaBusqued
 Route::post('caja/venta/nueva/guardar', [VentaController::class, 'guardarVenta'])->name('caja.venta.nuevo.guardar');
 
 Route::get('caja/venta/imprimir/{id?}', [VentaController::class, 'imprimirVenta'])->name('caja.venta.imprimir');
+Route::get('caja/venta/imprimirfactura/{id?}', [VentaController::class, 'imprimirFactura'])->name('caja.factura.imprimir');
 Route::get('caja/venta/verimprimir/{id?}', [VentaController::class, 'verVenta'])->name('caja.venta.verimprimir');
 
 Route::post('caja/venta/guardad/precio', [VentaController::class, 'guardarPrecio'])->name('caja.venta.guardar.precio');

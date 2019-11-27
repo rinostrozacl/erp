@@ -402,6 +402,24 @@ class VentaController extends Controller
         return $pdf->stream($nombre_archivo);
 
     }
+
+
+    public function imprimirFactura($id)
+    {
+        $venta = Venta::find($id);
+        $tipo= ($venta->venta_estado_id == 1)? "cotizacion":"venta";
+
+        $timbre_fecha = date('Ymdhis', time());
+        $nombre_archivo = $timbre_fecha ."_".$tipo."_". $id .".pdf";
+        $data = ['titulo' => $nombre_archivo,
+            'venta' => $venta ];
+        $pdf = PDF::loadView('backend/pdf/venta', $data);
+
+        return $pdf->stream($nombre_archivo);
+
+    }
+
+
     public function guardarPrecio(Request $request)
     {
         $producto = Producto::find($request->producto_id);
