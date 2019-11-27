@@ -201,7 +201,7 @@
                     }
                                                             
                     
-                    $t_total = $t_total +  $p_efectivo +   $p_pago_tarjeta +  $p_pago_transferencia + $p_pago_cheque + $p_pago_credito
+                    $t_total = $t_total +  $p_efectivo +   $p_pago_tarjeta +  $p_pago_transferencia + $p_pago_cheque + $p_pago_credito;
 
                 @endphp
                
@@ -241,7 +241,7 @@
         <td class="center"  colspan="3" >
 
                 <p class="left"><b>Total recaudacion:</b>
-                    {{ $comprobante_ch }}
+                    {{ $t_total }}
                 </p>
 
 
