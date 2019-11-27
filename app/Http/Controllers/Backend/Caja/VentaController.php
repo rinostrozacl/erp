@@ -404,7 +404,7 @@ class VentaController extends Controller
     }
 
 
-    public function imprimirF($id)
+    public function imprimirFactura($id)
     {
         $venta = Venta::find($id);
         $tipo_documento=   "Factura Electronica" ;
