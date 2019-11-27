@@ -31,7 +31,7 @@ class VentasController extends Controller
     }
     public function getTabla(Request $request)
     {
-        $movimientos = Venta::all()->sortByDesc('id');
+        $movimientos = Venta::all()->sortBy('id');
 
         /*
         if ($request->movimiento_tipo_id >0) {
