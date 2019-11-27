@@ -407,7 +407,7 @@ class VentaController extends Controller
     public function imprimirF($id)
     {
         $venta = Venta::find($id);
-        $tipo_documento=   "Factura" ;
+        $tipo_documento=   "Factura Electronica" ;
 
         $timbre_fecha = date('Ymdhis', time());
         $nombre_archivo = $timbre_fecha ."_".$tipo."_". $id .".pdf";
