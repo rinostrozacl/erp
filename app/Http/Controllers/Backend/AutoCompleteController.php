@@ -21,10 +21,11 @@ class AutoCompleteController extends Controller
         if($request->get('query'))
         {
             $query = $request->get('query');
-            $data = DB::table('producto', 'marca.nombre as marca')
+            $data = DB::table('producto')
                 ->join('marca', 'producto.marca_id', '=', 'marca.id')
                 ->where('producto.nombre', 'LIKE', "%{$query}%")
                 ->limit(30)
+                ->select("producto.nomnbre","marca.nombre as marca")
                 ->get();
 
             echo $data->toJson();
