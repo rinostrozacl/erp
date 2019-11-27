@@ -113,12 +113,13 @@
         </td>
         <td class="center" width="30%" >
             <h1>
-                @if($venta->venta_estado_id == 1)
-                    Cotizacion
+               
+                @if($venta->venta_estado_id == 2 || $venta->venta_estado_id == 3 || $venta->venta_estado_id == 4)
+                    Venta
+                @else
+                    {{ $venta->venta_estado->nombre }}
                 @endif
-                    @if($venta->venta_estado_id != 1)
-                        Venta
-                    @endif
+                    
             </h1><br>
             <h1> Nº {{$venta->id}} </h1> <br>
             @php
