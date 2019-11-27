@@ -404,15 +404,16 @@ class VentaController extends Controller
     }
 
 
-    public function imprimirFactura($id)
+    public function imprimirF($id)
     {
         $venta = Venta::find($id);
-        $tipo= ($venta->venta_estado_id == 1)? "cotizacion":"venta";
+        $tipo_documento=   "Factura" ;
 
         $timbre_fecha = date('Ymdhis', time());
         $nombre_archivo = $timbre_fecha ."_".$tipo."_". $id .".pdf";
         $data = ['titulo' => $nombre_archivo,
-            'venta' => $venta ];
+            'venta' => $venta,
+            'tipo_documento' => $tipo_documento  ];
         $pdf = PDF::loadView('backend/pdf/venta', $data);
 
         return $pdf->stream($nombre_archivo);

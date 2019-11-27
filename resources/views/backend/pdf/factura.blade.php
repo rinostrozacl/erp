@@ -96,6 +96,13 @@
         .linea-bot{
             border-bottom: black 2px solid;
         }
+        .cuadro_fact{
+            border: red 1px solid;
+        }
+
+        .cuadro_fact h1{
+           color: red;
+        }
     </style>
 
     </head>
@@ -111,14 +118,14 @@
             <h1>FERRETERIA INDUSTRIAL Y SERVICIOS </h1><br>
             Soluciones integrales para la industria y personas, ferreteria e insumos metal/mecanicos, desarrollo y reparacion de piezas  mecanicas, proyectos de ingeniería hidraulica, neumatica y mas..
         </td>
-        <td class="center" width="30%" >
+        <td class="center cuadro_fact" width="30%" >
+                <h1 >
+                        Rut: 76.256.854-9
+                         
+                </h1><br>
             <h1>
-                @if($venta->venta_estado_id == 1)
-                    Cotizacion
-                @endif
-                    @if($venta->venta_estado_id != 1)
-                        Venta
-                    @endif
+                {{ $tipo_documento }}
+                 
             </h1><br>
             <h1> Nº {{$venta->id}} </h1> <br>
             @php
