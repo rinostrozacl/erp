@@ -23,7 +23,7 @@ class AutoCompleteController extends Controller
             $query = $request->get('query');
             $data = DB::table('producto', 'marca.nombre as marca')
                 ->join('marca', 'producto.marca_id', '=', 'marca.id')
-                ->where('nombre', 'LIKE', "%{$query}%")
+                ->where('producto.nombre', 'LIKE', "%{$query}%")
                 ->limit(30)
                 ->get();
 
