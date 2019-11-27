@@ -309,7 +309,7 @@
                     success: function (data) {
                        // console.log(data);
                         $.each(JSON.parse(data), function(id, item) {
-                            $("#producto_id_add").append('<option value=' + item.id + '>' + item.nombre +  "(" +item.marca +')</option>');
+                            $("#producto_id_add").append('<option value=' + item.id + '>' + item.nombre +  " (" +item.marca +')</option>');
                         });
                         $('#bt-agregar').removeAttr("disabled");
                     }
