@@ -168,11 +168,13 @@
 
                         $p_efectivo = $venta_pago->monto;  
                         $t_efectivo += $p_efectivo;
+                        $t_total = $t_total +  $p_efectivo;
 
                     } else if($venta_pago->pago_tipo_id == 2){
 
                         $p_pago_tarjeta =  $venta_pago->monto;   
                         $t_pago_tarjeta += $p_pago_tarjeta;
+                        $t_total = $t_total +  $p_pago_tarjeta;
 
                         $comprobante_debito =   $comprobante_debito . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
                         $comp_deb = "(". $venta_pago->comprobante .")";
@@ -182,13 +184,17 @@
                         $p_pago_transferencia =  $venta_pago->monto;   
                         $t_pago_transferencia += $p_pago_transferencia;
 
+                        $t_total = $t_total +  $p_pago_transferencia;
+
                         $comprobante_trasnferencia =   $comprobante_trasnferencia . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
                         $comp_trans = "(". $venta_pago->comprobante .")";
+
 
                     }else if($venta_pago->pago_tipo_id == 4){
 
                         $p_pago_cheque =  $venta_pago->monto;   
                         $t_pago_cheque += $p_pago_cheque;
+                        $t_total = $t_total +  $p_pago_cheque;
 
                         $comprobante_ch =   $comprobante_ch . " [" . $venta_pago->comprobante ." x $" . $venta_pago->monto . "]";
                         $comp_ch = "(". $venta_pago->comprobante .")";
@@ -198,10 +204,12 @@
                         $p_pago_credito =  $venta_pago->monto;   
                         $t_pago_credito += $p_pago_credito;
 
+                        $t_total = $t_total +  $p_pago_credito;
+
                     }
                                                             
                     
-                    $t_total = $t_total +  $p_efectivo +   $p_pago_tarjeta +  $p_pago_transferencia + $p_pago_cheque + $p_pago_credito;
+                    
 
                 @endphp
                
