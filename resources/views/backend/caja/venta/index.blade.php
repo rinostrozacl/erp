@@ -373,16 +373,16 @@ else{
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label" for="text-input">Observacion Factura</label>
                                     <div class="col-md-10">
-                                            <textarea id="observacion_factura" class="form-control" rows="3"></textarea>
+                                            <textarea name="observacion_factura" class="form-control" rows="3"></textarea>
                                     </div>
                                 </div>
                                
                         </div>
                         <div class="col-12">
                                 <div class="form-group row">
-                                    <label class="col-md-2 col-form-label" for="text-input">Observacion</label>
+                                    <label class="col-md-2 col-form-label" for="text-input">Observacion OT</label>
                                     <div class="col-md-10">
-                                            <textarea id="observacion_ot" class="form-control" rows="3"></textarea>
+                                            <textarea name="observacion_ot" class="form-control" rows="3"></textarea>
                                     </div>
                                 </div>
                                
