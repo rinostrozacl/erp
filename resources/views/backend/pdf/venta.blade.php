@@ -259,13 +259,13 @@
                  
                        
                             <tr>
-                                <td class="center" width="100"> Observacion Factura</td> 
-                                <td class="center">{{$venta->observacion_factura}}</td>
+                                <td class="center" width="80"> Observacion Factura</td> 
+                                <td class="left">{{$venta->observacion_factura}}</td>
                                  
                             </tr>
                             <tr>
-                                <td class="center" width="100"> Observacion OT</td> 
-                                <td class="center">{{$venta->observacion_ot}}</td>
+                                <td class="center" width="80"> Observacion OT</td> 
+                                <td class="left">{{$venta->observacion_ot}}</td>
                                     
                             </tr>
                         
