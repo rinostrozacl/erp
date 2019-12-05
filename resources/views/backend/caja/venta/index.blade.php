@@ -373,7 +373,7 @@ else{
                                 <div class="form-group row">
                                     <label class="col-md-4 col-form-label" for="text-input">Observacion</label>
                                     <div class="col-md-8">
-                                            <textarea id="observacion_general" rows="3"></textarea>
+                                            <textarea id="observacion_general" class="form-control" rows="3"></textarea>
                                     </div>
                                 </div>
                                
