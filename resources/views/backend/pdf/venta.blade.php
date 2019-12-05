@@ -258,7 +258,7 @@
                                  
                             </tr>
                             <tr>
-                                <td class="center" width="100"> Observacion Factura</td> 
+                                <td class="center" width="100"> Observacion OT</td> 
                                 <td class="center">{{$venta->observacion_ot}}</td>
                                     
                             </tr>
