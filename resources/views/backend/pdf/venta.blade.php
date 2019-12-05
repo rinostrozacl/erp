@@ -161,6 +161,22 @@
                 {{$venta->cliente->direccion}}
             </td>
         </tr>
+        
+        <tr>
+                <td class="right" >
+                    Responsable 
+                </td>
+                <td class="left"  >
+                     {{ $venta->contacto_nombre}}  {{ $venta->contacto_rut}}
+                </td>
+                <td class="right"  >
+                    Contacto
+                </td>
+                <td class="left"  >
+                    {{ $venta->contacto_telefono}} {{ $venta->contacto_correo}}
+                </td>
+            </tr>
+
     </table>
 
             <table class="table table-striped">
@@ -229,6 +245,42 @@
 
 
             </table>
+
+
+            <table class="table table-striped">
+                    <thead class="linea-top">
+                        <tr>
+                            <th class="center" width="10%">#</th> 
+                            <th class="center" width="10%">Comprobante</th>
+                            <th class="center" width="10%">Tipo</th>
+                            <th class="right" width="10%">Fecha</th>
+                            <th class="right" width="10%">Valor</th>
+                            <th class="right" width="10%">Recibido por</th>
+                        </tr>
+                    </thead>
+                    <tbody class="linea-bot">
+                        @php
+                            $i=1;
+                        @endphp
+                        @foreach($venta->venta_pago_tipo as $pago)
+                            <tr>
+                                <td class="center">{{$i++}}</td> 
+                                <td class="center">{{$pago->comprobante}}</td>
+                                <td class="center">{{$pago->pago_tipo->nombre}}</td>
+                                <td class="right">$ {{floatval($pago->created_at)}}</td>
+                                <td class="right">$ {{floatval($pago->monto)}}</td>
+                                <td class="right">{{$pago->user->first_name}}  {{$pago->user->last_name}} </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                     
+    
+    
+                </table>
+
+
+ 
+
 
 <table class="table">
     <tr >

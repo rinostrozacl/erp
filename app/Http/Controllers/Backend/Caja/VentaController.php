@@ -281,6 +281,23 @@ class VentaController extends Controller
             $venta->user_id = Auth::user()->id;
             $venta->sucursal_id = Auth::user()->sucursal_id;
             $venta->periodo_contable_id = PeriodoContable::where("is_activo",1)->first()->id;
+
+
+            $venta->contacto_nombre = $request->contacto_nombre ;
+            $venta->contacto_rut = $request->contacto_rut ;
+            $venta->contacto_telefono = $request->contacto_telefono ;
+            $venta->contacto_correo = $request->contacto_correo ;
+            $venta->observacion_ot = $request->observacion_ot ;
+            $venta->observacion_factura = $request->observacion_factura ;
+
+            /*
+            contacto_nombre
+            contacto_rut
+            contacto_telefono
+            contacto_correo
+            observacion_ot
+            observacion_factura
+            */
             $venta->save();
 
             //$2y$12$ShzXqI.b7N1mkNjr7kLcQuGD5MqGTBfnUBsugEU/kqPqnI83.VJsC

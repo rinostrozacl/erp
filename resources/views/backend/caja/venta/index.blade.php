@@ -344,13 +344,13 @@ else{
                                 <div class="form-group row">
                                     <label class="col-md-4 col-form-label" for="text-input">Nombre responsable</label>
                                     <div class="col-md-8">
-                                       <input class="form-control" name="">
+                                       <input class="form-control" name="contacto_nombre">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-4 col-form-label" for="text-input">Telefono responsable</label>
                                     <div class="col-md-8">
-                                        <input class="form-control" name="">
+                                        <input class="form-control" name="contacto_telefono">
                                     </div>
                                 </div>
                         </div>
@@ -358,22 +358,31 @@ else{
                                 <div class="form-group row">
                                     <label class="col-md-4 col-form-label" for="text-input">Rut responsable</label>
                                     <div class="col-md-8">
-                                       <input class="form-control" name="">
+                                       <input class="form-control" name="contacto_rut">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-4 col-form-label" for="text-input">Correo responsable</label>
                                     <div class="col-md-8">
-                                        <input class="form-control" name="">
+                                        <input class="form-control" name="contacto_correo">
                                     </div>
                                 </div>
                         </div>
 
                         <div class="col-12">
                                 <div class="form-group row">
-                                    <label class="col-md-4 col-form-label" for="text-input">Observacion</label>
-                                    <div class="col-md-8">
-                                            <textarea id="observacion_general" class="form-control" rows="3"></textarea>
+                                    <label class="col-md-2 col-form-label" for="text-input">Observacion Factura</label>
+                                    <div class="col-md-10">
+                                            <textarea id="observacion_factura" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                               
+                        </div>
+                        <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label" for="text-input">Observacion</label>
+                                    <div class="col-md-10">
+                                            <textarea id="observacion_ot" class="form-control" rows="3"></textarea>
                                     </div>
                                 </div>
                                
