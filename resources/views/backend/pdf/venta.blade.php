@@ -209,7 +209,7 @@
                 <tfoot class="linea-bot">
                     <tr>
                             <th class="right"  colspan="5">Total Descuentos</th>
-                            <th class="right">$ {{$venta->iva}}</th>
+                            <th class="right">$ 0</th>
                     </tr>
                     <tr>
                         <th class="right"  colspan="5">Total Neto</th>

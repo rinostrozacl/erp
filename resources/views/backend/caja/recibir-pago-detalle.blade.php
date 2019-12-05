@@ -169,6 +169,55 @@
             </div>
     </div>
 
+
+    <div class="row">
+            <div class="col-12 pl-0">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Pagos realizados</strong>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                                <table class="table table-striped">
+                                        <thead class="linea-top">
+                                            <tr>
+                                                <th class="center" width="10%"># Pago</th> 
+                                                <th class="center" width="10%">Comprobante</th>
+                                                <th class="center" width="10%">Tipo</th>
+                                                <th class="center" width="10%">Fecha</th>
+                                                <th class="center" width="10%">Valor</th>
+                                                <th class="center" width="10%">Recibido por</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="linea-bot">
+                                            @php
+                                                $i=1;
+                                            @endphp
+                                            @foreach($venta->venta_pago_tipo as $pago)
+                                                <tr>
+                                                    <td class="center">{{$i++}}</td> 
+                                                    <td class="center">{{$pago->comprobante}}</td>
+                                                    <td class="center">{{$pago->pago_tipo->nombre}}</td>
+                                                    <td class="center">{{ $pago->created_at}}</td>
+                                                    <td class="center">$ {{floatval($pago->monto)}}</td>
+                                                    <td class="center">{{$pago->user->first_name}}  {{$pago->user->last_name}} </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                         
+                        
+                        
+                                    </table>
+                        </div> <!--table-responsive-->
+
+                    </div><!--card-body-->
+
+                </div><!--card-->
+            </div>
+    </div>
+
+
      {{-- Fin seleccion de productos--}}
         
 
