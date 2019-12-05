@@ -58,6 +58,7 @@
             display: table-row;
             vertical-align: inherit;
             border-color: inherit;
+            height: 12px;
         }
         .table thead th {
             vertical-align: bottom;
