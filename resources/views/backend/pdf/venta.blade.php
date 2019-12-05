@@ -184,10 +184,11 @@
                 <thead class="linea-top">
                     <tr>
                         <th class="center" width="10%">#</th>
-                        <th>Descripcion</th>
+                        <th>Descripcion producto o servicio</th>
                         <th class="center" width="10%">Cantidad</th>
                         <th class="right" width="10%">Valor unitario</th>
                         <th class="right" width="10%">Valor neto</th>
+                        <th class="right" width="10%">Descuento</th>
                     </tr>
                 </thead>
                 <tbody class="linea-bot">
@@ -201,43 +202,48 @@
                             <td class="center">{{$detalle->cantidad_vendida}}</td>
                             <td class="right">$ {{floatval($detalle->valor_unitario)}}</td>
                             <td class="right">$ {{floatval($detalle->valor_neto)}}</td>
+                            <td class="right">$ 0</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="linea-bot">
                     <tr>
-                        <th class="right"  colspan="4">Total Neto</th>
+                            <th class="right"  colspan="5">Total Descuentos</th>
+                            <th class="right">$ {{$venta->iva}}</th>
+                    </tr>
+                    <tr>
+                        <th class="right"  colspan="5">Total Neto</th>
                         <th class="right"><b>$ {{$venta->suma_neto}}</b></th>
                     </tr>
                     <tr>
-                        <th class="right"  colspan="4">IVA</th>
+                        <th class="right"  colspan="5">IVA</th>
                         <th class="right">$ {{$venta->iva}}</th>
                     </tr>
                     <tr>
-                        <th class="right"  colspan="4">Total</th>
+                        <th class="right"  colspan="5">Total</th>
                         <th class="right">$ {{$venta->total}}</th>
                     </tr>
                         @if($venta->pagado>0 )
                             <tr class="gris linea-top">
-                                <th class="right" colspan="4">Adelanto por parte del cliente</th>
+                                <th class="right" colspan="5">Adelanto por parte del cliente</th>
                                 <th class="right">$ {{$venta->pagado}}</th>
                             </tr>
                             <tr class="gris">
-                                <th class="right" colspan="4">Saldo pendiente de pago</th>
+                                <th class="right" colspan="5">Saldo pendiente de pago</th>
                                 <th class="right">$ {{$venta->pendiente_pago}}</th>
                             </tr>
                         @endif
 
                         @if($venta->pagado==$venta->total)
                             <tr class="gris ">
-                                <th class="center linea-destacado" colspan="5"><h1>Pagado</h1></th>
+                                <th class="center linea-destacado" colspan="6"><h1>Pagado</h1></th>
 
                             </tr>
 
                         @endif
                         @if($venta->pagado > 0 && $venta->pagado<$venta->total)
                             <tr class="gris ">
-                                <th class="center linea-destacado" colspan="5"> <b> Con anticipo de cliente</b> </th>
+                                <th class="center linea-destacado" colspan="6"> <b> Con anticipo de cliente</b> </th>
                             </tr>
                         @endif
 
@@ -271,7 +277,7 @@
             <table class="table table-striped">
                     <thead class="linea-top">
                         <tr>
-                            <th class="center" width="10%">#</th> 
+                            <th class="center" width="10%"># Pago</th> 
                             <th class="center" width="10%">Comprobante</th>
                             <th class="center" width="10%">Tipo</th>
                             <th class="center" width="10%">Fecha</th>
