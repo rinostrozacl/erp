@@ -246,7 +246,27 @@
 
             </table>
 
-
+            <table class="table table-striped">
+ 
+                    <tbody class="linea-bot">
+                 
+                       
+                            <tr>
+                                <td class="center" width="100"> Observacion Factura</td> 
+                                <td class="center">{{$venta->observacion_factura}}</td>
+                                 
+                            </tr>
+                            <tr>
+                                <td class="center" width="100"> Observacion Factura</td> 
+                                <td class="center">{{$venta->observacion_ot}}</td>
+                                    
+                            </tr>
+                        
+                    </tbody>
+                     
+    
+    
+                </table>
             <table class="table table-striped">
                     <thead class="linea-top">
                         <tr>
