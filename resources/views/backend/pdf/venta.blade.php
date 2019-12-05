@@ -274,9 +274,9 @@
                             <th class="center" width="10%">#</th> 
                             <th class="center" width="10%">Comprobante</th>
                             <th class="center" width="10%">Tipo</th>
-                            <th class="right" width="10%">Fecha</th>
-                            <th class="right" width="10%">Valor</th>
-                            <th class="right" width="10%">Recibido por</th>
+                            <th class="center" width="10%">Fecha</th>
+                            <th class="center" width="10%">Valor</th>
+                            <th class="center" width="10%">Recibido por</th>
                         </tr>
                     </thead>
                     <tbody class="linea-bot">
@@ -288,9 +288,9 @@
                                 <td class="center">{{$i++}}</td> 
                                 <td class="center">{{$pago->comprobante}}</td>
                                 <td class="center">{{$pago->pago_tipo->nombre}}</td>
-                                <td class="right">{{ $pago->created_at}}</td>
-                                <td class="right">$ {{floatval($pago->monto)}}</td>
-                                <td class="right">{{$pago->user->first_name}}  {{$pago->user->last_name}} </td>
+                                <td class="center">{{ $pago->created_at}}</td>
+                                <td class="center">$ {{floatval($pago->monto)}}</td>
+                                <td class="center">{{$pago->user->first_name}}  {{$pago->user->last_name}} </td>
                             </tr>
                         @endforeach
                     </tbody>
