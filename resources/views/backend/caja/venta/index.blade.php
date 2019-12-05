@@ -331,6 +331,46 @@ else{
 
      {{-- Fin seleccion de productos--}}
         
+     <div class="row">
+        <div class="col-12 pl-0">
+            <div class="card" id="card_cliente">
+             
+                <div class="card-header">
+                    <strong>Informacion Adicional </strong>
+                </div>
+                <div class="card-body row">
+
+                        <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label" for="text-input">Nombre responsable</label>
+                                    <div class="col-md-8">
+                                       <input class="form-control" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label" for="text-input">Telefono responsable</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" name="">
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label" for="text-input">Rut responsable</label>
+                                    <div class="col-md-8">
+                                       <input class="form-control" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label" for="text-input">Correo responsable</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" name="">
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+            </div>
+     </div>
 
     <div class="row">
 
