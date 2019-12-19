@@ -68,7 +68,7 @@
                                         {{ $venta->cliente_id}} 
                                         @endif
                                     @endif
-                                    {{ $venta->cliente->nombre }} </td>
+                                    {{ $venta->contacto_nombre }} </td>
                                 <td>{{ $venta->pagado }}</td>
                                 <td>{{ $venta->pendiente_pago  }}</td> 
                                 <td> <a href="{{ route('admin.caja.pago.recibir.pagar',$venta->id ) }}" 
