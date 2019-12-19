@@ -64,8 +64,9 @@
                                 <td>{{ $venta->id }}</td>
                                 <td>{{ $venta->created_at }}</td>
                                 <td>@if ($venta->cliente)
+                                    {{ $venta->cliente_id}} 
                                         @if ($venta->cliente_id >3)
-                                        {{ $venta->cliente_id}} 
+                                        {{ $venta->cliente->nomnbre}} 
                                         @endif
                                     @endif
                                     {{ $venta->contacto_nombre }} </td>
