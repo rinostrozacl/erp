@@ -66,7 +66,7 @@
                                 <td>@if ($venta->cliente)
                                     {{ $venta->cliente_id}} 
                                         @if ($venta->cliente_id >3)
-                                        {{ $venta->cliente->nomnbre}} 
+                                        {{ $venta->cliente->nombre}} 
                                         @endif
                                     @endif
                                     {{ $venta->contacto_nombre }} </td>
