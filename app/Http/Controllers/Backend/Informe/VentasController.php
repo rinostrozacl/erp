@@ -67,8 +67,8 @@ class VentasController extends Controller
             ->editColumn('cliente_id', function ($item) {
                 $resp="";
                 if ($item->cliente){
-                    if ($venta->cliente_id >3){
-                        $resp .= $venta->cliente->nombre;
+                    if ($item->cliente_id >3){
+                        $resp .= $item->cliente->nombre;
                     }else{
                         $resp .= "No especificado ";
                     }
@@ -77,7 +77,7 @@ class VentasController extends Controller
 
                 }
                                    
-                $resp .= " (".$venta->contacto_nombre ." )";
+                $resp .= " (".$item->contacto_nombre ." )";
                 
 
                 return $resp;
