@@ -65,7 +65,22 @@ class VentasController extends Controller
                 return $item->venta_estado->nombre;
             })
             ->editColumn('cliente_id', function ($item) {
-                return $item->cliente->nombre;
+                $resp="";
+                if ($item->cliente){
+                    if ($venta->cliente_id >3){
+                        $resp .= $venta->cliente->nombre;
+                    }else{
+                        $resp .= "No especificado ";
+                    }
+                    
+                   
+
+                }
+                                   
+                $resp .= " (".$venta->contacto_nombre ." )";
+                
+
+                return $resp;
             })
             ->editColumn('user_id', function ($item) {
                 return $item->user->first_name .  " " . $item->user->last_name;
