@@ -555,45 +555,55 @@
 
         $("#btn_guardar").on('click',function() {
 
-            $("#btn_guardar").attr("disabled", "true");
+            var guardar=1;
 
-            $.ajax({
-                url: "{{route('admin.bodega.entrada.guardar')}}",
-                type: "post",
-                data: $("#formulario").serialize(),
-                success: function (data) {
-                    var respuesta = $.parseJSON( data);
-                    //console.log(respuesta);
-                    if(respuesta.mensaje){
-                        alert(respuesta.mensaje);
-                    }
+            
+            if($('#movimiento_tipo_id').val()==1 && $('#ubicacion_origen_id').val()==1 ){
 
-                        if(respuesta.correcto == 1){
-                        var movimiento_tipo_id =  $('#movimiento_tipo_id').val();
-                        if(movimiento_tipo_id==1){ // Entrada compra
-                            alert("Productos ingresados correctamente");
-                        }
-                        if(movimiento_tipo_id==2){
-                            alert("Productos Despachados correctamente");
-                        }
-                        if(movimiento_tipo_id==3){ // Salida a cliente
-                            alert("Productos descontados correctamente");
+                   if($('#nro_documento').val()== ""){
+                    alert("Debe ingresar numero de documento");
+                    guardar = 0;
+                   } 
+                            
+             }
+            
 
-                        }
-                        if(movimiento_tipo_id==4){
-                            alert("Productos Trasladados correctamente");
-                        }
+            if (guardar==1){
+                $("#btn_guardar").attr("disabled", "true");
+                $.ajax({
+                            url: "{{route('admin.bodega.entrada.guardar')}}",
+                            type: "post",
+                            data: $("#formulario").serialize(),
+                            success: function (data) {
+                                var respuesta = $.parseJSON( data);
+                                //console.log(respuesta);
+                                if(respuesta.mensaje){
+                                    alert(respuesta.mensaje);
+                                }
 
+                                    if(respuesta.correcto == 1){
+                                    var movimiento_tipo_id =  $('#movimiento_tipo_id').val();
+                                    if(movimiento_tipo_id==1){ // Entrada compra
+                                        alert("Productos ingresados correctamente");
+                                    }
+                                    if(movimiento_tipo_id==2){
+                                        alert("Productos Despachados correctamente");
+                                    }
+                                    if(movimiento_tipo_id==3){ // Salida a cliente
+                                        alert("Productos descontados correctamente");
+                                    }
+                                    if(movimiento_tipo_id==4){
+                                        alert("Productos Trasladados correctamente");
+                                    }
+                                    location.reload();
+                                }else{
+                                    $("#btn_guardar").removeAttr("disabled");
+                                }
+                            }
+                        });
 
-
-                        location.reload();
-                    }else{
-                        $("#btn_guardar").removeAttr("disabled");
-                    }
-
-
-                }
-            });
+            }
+           
 
         });
 
