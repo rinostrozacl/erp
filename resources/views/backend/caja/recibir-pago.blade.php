@@ -63,7 +63,7 @@
                             <tr>
                                 <td>{{ $venta->id }}</td>
                                 <td>{{ $venta->created_at }}</td>
-                                <td>{{ $venta->cliente->nombre }}</td>
+                                <td>{{ $venta->cliente->nombre  or "" }} {{ $venta->contacto_nombre }} </td>
                                 <td>{{ $venta->pagado }}</td>
                                 <td>{{ $venta->pendiente_pago  }}</td> 
                                 <td> <a href="{{ route('admin.caja.pago.recibir.pagar',$venta->id ) }}" 

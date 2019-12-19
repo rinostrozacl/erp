@@ -12,4 +12,5 @@ class UnidadMovimiento extends Model
 	{
 		return $this->belongsTo('App\Models\Unidad', 'unidad_id');
 	}
+	
 }
