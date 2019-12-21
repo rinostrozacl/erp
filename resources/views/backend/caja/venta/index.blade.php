@@ -1108,14 +1108,27 @@ else{
             var total_a_pagar =  $("#total_total").val();
             var total_pagado =  $("#pagado").val();
 
-
+            var guardar = 1;
 
             if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) && !($('#tp_7').is(":checked")) && !($('#tp_8').is(":checked"))  ) && {{ $valida_pago}}){
                 
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");
+                    guardar=0;
                 
-            }else{
+            }
+
+
+            if($('#pago-final-2').val() != ""){
+                if($('#pago-2').val() == ""){
+                    alert("Debe ingresar el nro de comprobante");
+                    guardar=0;
+                }
+            
+            }
+
+            
+            if(guardar == 1){
 
                 var tipo_venta =   $("input[name='tipo_venta'").val();
                 if(tipo_venta>0){
