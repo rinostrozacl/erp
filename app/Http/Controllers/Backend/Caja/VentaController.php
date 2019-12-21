@@ -386,6 +386,26 @@ class VentaController extends Controller
                 
             }
 
+            if($tipo_venta==2){
+                $impresion_detalle = new ImpresionDetalle();
+                $impresion_detalle->linea =  "Impreso a las:" . $venta->created_at;
+                $impresion_detalle->impresion_id = $impresion->id;
+                $impresion_detalle->save();
+
+
+                $impresion_detalle = new ImpresionDetalle();
+                $impresion_detalle->linea =  "Vendedor: " . $venta->user->first_name . "  " .  $venta->user->last_name;
+                $impresion_detalle->impresion_id = $impresion->id;
+                $impresion_detalle->save();
+
+
+            }
+            
+
+
+
+
+
 
             $respuesta["mensaje"]="Numero de atencion nro  " . $venta->id;
             $respuesta["imprimir"]=1;
