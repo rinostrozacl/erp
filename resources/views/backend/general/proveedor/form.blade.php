@@ -54,7 +54,7 @@
                             <label class="col-md-2 form-control-label" for="rut">RUT</label>
 
                             <div class="col-md-10">
-                                <input type="text" class="form-control" name="rut"   value="{{$proveedor->rut  ?? ''}}">
+                                <input type="text" class="form-control" name="rut"   id="rut" value="{{$proveedor->rut  ?? ''}}">
                             </div><!--col-->
                         </div><!--form-group-->
 
@@ -135,24 +135,24 @@
         jQuery(document).ready(function(){
             jQuery('#formulario-editar').submit(function(e){
                 e.preventDefault();
-                jQuery('.alert-danger').hide();
-                jQuery.ajax({
-                    url: "{{ route('admin.general.proveedor.form.update') }}",
-                    method: 'post',
-                    data: $('#formulario-editar').serialize(),
-                    success: function(data){
-                        jQuery.each(data.errors, function(key, value){
-                            jQuery('.alert-danger').show();
-                            jQuery('.alert-danger').append('<p>'+value+'</p>');
-                        });
-                        if(data.estado==1){
-                            alert(data.mensaje);
-                            history.back(-1);
+                if(!jQuery('#rut').val() == "" ){
+                    jQuery('.alert-danger').hide();
+                    jQuery.ajax({
+                        url: "{{ route('admin.general.proveedor.form.update') }}",
+                        method: 'post',
+                        data: $('#formulario-editar').serialize(),
+                        success: function(data){
+                            jQuery.each(data.errors, function(key, value){
+                                jQuery('.alert-danger').show();
+                                jQuery('.alert-danger').append('<p>'+value+'</p>');
+                            });
+                            if(data.estado==1){
+                                alert(data.mensaje);
+                                history.back(-1);
+                            }
                         }
-
-                    }
-
-                });
+                    });
+                }
             });
         });
 
