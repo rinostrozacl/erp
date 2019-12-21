@@ -1123,7 +1123,9 @@ else{
                 if($('#pago-2').val() == ""){
                     alert("Debe ingresar el nro de comprobante");
                     guardar=0;
+                    $("#btn_guardar").removeAttr("disabled");
                 }
+                
             
             }
 
@@ -1185,11 +1187,10 @@ else{
                     alert("Debe  Seleccionar un tipo de operacion");
                     $("#btn_guardar").removeAttr("disabled");
                 }
-                
-
-
 
             }
+
+            $("#btn_guardar").removeAttr("disabled");
 
         });
 
