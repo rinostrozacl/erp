@@ -564,6 +564,17 @@
                     alert("Debe ingresar numero de documento");
                     guardar = 0;
                    } 
+
+                   if(!$('#doc_tipo_compra_id').val()>0){
+                    alert("Debe seleccionar tipo  de documento");
+                    guardar = 0;
+                   } 
+
+                   if($('#compra_valor_neto').val()==""){
+                    $('#compra_valor_neto').val("0");
+                   } 
+
+                   
                             
              }
             
