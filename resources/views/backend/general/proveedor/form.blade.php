@@ -135,7 +135,9 @@
         jQuery(document).ready(function(){
             jQuery('#formulario-editar').submit(function(e){
                 e.preventDefault();
-                if(!jQuery('#rut').val() == "" ){
+                if(jQuery('#rut').val() == "" ){
+                    alert("Debe ingresar el rut del proveedor");
+                }else{
                     jQuery('.alert-danger').hide();
                     jQuery.ajax({
                         url: "{{ route('admin.general.proveedor.form.update') }}",
