@@ -218,9 +218,9 @@
                             jQuery('.alert-danger').append('<p>'+value+'</p>');
                         });
                         if(data.estado==1){
-                            bootbox.alert(data.mensaje, function(){
+                            alert(data.mensaje);
                                 history.back(-1);
-                            });
+                          
 
                         }
                     }
