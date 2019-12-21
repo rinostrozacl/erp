@@ -91,7 +91,7 @@
                                         <div class="form-group row movimiento_tipo_1 hide">
                                             <label for="vat" class="col-sm-4">Proveedor</label>
                                             <select class="form-control col-sm-8" data-live-search="true" id="proveedor_id" name="proveedor_id">
-                                                <option value="0">Buscador</option>
+                                                <option value="0">Seleccione proveedor</option>
                                                 @foreach($bag['proveedor'] as $p)
                                                     <option value="{{$p->id}}">{{$p->nombre}}</option>
                                                 @endforeach
@@ -565,10 +565,17 @@
                     guardar = 0;
                    } 
 
-                   if(!$('#doc_tipo_compra_id').val()>0){
+                   if($('#doc_tipo_compra_id').val()==0){
                     alert("Debe seleccionar tipo  de documento");
                     guardar = 0;
                    } 
+
+                   if($('#proveedor_id').val()==0){
+                    alert("Debe seleccionar proveedor");
+                    guardar = 0;
+                   } 
+
+
 
                    if($('#compra_valor_neto').val()==""){
                     $('#compra_valor_neto').val("0");
