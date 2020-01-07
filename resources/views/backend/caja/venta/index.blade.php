@@ -330,12 +330,12 @@ else{
                                     <tr>
                                         <th colspan="3"> </th> 
                                         <th colspan="2">Total Pago Otros medios  </th>
-                                        <th colspan="2"> <input id="total_pago_otros" name="total_pago_otros" class="form-control" ></th>
+                                        <th colspan="2"> <input id="total_pago_otros" name="total_pago_otros" class="form-control" readonly ></th>
                                     </tr>
                                     <tr>
                                         <th colspan="3"> </th> 
                                         <th colspan="2"> Total Pago Efectivo  </th>
-                                        <th colspan="2"> <input id="total_pago_efectivo" name="total_pago_efectivo" class="form-control" ></th>
+                                        <th colspan="2"> <input id="total_pago_efectivo" name="total_pago_efectivo" class="form-control" readonly ></th>
                                     </tr>
 
                         
@@ -709,6 +709,19 @@ else{
                 }
             });  
         });
+
+
+
+        
+
+        $('#total_recargo').on('keypress', function (e) {
+            totales();
+        });
+
+        $('#total_descuento').on('keypress', function (e) {
+            totales();
+        });
+        
 
         // boton pagar con efectivo 
         $('#btn-pago-1').click(function(e){
