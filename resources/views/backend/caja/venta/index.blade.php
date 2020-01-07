@@ -972,12 +972,13 @@ else{
             if(total_descuento == ""){
                 total_descuento = 0;
             }
+            total_descuento = parseInt(total_descuento);
 
             var total_recargo = $('#total_recargo').val();
             if(total_recargo == ""){
                 total_recargo = 0;
             }
-
+            total_recargo = parseInt(total_recargo);
 
  
             total_cantidad=0;
