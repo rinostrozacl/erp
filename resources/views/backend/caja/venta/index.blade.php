@@ -1012,7 +1012,9 @@ else{
 
 
             var total_pagado=0;
-            var total_venta = $('#total_total').val();
+
+            
+            var total_venta = $('#total_pago_otros').val();
 
             if(total_venta==''){
                 total_venta=0;
