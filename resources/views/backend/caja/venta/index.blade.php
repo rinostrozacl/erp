@@ -1055,7 +1055,7 @@ else{
         });
 
 
-        $('#tabla_venta tbody').on( "change", ".input-pago, .input-descuento",function(){
+        $('#tabla_venta tbody').on( "change", ".input-pago, input-cantidad, .input-descuento",function(){
             
             totales();
         });
@@ -1063,7 +1063,7 @@ else{
  
       
 
-        $('.input-descuento').keyup(function(){
+        $('.input-descuento, input-cantidad').keyup(function(){
             
             totales();
         });
