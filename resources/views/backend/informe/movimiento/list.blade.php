@@ -116,7 +116,7 @@
 
                 processing: true,
                 serverSide: true,
-
+                order: [[ 1, "desc" ]]
                 ajax: {
                     url: '{{route('admin.informe.movimiento.tabla')}}',
                     data: function (d) {
