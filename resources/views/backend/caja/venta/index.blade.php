@@ -1053,18 +1053,12 @@ else{
         });
 
 
-        $('#tabla_venta tbody').on( "change", ".input-cantidad, #total_descuento, #total_recargo ",function(){
+        $('#tabla_venta tbody').on( "change", ".input-pago, .input-cantidad, #total_descuento, #total_recargo ",function(){
             totales();
         });
 
 
-        $('body').on( "change", ".input-pago",function(){
-
-
-            totales();
-
-        });
-
+      
 
         $('input[type=radio][name="tipo_venta"]').change(function() { 
             var tipo_venta = $(this).val();  
