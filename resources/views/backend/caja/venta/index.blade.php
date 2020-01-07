@@ -320,12 +320,12 @@ else{
                                     <tr>
                                         <th colspan="3"> <input id="total_descuento_detalle" name="total_descuento_detalle" class="form-control" > </th> 
                                         <th colspan="2"> Descuento </th>
-                                        <th colspan="2"> <input id="total_descuento" name="total_descuento" class="form-control input-descuento" /></th>
+                                        <th colspan="2"> <input id="total_descuento" name="total_descuento" class="form-control input-descuento"  type="number"/></th>
                                     </tr>
                                     <tr>
                                         <th colspan="3">  <input id="total_recargo_detalle" name="total_recargo_detalle" class="form-control " > </th> 
                                         <th colspan="2"> Recargo </th>
-                                        <th colspan="2"> <input id="total_recargo" name="total_recargo" class="form-control input-descuento"  /></th>
+                                        <th colspan="2"> <input id="total_recargo" name="total_recargo" class="form-control input-descuento"   type="number" /></th>
                                     </tr>
                                     <tr>
                                         <th colspan="3"> </th> 
