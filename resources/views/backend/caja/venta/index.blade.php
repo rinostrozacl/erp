@@ -323,7 +323,7 @@ else{
                                         <th colspan="2"> <input id="total_descuento" name="total_descuento" class="form-control" ></th>
                                     </tr>
                                     <tr>
-                                        <th colspan="3">  <input id="total_descuento_recargo" name="total_descuento_recargo" class="form-control" > </th> 
+                                        <th colspan="3">  <input id="total_recargo_detalle" name="total_recargo_detalle" class="form-control" > </th> 
                                         <th colspan="2"> Recargo </th>
                                         <th colspan="2"> <input id="total_recargo" name="total_recargo" class="form-control" ></th>
                                     </tr>
@@ -949,6 +949,24 @@ else{
             $('#pagado').val(0);
             $('#pendiente_pago').val(0);
 
+            var total_pago_otros = 0;
+            $('#total_pago_otros').val(0); 
+
+            var total_pago_efectivo = 0;
+            $('#total_pago_efectivo').val(0);
+            
+            var total_descuento = $('#total_descuento').val();
+            if(total_descuento == "")){
+                total_descuento = 0;
+            }
+
+            var total_recargo = $('#total_recargo').val();
+            if(total_recargo == "")){
+                total_recargo = 0;
+            }
+
+
+ 
             total_cantidad=0;
             total_neto=0;
             total_subtotal_neto=0;
@@ -977,6 +995,14 @@ else{
             $('#total_iva').val(total_iva);
             $('#total_total').val(total_total);
 
+
+
+            total_pago_otros = total_total -  total_descuento + total_recargo;
+            $('#total_pago_otros').val(total_pago_otros);
+
+
+            total_pago_efectivo = total_total -  total_descuento + total_recargo + 5;
+            $('#total_pago_efectivo').val(total_pago_efectivo);
 
 
             var total_pagado=0;
