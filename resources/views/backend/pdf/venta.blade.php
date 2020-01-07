@@ -187,8 +187,7 @@
                         <th>Descripcion producto o servicio</th>
                         <th class="center" width="10%">Cantidad</th>
                         <th class="right" width="10%">Valor unitario</th>
-                        <th class="right" width="10%">Valor neto</th>
-                        <th class="right" width="10%">Descuento</th>
+                        <th class="right" width="10%">Valor neto</th> 
                     </tr>
                 </thead>
                 <tbody class="linea-bot">
@@ -201,51 +200,71 @@
                             <td class="left">{{$detalle->producto->nombre}}   ({{$detalle->producto->unidad_medida->nombre}})</td>
                             <td class="center">{{$detalle->cantidad_vendida}}</td>
                             <td class="right">$ {{floatval($detalle->valor_unitario)}}</td>
-                            <td class="right">$ {{floatval($detalle->valor_neto)}}</td>
-                            <td class="right">$ 0</td>
+                            <td class="right">$ {{floatval($detalle->valor_neto)}}</td> 
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="linea-bot">
                     <tr>
-                            <th class="right"  colspan="5">Total Descuentos</th>
+                            <th class="right"  colspan="4">Total Descuentos</th>
                             <th class="right">$ 0</th>
                     </tr>
                     <tr>
-                        <th class="right"  colspan="5">Total Neto</th>
+                        <th class="right"  colspan="4">Total Neto</th>
                         <th class="right"><b>$ {{$venta->suma_neto}}</b></th>
                     </tr>
                     <tr>
-                        <th class="right"  colspan="5">IVA</th>
+                        <th class="right"  colspan="4">IVA</th>
                         <th class="right">$ {{$venta->iva}}</th>
                     </tr>
                     <tr>
-                        <th class="right"  colspan="5">Total</th>
+                        <th class="right"  colspan="4">Total</th>
                         <th class="right">$ {{$venta->total}}</th>
                     </tr>
-                        @if($venta->pagado>0 )
-                            <tr class="gris linea-top">
-                                <th class="right" colspan="5">Adelanto por parte del cliente</th>
-                                <th class="right">$ {{$venta->pagado}}</th>
-                            </tr>
-                            <tr class="gris">
-                                <th class="right" colspan="5">Saldo pendiente de pago</th>
-                                <th class="right">$ {{$venta->pendiente_pago}}</th>
-                            </tr>
-                        @endif
 
-                        @if($venta->pagado==$venta->total)
-                            <tr class="gris ">
-                                <th class="center linea-destacado" colspan="6"><h1>Pagado</h1></th>
+                    @if($venta->pagado>0 )
+                    <tr class="gris linea-top">
+                        <th class="right" colspan="4">Pagado por el cliente</th>
+                        <th class="right">$ {{$venta->pagado}}</th>
+                    </tr>
+                    <tr class="gris">
+                        <th class="right" colspan="4">Saldo pendiente de pago</th>
+                        <th class="right">$ {{$venta->pendiente_pago}}</th>
+                    </tr>
+                    @endif
 
-                            </tr>
 
-                        @endif
-                        @if($venta->pagado > 0 && $venta->pagado<$venta->total)
-                            <tr class="gris ">
-                                <th class="center linea-destacado" colspan="6"> <b> Con anticipo de cliente</b> </th>
-                            </tr>
-                        @endif
+                    @if($venta->total_descuento>0 )
+                    <tr class="gris linea-top">
+                        <th class="right" colspan="4">Descuento ({{$venta->total_descuento_detalle}})</th>
+                        <th class="right">$ {{$venta->total_descuento}}</th>
+                    </tr>
+                    @endif
+
+                    @if($venta->total_recargo>0 )
+                    <tr class="gris linea-top">
+                        <th class="right" colspan="4">Recargo ({{$venta->total_recargo_detalle}})</th>
+                        <th class="right">$ {{$venta->total_recargo}}</th>
+                    </tr>
+                    @endif
+
+
+                    @if($venta->is_pagado==1)
+                    <tr class="gris ">
+                        <th class="center linea-destacado" colspan="5"><h1>Pagado</h1></th>
+
+                    </tr>
+
+                    @endif
+
+
+
+
+                    @if($venta->pagado > 0 && $venta->is_pagado == 0 )
+                    <tr class="gris ">
+                        <th class="center linea-destacado" colspan="5"> <b> Con anticipo de cliente</b> </th>
+                    </tr>
+                    @endif
 
 
                 </tfoot>
