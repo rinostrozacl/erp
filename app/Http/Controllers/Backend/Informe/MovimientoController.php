@@ -68,12 +68,21 @@ class MovimientoController extends Controller
             ->addColumn('ubicacion_origen_id', function ($item) {
                 $id = $item->ubicacion_origen_id;
                 $ubicacion = Ubicacion::find($id);
-                return $ubicacion->nombre;
+                if($ubicacion){
+                    return $ubicacion->nombre;
+                }else{
+                    return "";
+                }
             })
             ->addColumn('ubicacion_destino_id', function ($item) {
                 $id = $item->ubicacion_destino_id;
                 $ubicacion = Ubicacion::find($id);
-                return $ubicacion->nombre;
+                if($ubicacion){
+                    return $ubicacion->nombre;
+                }else{
+                    return "";
+                }
+                
             })
             ->addColumn('user_id', function ($item) {
                 return $item->usuario->first_name .  " " . $item->usuario->last_name;
