@@ -1019,9 +1019,17 @@ else{
                 total_pagado += parseInt(valor);
             })
 
-
+            
             $('#pagado').val(total_pagado);
-            $('#pendiente_pago').val(total_venta - total_pagado);
+
+
+            if ($('#pago-1').val()==""){
+                $('#pendiente_pago').val(total_venta - total_pagado);
+            }else{
+                $('#pendiente_pago').val(total_pago_efectivo - total_pagado);
+            }
+            
+            
         };
 
 
