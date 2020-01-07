@@ -27,7 +27,7 @@ class MovimientoController extends Controller
      */
     public function index()
     {
-        $movimiento_tipo = MovimientoTipo::all();
+        $movimiento_tipo = MovimientoTipo::->orderBy('id', 'desc')->get();
         return view('backend.informe.movimiento.list', ['movimiento_tipo' => $movimiento_tipo]);
     }
     public function getTabla(Request $request)
