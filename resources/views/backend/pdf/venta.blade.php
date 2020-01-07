@@ -217,6 +217,10 @@
                         <th class="right"  colspan="4">IVA</th>
                         <th class="right">$ {{$venta->iva}}</th>
                     </tr>
+                    <tr>
+                        <th class="right"  colspan="4">Total</th>
+                        <th class="right">$ {{$venta->total}}</th>
+                    </tr>
 
                     @if($venta->total_descuento>0 )
                     <tr class="gris linea-top">
@@ -232,11 +236,8 @@
                     </tr>
                     @endif
 
+
                     
-                    <tr>
-                        <th class="right"  colspan="4">Total</th>
-                        <th class="right">$ {{$venta->total}}</th>
-                    </tr>
 
                     @if($venta->pagado>0 )
                     <tr class="gris linea-top">
