@@ -1001,7 +1001,10 @@ else{
             $('#total_pago_otros').val(total_pago_otros);
 
 
-            total_pago_efectivo = total_total -  total_descuento + total_recargo + 5;
+            total_pago_efectivo = total_total -  total_descuento + total_recargo;
+            total_pago_efectivo = ley_redondeo(total_pago_efectivo);
+
+
             $('#total_pago_efectivo').val(total_pago_efectivo);
 
 
@@ -1272,7 +1275,16 @@ else{
 
 
 
-
+    function ley_redondeo(numero){
+        let resto = numero % 10;
+        let resultado =  Math.trunc(numero/10);
+        if (resto <=5){
+            resultado = resultado *10;
+        }else{
+        	resultado = (resultado + 1 )*10;
+        }
+        return resultado;
+    }
 
 
     function stripZeroes(x){
