@@ -217,6 +217,22 @@
                         <th class="right"  colspan="4">IVA</th>
                         <th class="right">$ {{$venta->iva}}</th>
                     </tr>
+
+                    @if($venta->total_descuento>0 )
+                    <tr class="gris linea-top">
+                        <th class="right" colspan="4">Descuento ({{$venta->total_descuento_detalle}})</th>
+                        <th class="right">$ {{$venta->total_descuento}}</th>
+                    </tr>
+                    @endif
+
+                    @if($venta->total_recargo>0 )
+                    <tr class="gris linea-top">
+                        <th class="right" colspan="4">Recargo ({{$venta->total_recargo_detalle}})</th>
+                        <th class="right">$ {{$venta->total_recargo}}</th>
+                    </tr>
+                    @endif
+
+                    
                     <tr>
                         <th class="right"  colspan="4">Total</th>
                         <th class="right">$ {{$venta->total}}</th>
@@ -234,20 +250,7 @@
                     @endif
 
 
-                    @if($venta->total_descuento>0 )
-                    <tr class="gris linea-top">
-                        <th class="right" colspan="4">Descuento ({{$venta->total_descuento_detalle}})</th>
-                        <th class="right">$ {{$venta->total_descuento}}</th>
-                    </tr>
-                    @endif
-
-                    @if($venta->total_recargo>0 )
-                    <tr class="gris linea-top">
-                        <th class="right" colspan="4">Recargo ({{$venta->total_recargo_detalle}})</th>
-                        <th class="right">$ {{$venta->total_recargo}}</th>
-                    </tr>
-                    @endif
-
+                   
 
                     @if($venta->is_pagado==1)
                     <tr class="gris ">
