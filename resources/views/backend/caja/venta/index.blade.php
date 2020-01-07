@@ -1013,7 +1013,7 @@ else{
 
             var total_pagado=0;
 
-            
+
             var total_venta = $('#total_pago_otros').val();
 
             if(total_venta==''){
@@ -1062,6 +1062,11 @@ else{
 
  
       
+
+        $('.input-descuento').keyup(function(){
+            
+            totales();
+        });
 
      
 
