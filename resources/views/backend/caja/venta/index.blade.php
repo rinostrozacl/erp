@@ -317,6 +317,27 @@ else{
                                         <th colspan="2"> <input id="total_total" name="total_total" class="form-control" ></th>
 
                                     </tr>
+                                    <tr>
+                                        <th colspan="3"> <input id="total_descuento_detalle" name="total_descuento_detalle" class="form-control" > </th> 
+                                        <th colspan="2"> Descuento </th>
+                                        <th colspan="2"> <input id="total_descuento" name="total_descuento" class="form-control" ></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">  <input id="total_descuento_recargo" name="total_descuento_recargo" class="form-control" > </th> 
+                                        <th colspan="2"> Recargo </th>
+                                        <th colspan="2"> <input id="total_recargo" name="total_recargo" class="form-control" ></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3"> </th> 
+                                        <th colspan="2"> Total Pago Efectivo </th>
+                                        <th colspan="2"> <input id="total_pago_otros" name="total_pago_otros" class="form-control" ></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3"> </th> 
+                                        <th colspan="2"> Total Pago Otros medios </th>
+                                        <th colspan="2"> <input id="total_pago_efectivo" name="total_pago_efectivo" class="form-control" ></th>
+                                    </tr>
+
                         
                             </tfoot>
                                 
