@@ -59,8 +59,7 @@ class VentasController extends Controller
             ->addColumn('action', function ($item) {
                 $bt='<a href="'.route('admin.caja.venta.imprimir',$item->id).'"  target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-edit"></i> Ver Documento</a> ';
                 return $bt;
-            })
-            ->editColumn('id', 'ID: {{$id}}')
+            }) 
             ->addColumn('estado', function ($item) {
                 return $item->venta_estado->nombre;
             })
