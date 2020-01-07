@@ -956,12 +956,12 @@ else{
             $('#total_pago_efectivo').val(0);
             
             var total_descuento = $('#total_descuento').val();
-            if(total_descuento == "")){
+            if(total_descuento == ""){
                 total_descuento = 0;
             }
 
             var total_recargo = $('#total_recargo').val();
-            if(total_recargo == "")){
+            if(total_recargo == ""){
                 total_recargo = 0;
             }
 
