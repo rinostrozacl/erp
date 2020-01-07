@@ -1053,16 +1053,12 @@ else{
         });
 
 
-        $('#tabla_venta tbody').on( "change", ".input-pago",function(){
+        $('#tabla_venta tbody').on( "change", ".input-pago, .input-descuento",function(){
             
             totales();
         });
 
-        $('.input-descuento').keyup(function(){
-            console.log("HOLIIII");
-            totales();
-        });
-
+ 
       
 
      
