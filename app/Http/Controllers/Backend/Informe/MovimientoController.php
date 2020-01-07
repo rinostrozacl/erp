@@ -61,7 +61,6 @@ class MovimientoController extends Controller
 
                 return $bt;
             })
-            ->editColumn('id', 'ID: {{$id}}')
             ->addColumn('movimiento_tipo_id', function ($item) {
                 return $item->movimiento_tipo->nombre;
             })
