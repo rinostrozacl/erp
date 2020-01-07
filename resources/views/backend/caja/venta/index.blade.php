@@ -1129,18 +1129,29 @@ else{
 
             $("#btn_guardar").attr("disabled", "true");
  
-            var total_a_pagar =  $("#total_total").val();
+            var total_a_pagar =  $("#total_pago_otros").val();
+            var total_pago_efectivo =  $("#total_pago_efectivo").val();
             var total_pagado =  $("#pagado").val();
 
             var guardar = 1;
 
             if(( !($('#venta_adelanto').is(":checked")) && total_a_pagar != total_pagado && !($('#tp_1').is(":checked")) && !($('#tp_6').is(":checked")) && !($('#tp_7').is(":checked")) && !($('#tp_8').is(":checked"))  ) && {{ $valida_pago}}){
                 
+ 
+                if(total_pago_efectivo == total_pagado){
+                    guardar=1;
+                }else{
                     alert("La suma total difiere del total pagado");
                     $("#btn_guardar").removeAttr("disabled");
                     guardar=0;
+                }
+                    
                 
             }
+
+
+     
+
 
 
             if($('#pago-final-2').val() != ""){
