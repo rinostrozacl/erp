@@ -32,7 +32,7 @@ class MovimientoController extends Controller
     }
     public function getTabla(Request $request)
     {
-        $movimientos = Movimiento::all()->orderBy('id','desc');
+        $movimientos = Movimiento::all();
 
 
         if ($request->movimiento_tipo_id >0) {
