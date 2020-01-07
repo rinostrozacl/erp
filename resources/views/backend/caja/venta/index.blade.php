@@ -329,12 +329,12 @@ else{
                                     </tr>
                                     <tr>
                                         <th colspan="3"> </th> 
-                                        <th colspan="2"> Total Pago Efectivo </th>
+                                        <th colspan="2">Total Pago Otros medios  </th>
                                         <th colspan="2"> <input id="total_pago_otros" name="total_pago_otros" class="form-control" ></th>
                                     </tr>
                                     <tr>
                                         <th colspan="3"> </th> 
-                                        <th colspan="2"> Total Pago Otros medios </th>
+                                        <th colspan="2"> Total Pago Efectivo  </th>
                                         <th colspan="2"> <input id="total_pago_efectivo" name="total_pago_efectivo" class="form-control" ></th>
                                     </tr>
 
@@ -714,7 +714,7 @@ else{
         $('#btn-pago-1').click(function(e){
             e.preventDefault();
             var valor=   $('#pago-1').val();
-            var total_total=   $('#total_total').val();
+            var total_total=   $('#total_pago_efectivo').val();
             if(valor==""){
                 alert("Debe ingresar el monto pagado");
             }else{
@@ -995,17 +995,13 @@ else{
             $('#total_iva').val(total_iva);
             $('#total_total').val(total_total);
 
-
-
             total_pago_otros = total_total -  total_descuento + total_recargo;
             $('#total_pago_otros').val(total_pago_otros);
 
-
             total_pago_efectivo = total_total -  total_descuento + total_recargo;
             total_pago_efectivo = ley_redondeo(total_pago_efectivo);
-
-
             $('#total_pago_efectivo').val(total_pago_efectivo);
+
 
 
             var total_pagado=0;
@@ -1104,52 +1100,10 @@ else{
             });
 
          
-            
-
-           /* $.ajax({
-                url: "{{route('admin.global.info.ProductoById')}}/"+id,
-                type: "get",
-                success: function (data) {
-                    var producto = $.parseJSON( data);
-                    //console.log(respuesta);
-
-
-                    var cantidad=  parseInt($("#cantidad_"+id).val());
-                    var subtotal= cantidad * producto.valor_neto_venta;
-                    var iva = Math.round(subtotal*0.19);
-                    var total = Math.round(subtotal*1.19);
-
-                    if($("input[name='cantidad["+ id +"]']").length == 0){
-                    //alert("cilindro");
-                        var fila ="<tr id=\"tr-detalle-" + id + "\">" +
-                            "<td>"+producto.nombre+" ["+producto.marca.nombre+"] ["+producto.unidad_medida.nombre+"] <input type=\"hidden\"  name=\"productos_id["+ id +"]\" value=\""+id+"\" /></td>" +
-                            "<td> <input type=\"number\" class=\"input-cantidad form-control\" name=\"cantidad["+ id +"]\" value=\""+cantidad+"\" data-id=\"" + id + "\" /></td>" +
-                            "<td> <input type=\"number\" class=\"form-control\" name=\"valor_neto["+ id +"]\"  value=\"" + stripZeroes(producto.valor_neto_venta) + "\"  readonly/>  </td>" +
-                            "<td><input type=\"number\" class=\"form-control\" name=\"sub_total_neto["+ id +"]\"  value=\"" + stripZeroes(subtotal) + "\"  readonly/>   </td>" +
-                            "<td><input type=\"number\"  class=\"form-control\"name=\"iva["+ id +"]\"  value=\"" + stripZeroes(iva) + "\"  readonly/>  </td>" +
-                            "<td> <input type=\"number\"  class=\"form-control\"name=\"total["+ id +"]\"  value=\"" + stripZeroes(total) + "\"  readonly/> </td>" +
-                            "<td> <button class=\"btn btn-danger bt-eliminar\" type=\"button\" data-id=\"" + id + "\"  > [X] </button></td>" +
-                            "</tr>";
-                        $('#tabla_venta tbody').append(fila);
-                        console.log("Producto Nuevo");
-                    }else{
-                        var cantidad_actual = parseInt($("input[name='cantidad["+ id +"]']").val());
-                        var nueva_cantidad = cantidad_actual+cantidad;
-                        $("input[name='cantidad["+ id +"]']").val(nueva_cantidad);
-                        console.log("Producto existente");
-
-                    }
  
 
-                }
-            });
-
-            */
-        
-
         });
-    //fin boton cargar venta anterior
-        
+ 
 
         $("#btn_guardar").on('click',function() {
 
