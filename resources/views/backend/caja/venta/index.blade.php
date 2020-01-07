@@ -714,14 +714,7 @@ else{
 
         
 
-        $('#total_recargo').on('keypress', function (e) {
-            totales();
-        });
-
-        $('#total_descuento').on('keypress', function (e) {
-            totales();
-        });
-        
+       
 
         // boton pagar con efectivo 
         $('#btn-pago-1').click(function(e){
@@ -1060,7 +1053,7 @@ else{
         });
 
 
-        $('#tabla_venta tbody').on( "change", ".input-cantidad",function(){
+        $('#tabla_venta tbody').on( "change", ".input-cantidad, #total_descuento, #total_recargo ",function(){
             totales();
         });
 
