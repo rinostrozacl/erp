@@ -1225,7 +1225,7 @@ else{
 
             }
 
-            $("#btn_guardar").removeAttr("disabled");
+            //$("#btn_guardar").removeAttr("disabled");
 
         });
 
