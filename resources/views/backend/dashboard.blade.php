@@ -18,10 +18,30 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-header">
-                    <strong>@lang('strings.backend.dashboard.welcome') Total ventas Usuario</strong>
+                    <strong>  Total ventas Usuario</strong>
                 </div><!--card-header-->
                 <div class="card-body">
-                     
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                          <thead>
+                          <tr>
+                            <th>Mes</th>
+                            <th>Monto</th>
+                            <th>Status</th> 
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                            <td>Call of Duty IV</td>
+                          
+                          </tr>
+                      
+                          
+                          </tbody>
+                        </table>
+                      </div> 
+                    
                 </div><!--card-body-->
             </div><!--card-->
 

@@ -724,7 +724,7 @@ else{
             if(valor==""){
                 alert("Debe ingresar el monto pagado");
             }else{
-                if(valor < total_total){
+                if(parseInt(valor) < parseInt(total_total)){
                     $('#pago-final-1').val(valor);
                 }else{
                 var vuelto= parseInt(valor) - parseInt(total_total)
