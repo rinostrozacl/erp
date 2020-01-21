@@ -134,6 +134,7 @@
                     url: '{{route('admin.informe.ventas.tabla')}}',
                     data: function (d) {
                         d.venta_estado_id =  $('input[name=venta_estado_id]').val();   
+                        d.user_id =  $('input[name=user_id]').val();   
                         d.fecha_inicio = $('input[name=fecha_inicio]').val();
                         d.fecha_fin = $('input[name=fecha_fin]').val();
                     }
