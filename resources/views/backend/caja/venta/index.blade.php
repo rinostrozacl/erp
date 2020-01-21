@@ -1052,7 +1052,7 @@ else{
             $('#total_pago_otros').val(total_pago_otros);
 
             
-            total_pago_efectivo = ley_redondeo(total_pago_efectivo);
+            total_pago_efectivo = ley_redondeo(total_pago_otros);
             $('#total_pago_efectivo').val(total_pago_efectivo);
 
 
