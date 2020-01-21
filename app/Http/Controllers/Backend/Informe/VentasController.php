@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend\Informe;
 
 
 use App\Models\Auth\User;
-use App\Models\MovimientoTipo;
+use App\Models\VentaEstado;
 use App\Models\Ubicacion;
 use App\Models\Unidad;
 use App\Models\Venta;
@@ -26,19 +26,20 @@ class VentasController extends Controller
      */
     public function index()
     {
-        //$movimiento_tipo = MovimientoTipo::all();
-        return view('backend.informe.ventas.list' );
+        $venta_estado = VentaEstado::all();
+        return view('backend.informe.ventas.list', compact($venta_estado));
     }
+
     public function getTabla(Request $request)
     {
-        $movimientos = Venta::all()->sortBy('id');
+        $ventas = Venta::all()->sortBy('id');
 
-        /*
-        if ($request->movimiento_tipo_id >0) {
+       
+        if ($request->venta_estado_id >0) {
 
-            $movimientos=$movimientos->where('movimiento_tipo_id', $request->movimiento_tipo_id);
+            $ventas=$ventas->where('movimiento_tipo_id', $request->venta_estado_id);
         }
-        */
+      /*
         if ($request->fecha_inicio != "") {
 
             $movimientos=$movimientos->where('created_at', ">" , $request->fecha_inicio);
@@ -53,9 +54,9 @@ class VentasController extends Controller
 
             $movimientos=$movimientos->where('created_at', ">" , $request->fecha_inicio)->where('movimiento_tipo_id', "<", $request->fecha_fin);
         }
-
+   */
        
-        return Datatables::of($movimientos)
+        return Datatables::of($ventas)
             ->addColumn('action', function ($item) {
                 $bt='<a href="'.route('admin.caja.venta.imprimir',$item->id).'"  target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-edit"></i> Ver Documento</a> ';
                 return $bt;
@@ -71,14 +72,8 @@ class VentasController extends Controller
                     }else{
                         $resp .= "No especificado ";
                     }
-                    
-                   
-
-                }
-                                   
-                $resp .= " (".$item->contacto_nombre ." )";
-                
-
+                }              
+                $resp .= " (".$item->contacto_nombre ." )"; 
                 return $resp;
             })
             ->editColumn('user_id', function ($item) {

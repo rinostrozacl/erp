@@ -49,12 +49,11 @@
 
                                 <div class="form-group row">
                                     <label for="vat" class="col-sm-1">Tipo</label>
-                                    <select class="form-control col-sm-2" id="tipo_id" name="tipo_id">
+                                    <select class="form-control col-sm-2" id="venta_estado_id" name="venta_estado_id">
                                         <option value="0">Todos</option>
-                                        <option value="0">Ventas</option>
-                                        <option value="0">Cotizaciones</option>
-                                        <option value="0">Ventas Con factura</option>
-                                        <option value="0">Ventas Con boleta</option>
+                                        @for ($venta_estado as $estado)
+                                            <option value="{{$estado->id}}">{{$estado->nombre}}</option>
+                                        @endfor
 
                                          
                                     </select>
@@ -121,7 +120,7 @@
                 ajax: {
                     url: '{{route('admin.informe.ventas.tabla')}}',
                     data: function (d) {
-                        d.tipo_id = $('select[name=tipo_id]').val();
+                        d.venta_estado_id = $('#venta_estado_id]').val();
                         d.fecha_inicio = $('input[name=fecha_inicio]').val();
                         d.fecha_fin = $('input[name=fecha_fin]').val();
                     }
