@@ -1033,7 +1033,7 @@ else{
 
             $("input[name='total_neto2']").val(total_neto2); 
 
-            var total_iva = parseInt(total_neto2*1.19);
+            var total_iva = parseInt(total_neto2*0.19);
 
             $("input[name='total_iva2']").val(total_iva); 
 
