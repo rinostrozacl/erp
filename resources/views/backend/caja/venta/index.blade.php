@@ -317,6 +317,14 @@ else{
                                         <th colspan="2"> <input id="total_total" name="total_total" class="form-control" ></th>
 
                                     </tr>
+
+                                    <tr>
+                                        <th colspan="3"> </th> 
+                                        <th colspan="2">SubTotal Neto  </th>
+                                        <th colspan="2"> <input id="total_neto" name="total_neto" class="form-control" readonly ></th>
+                                    </tr>
+
+
                                     <tr>
                                         <th colspan="3"> <input id="total_descuento_detalle" name="total_descuento_detalle" class="form-control" > </th> 
                                         <th colspan="2"> Descuento </th>
@@ -327,6 +335,23 @@ else{
                                         <th colspan="2"> Recargo </th>
                                         <th colspan="2"> <input id="total_recargo" name="total_recargo" class="form-control input-descuento"   type="number" /></th>
                                     </tr>
+
+
+                                    <tr>
+                                        <th colspan="3"> </th> 
+                                        <th colspan="2">Total Neto  (Descuentos aplicados) </th>
+                                        <th colspan="2"> <input id="total_neto2" name="total_neto2" class="form-control" readonly ></th>
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="3"> </th> 
+                                        <th colspan="2">IVA  </th>
+                                        <th colspan="2"> <input id="total_iva2" name="total_iva2" class="form-control" readonly ></th>
+                                    </tr>
+
+
+
+
                                     <tr>
                                         <th colspan="3"> </th> 
                                         <th colspan="2">Total Pago Otros medios  </th>
@@ -994,18 +1019,41 @@ else{
 
                 total_cantidad += cantidad;
                 total_subtotal_neto +=sub_total_neto;
-                total_iva += iva;
-                total_total +=total;
+                
             });
+            
+
+
+            total_iva=  iva;
+            total_total +=total;
+
+
+
+            $("input[name='total_neto']").val(total_subtotal_neto); 
+
+            var total_neto2 = parseInt(total_subtotal_neto)-  total_descuento + total_recargo;
+
+            $("input[name='total_neto2']").val(total_neto2); 
+
+            var total_iva = parseInt(total_neto2*1.19);
+
+            $("input[name='total_iva2']").val(total_iva); 
+
+
+
             $('#total_cantidad').val(total_cantidad);
-            $('#total_subtotal_neto').val(total_subtotal_neto);
+           
+           /* $('#total_subtotal_neto').val(total_subtotal_neto);
+
             $('#total_iva').val(total_iva);
             $('#total_total').val(total_total);
+*/
 
-            total_pago_otros = total_total -  total_descuento + total_recargo;
+
+            total_pago_otros = total_neto2  +total_iva ;
             $('#total_pago_otros').val(total_pago_otros);
 
-            total_pago_efectivo = total_total -  total_descuento + total_recargo;
+            
             total_pago_efectivo = ley_redondeo(total_pago_efectivo);
             $('#total_pago_efectivo').val(total_pago_efectivo);
 

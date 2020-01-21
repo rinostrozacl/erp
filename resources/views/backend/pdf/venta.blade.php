@@ -206,22 +206,9 @@
                 </tbody>
                 <tfoot class="linea-bot">
                     <tr>
-                            <th class="right"  colspan="4">Total Descuentos</th>
-                            <th class="right">$ 0</th>
-                    </tr>
-                    <tr>
-                        <th class="right"  colspan="4">Total Neto</th>
+                        <th class="right"  colspan="4">SubTotal Neto</th>
                         <th class="right"><b>$ {{$venta->suma_neto}}</b></th>
                     </tr>
-                    <tr>
-                        <th class="right"  colspan="4">IVA</th>
-                        <th class="right">$ {{$venta->iva}}</th>
-                    </tr>
-                    <tr>
-                        <th class="right"  colspan="4">Total</th>
-                        <th class="right">$ {{$venta->total}}</th>
-                    </tr>
-
                     @if($venta->total_descuento>0 )
                     <tr class="gris linea-top">
                         <th class="right" colspan="4">Descuento ({{$venta->total_descuento_detalle}})</th>
@@ -235,6 +222,25 @@
                         <th class="right">$ {{$venta->total_recargo}}</th>
                     </tr>
                     @endif
+                    
+                    @if($venta->total_recargo>0  || $venta->total_descuento>0)
+                    <tr class="gris linea-top">
+                        <th class="right"  colspan="4">Total Neto (Descuentos y recargos)</th>
+                        <th class="right"><b>$ {{$venta->suma_neto_ajustado}}</b></th>
+                    </tr>
+                    @endif
+
+
+                    <tr>
+                        <th class="right"  colspan="4">IVA</th>
+                        <th class="right">$ {{$venta->iva}}</th>
+                    </tr>
+                    <tr>
+                        <th class="right"  colspan="4">Total</th>
+                        <th class="right">$ {{$venta->total}}</th>
+                    </tr>
+
+                    
 
 
                     

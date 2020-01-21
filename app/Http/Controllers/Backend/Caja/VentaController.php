@@ -251,7 +251,8 @@ class VentaController extends Controller
             $venta->total_descuento = $request->total_descuento;
             $venta->total_recargo_detalle = $request->total_recargo_detalle;
             $venta->total_recargo = $request->total_recargo;
-
+            $venta->suma_neto_ajustado = $request->total_neto2;
+            
 
             $venta->venta_estado_id= $tipo_venta;
             if($tipo_venta!=7 && $tipo_venta!=8){
@@ -268,9 +269,9 @@ class VentaController extends Controller
             
             
 
-            $venta->suma_neto = $request->total_subtotal_neto;
-            $venta->iva = $request->total_iva;
-            $venta->total = $request->total_total;
+            $venta->suma_neto = $request->total_neto;
+            $venta->iva = $request->total_iva2;
+            $venta->total = $request->total_pago_otros;
  
             // si el tipo de venta es preventa, deja el pago pendiente
             if($tipo_venta == "6"){ 

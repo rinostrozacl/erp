@@ -32,8 +32,8 @@
                           </thead>
                           <tbody>
                           <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>Call of Duty IV</td>
+                            <td><a href="pages/examples/invoice.html">Neto</a></td>
+                            <td></td>
                           
                           </tr>
                       
