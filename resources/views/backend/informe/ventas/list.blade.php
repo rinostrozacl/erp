@@ -58,6 +58,19 @@
                                          
                                     </select>
 
+                                    <label for="vat" class="col-sm-1">Usuario</label>
+                                    <select class="form-control col-sm-2" id="user_id" name="user_id">
+                                        <option value="0">Todos</option>
+                                        @foreach ($usuarios as $usuario)
+                                            <option value="{{$estado->id}}">{{$estado->first_name}} {{$estado->last_name}} </option>
+                                        @endforeach
+
+                                         
+                                    </select>
+
+
+
+
                                     <label for="fecha_inicio" class="col-sm-1">F. Inicio</label>
                                     <input class="form-control col-sm-2" id="fecha_inicio" name="fecha_inicio" type="date">
                                     <label for="fecha_fin" class="col-sm-1">F. Fin</label>
