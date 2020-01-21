@@ -1023,9 +1023,7 @@ else{
             });
             
 
-
-            total_iva=  iva;
-            total_total +=total;
+ 
 
 
 
