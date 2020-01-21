@@ -225,7 +225,7 @@
                     
                     @if($venta->total_recargo>0  || $venta->total_descuento>0)
                     <tr class="gris linea-top">
-                        <th class="right"  colspan="4">Total Neto (Descuentos y recargos)</th>
+                        <th class="right"  colspan="4">Total Neto </th>
                         <th class="right"><b>$ {{$venta->suma_neto_ajustado}}</b></th>
                     </tr>
                     @endif

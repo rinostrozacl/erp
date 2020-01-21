@@ -140,21 +140,48 @@
                                 </tbody>
 
                             <tfoot>
+
                                 <tr>
-                                        <th colspan="4"></th>
-                                        <th> Total: </th> 
-                                        <th>  {{$venta->total}}  </th> 
-                                    </tr>
-                                    <tr>
-                                        <th colspan="4"></th>
-                                        <th> Pagado: </th> 
-                                        <th>  {{$venta->pagado}}  </th> 
-                                    </tr>
-                                    <tr>
-                                        <th colspan="4"></th>
-                                        <th> Pendiente: </th> 
-                                        <th>  {{$venta->pendiente_pago}}  </th> 
-                                    </tr>
+                                    <th colspan="4"></th>
+                                    <th> SubTotal: </th> 
+                                    <th>  {{$venta->suma_neto}}  </th> 
+                                </tr>
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> Descuento: </th> 
+                                    <th>  {{$venta->total_descuento}}  </th> 
+                                </tr>
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> Recargo: </th> 
+                                    <th>  {{$venta->total_recargo}}  </th> 
+                                </tr>     
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> Neto: </th> 
+                                    <th>  {{$venta->suma_neto_ajustado}}  </th> 
+                                </tr>     
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> IVA: </th> 
+                                    <th>  {{$venta->iva}}  </th> 
+                                </tr>   
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> Total: </th> 
+                                    <th>  {{$venta->total}}  </th> 
+                                </tr>
+
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> Pagado: </th> 
+                                    <th>  {{$venta->pagado}}  </th> 
+                                </tr>
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th> Pendiente: </th> 
+                                    <th>  {{$venta->pendiente_pago}}  </th> 
+                                </tr>
 
                             </tfoot>
                                 
