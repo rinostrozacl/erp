@@ -42,6 +42,13 @@ class VentasController extends Controller
 
             $ventas=$ventas->where('movimiento_tipo_id', $request->venta_estado_id);
         }
+
+        if ($request->user_id >0) {
+
+            $ventas=$ventas->where('user_id', $request->user_id);
+        }
+
+
       /*
         if ($request->fecha_inicio != "") {
 
