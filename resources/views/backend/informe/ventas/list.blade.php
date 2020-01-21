@@ -51,9 +51,9 @@
                                     <label for="vat" class="col-sm-1">Tipo</label>
                                     <select class="form-control col-sm-2" id="venta_estado_id" name="venta_estado_id">
                                         <option value="0">Todos</option>
-                                        @for ($venta_estado as $estado)
+                                        @foreach ($venta_estado as $estado)
                                             <option value="{{$estado->id}}">{{$estado->nombre}}</option>
-                                        @endfor
+                                        @endforeach
 
                                          
                                     </select>
