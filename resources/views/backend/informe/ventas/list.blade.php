@@ -120,7 +120,7 @@
                 ajax: {
                     url: '{{route('admin.informe.ventas.tabla')}}',
                     data: function (d) {
-                        d.venta_estado_id = 1;
+                        d.venta_estado_id =  $('input[name=venta_estado_id]').val();   
                         d.fecha_inicio = $('input[name=fecha_inicio]').val();
                         d.fecha_fin = $('input[name=fecha_fin]').val();
                     }
