@@ -1109,12 +1109,19 @@ else{
  
       
 
-        $('.input-descuento, input-cantidad').keyup(function(){
+        $('.input-descuento, input-cantidad, .input-pago').keyup(function(){
             
             totales();
         });
 
      
+
+        $('.input-descuento, input-cantidad').keyup(function(){
+            
+            totales();
+        });
+
+
 
 
         $('input[type=radio][name="tipo_venta"]').change(function() { 
