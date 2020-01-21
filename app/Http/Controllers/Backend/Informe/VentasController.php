@@ -27,7 +27,7 @@ class VentasController extends Controller
     public function index()
     {
         $venta_estado = VentaEstado::all();
-        return view('backend.informe.ventas.list')->with( $venta_estado);
+        return view('backend.informe.ventas.list')->with( 'venta_estado', $venta_estado);
     }
 
     public function getTabla(Request $request)
