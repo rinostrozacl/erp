@@ -62,7 +62,7 @@
                                     <select class="form-control col-sm-2" id="user_id" name="user_id">
                                         <option value="0">Todos</option>
                                         @foreach ($usuarios as $usuario)
-                                            <option value="{{$estado->id}}">{{$estado->first_name}} {{$estado->last_name}} </option>
+                                            <option value="{{$usuario->id}}">{{$usuario->first_name}} {{$usuario->last_name}} </option>
                                         @endforeach
 
                                          
