@@ -38,7 +38,7 @@ class VentasController extends Controller
 
             $movimientos=$movimientos->where('movimiento_tipo_id', $request->movimiento_tipo_id);
         }
-
+        */
         if ($request->fecha_inicio != "") {
 
             $movimientos=$movimientos->where('created_at', ">" , $request->fecha_inicio);
@@ -54,7 +54,7 @@ class VentasController extends Controller
             $movimientos=$movimientos->where('created_at', ">" , $request->fecha_inicio)->where('movimiento_tipo_id', "<", $request->fecha_fin);
         }
 
-        */
+       
         return Datatables::of($movimientos)
             ->addColumn('action', function ($item) {
                 $bt='<a href="'.route('admin.caja.venta.imprimir',$item->id).'"  target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-edit"></i> Ver Documento</a> ';
