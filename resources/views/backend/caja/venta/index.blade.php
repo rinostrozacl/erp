@@ -1217,6 +1217,30 @@ else{
             
             }
 
+
+
+
+            var total_neto = parseInt( $('#total_neto').val()); 
+            var total_descuento = parseInt( $('#total_descuento').val()); 
+            var total_recargo = parseInt( $('#total_recargo').val()); 
+
+            var porcentaje_descuento = (total_descuento / total_neto) * 100;
+            var porcentaje_recargo = (total_recargo / total_neto) * 100;
+
+            if(porcentaje_descuento > 5 ){
+                alert("El porcentaje de descuento maximo aplicable es de 5%");
+                guardar=0;
+                $("#btn_guardar").removeAttr("disabled");
+            }
+
+            if(porcentaje_recargo > 30){
+                alert("El porcentaje de recargo maximo aplicable es de 30%");
+                guardar=0;
+                $("#btn_guardar").removeAttr("disabled");
+            }
+           
+
+
             
             if(guardar == 1){
 
@@ -1238,6 +1262,8 @@ else{
                             }else{
                                 $("#btn_guardar").removeAttr("disabled");
                             }
+ 
+
 
 
                             if(respuesta.mensaje){
