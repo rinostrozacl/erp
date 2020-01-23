@@ -26,7 +26,7 @@ class VentasVendedorController extends Controller
      */
     public function index()
   
-        return view('backend.informe.ventas.list');
+        return view('backend.informe.ventasvendedor.list');
     }
 
     public function getTabla(Request $request)
