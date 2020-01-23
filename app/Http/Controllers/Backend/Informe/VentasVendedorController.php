@@ -58,9 +58,7 @@ class VentasVendedorController extends Controller
             })
             ->addColumn('vendedor', function ($item) {
                 return $item->user->first_name .  " " . $item->user->last_name;
-            })
-
-            ->make(true);
+            })->make(true);
     }
 
 
