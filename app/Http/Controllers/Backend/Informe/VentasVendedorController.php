@@ -54,10 +54,10 @@ class VentasVendedorController extends Controller
        
         return Datatables::of($usuarios)
             ->addColumn('monto', function ($item) {
-                $total = DB::select('SELECT SUM(total) as total FROM `venta` 
+                $total = DB::select("SELECT SUM(total) as total FROM `venta` 
                                 where (venta_estado_id = 2 or venta_estado_id = 3 or venta_estado_id = 4) and 
                                 (created_at BETWEEN '2019-12-30' AND '2020-09-29')
-                                 GROUP by user_id having user_id= ? ', $item->id);
+                                 GROUP by user_id having user_id= ? ", $item->id);
 
 
   
