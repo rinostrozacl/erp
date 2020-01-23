@@ -57,7 +57,7 @@ class VentasVendedorController extends Controller
        
         return Datatables::of($usuarios)
             ->addColumn('vendedor', function ($item) {
-                $user = User::find($item->id)
+                $user = User::find($item->id);
                 
                 return $user->first_name .  " " . $user->last_name;
             })->make(true);
