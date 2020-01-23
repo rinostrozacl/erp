@@ -31,10 +31,7 @@ class VentasVendedorController extends Controller
 
     public function getTabla(Request $request)
     {
-        $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id as id FROM `venta` 
-        where (venta_estado_id = 2 or venta_estado_id = 3 or venta_estado_id = 4) and 
-        (created_at BETWEEN '2019-12-30' AND '2020-09-29')
-         GROUP by user_id ");
+        
 
   
 
@@ -48,12 +45,20 @@ class VentasVendedorController extends Controller
 
             $movimientos=$movimientos->where('movimiento_tipo_id', "<", $request->fecha_fin);
         }
-
+ */
         if ($request->fecha_inicio != "" && $request->fecha_fin != "") {
 
-            $movimientos=$movimientos->where('created_at', ">" , $request->fecha_inicio)->where('movimiento_tipo_id', "<", $request->fecha_fin);
+            $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id as id FROM `venta` 
+            where (venta_estado_id = 2 or venta_estado_id = 3 or venta_estado_id = 4) and 
+            (created_at BETWEEN '". request->fecha_inicio ."' AND '". $request->fecha_fin ."')
+             GROUP by user_id ");
+        }else{
+
+            $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id as id FROM `venta` 
+            where (venta_estado_id = 2 or venta_estado_id = 3 or venta_estado_id = 4) 
+             GROUP by user_id ");
         }
-   */
+  
        
         return Datatables::of($usuarios)
             ->addColumn('vendedor', function ($item) {
