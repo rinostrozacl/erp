@@ -205,6 +205,10 @@ Breadcrumbs::for('admin.informe.proveedor.form', function ($trail) {
     $trail->push(__('Estado de cuenta Proveedor'), route('admin.informe.proveedor.form'));
 });
 
+Breadcrumbs::for('admin.informe.ventasvendedor', function ($trail) {
+    $trail->push(__('Informe de vendedores'), route('admin.informe.ventasvendedor'));
+});
+
 
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';

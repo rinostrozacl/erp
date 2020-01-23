@@ -244,6 +244,16 @@ Route::get('informe/stockcritico', [StockCriticoController::class, 'index'])->na
 Route::get('informe/stockcritico/tabla', [StockCriticoController::class, 'getTabla'])->name('informe.stockcritico.tabla');
 Route::get('informe/stockcritico/form/{id?}', [StockCriticoController::class, 'getEdit'])->name('informe.stockcritico.form');
 
+
+
+
+// VentasVendedor
+
+Route::get('informe/ventasvendedor', [VentasVendedorController::class, 'index'])->name('informe.ventasvendedor');
+Route::get('informe/ventasvendedor/tabla', [VentasVendedorController::class, 'getTabla'])->name('informe.ventasvendedor.tabla'); 
+
+
+
 /*
  * Fin sub menu general
  */
