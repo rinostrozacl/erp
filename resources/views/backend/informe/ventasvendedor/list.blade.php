@@ -115,7 +115,7 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'vendedor', name: 'vendedor'},
-                    {data: 'monto', name: 'monto'},
+                    {data: 'monto', name: 'monto'}
                 ]
 
             });
