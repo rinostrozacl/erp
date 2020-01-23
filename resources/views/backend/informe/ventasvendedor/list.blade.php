@@ -48,27 +48,7 @@
                             <div class="card-body">
 
                                 <div class="form-group row">
-                                    <label for="vat" class="col-sm-1">Tipo</label>
-                                    <select class="form-control col-sm-2" id="venta_estado_id" name="venta_estado_id">
-                                        <option value="0">Todos</option>
-                                        @foreach ($venta_estado as $estado)
-                                            <option value="{{$estado->id}}">{{$estado->nombre}}</option>
-                                        @endforeach
-
-                                         
-                                    </select>
-
-                                    <label for="vat" class="col-sm-1">Usuario</label>
-                                    <select class="form-control col-sm-2" id="user_id" name="user_id">
-                                        <option value="0">Todos</option>
-                                        @foreach ($usuarios as $usuario)
-                                            <option value="{{$usuario->id}}">{{$usuario->first_name}} {{$usuario->last_name}} </option>
-                                        @endforeach
-
-                                         
-                                    </select>
-
-
+                                     
 
 
                                     <label for="fecha_inicio" class="col-sm-1">F. Inicio</label>
@@ -90,14 +70,8 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Estado</th>
-                                <th>Cliente</th>
-                                <th>Neto</th>
-                                <th>Iva</th>
-                                <th>Total</th>
-                                <th>Fecha</th>
-                                <th>Efectuado por</th>
-                                <th>@lang('labels.general.actions')</th>
+                                <th>Vendedor</th>
+                                <th>Monto</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -133,8 +107,6 @@
                 ajax: {
                     url: '{{route('admin.informe.ventas.tabla')}}',
                     data: function (d) {
-                        d.venta_estado_id =   parseInt($('input[name=venta_estado_id]').val());   
-                        d.user_id =  parseInt($('#user_id').val());   
                         d.fecha_inicio = $('input[name=fecha_inicio]').val();
                         d.fecha_fin = $('input[name=fecha_fin]').val();
                     }
@@ -142,14 +114,8 @@
 
                 columns: [
                     {data: 'id', name: 'id'},
-                    {data: 'estado', name: 'estado'},
-                    {data: 'cliente_id', name: 'cliente_id'},
-                    {data: 'suma_neto', name: 'suma_neto'},
-                    {data: 'iva', name: 'iva'},
-                    {data: 'total', name: 'total'},
-                    {data: 'created_at', name: 'created_at'},
-                    {data: 'user_id', name: 'user_id'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                    {data: 'vendedor', name: 'vendedor'},
+                    {data: 'monto', name: 'monto'},
                 ]
 
             });

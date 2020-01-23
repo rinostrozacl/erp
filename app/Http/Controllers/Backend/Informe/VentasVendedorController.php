@@ -11,7 +11,7 @@ use App\Models\Venta;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-use App\Models\Movimiento;
+use App\Models\Movimiento; 
 use Illuminate\Http\Request;
 use DataTables;
 use Validator;
@@ -25,29 +25,15 @@ class VentasVendedorController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {
-        $usuarios = User::all();
-        $venta_estado = VentaEstado::all();
-        return view('backend.informe.ventas.list')
-            ->with('venta_estado', $venta_estado)
-            ->with('usuarios', $usuarios);
+  
+        return view('backend.informe.ventas.list');
     }
 
     public function getTabla(Request $request)
     {
-        $ventas = Venta::all()->sortBy('id');
+        $usuarios = User::all()->sortBy('id');
 
-       
-        if ($request->venta_estado_id >0) {
-
-            $ventas=$ventas->where('movimiento_tipo_id', $request->venta_estado_id);
-        }
-
-        if ($request->user_id >0) {
-
-            $ventas=$ventas->where('user_id', $request->user_id);
-        }
-
+  
 
       /*
         if ($request->fecha_inicio != "") {
@@ -66,27 +52,11 @@ class VentasVendedorController extends Controller
         }
    */
        
-        return Datatables::of($ventas)
-            ->addColumn('action', function ($item) {
-                $bt='<a href="'.route('admin.caja.venta.imprimir',$item->id).'"  target="_blank" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-edit"></i> Ver Documento</a> ';
-                return $bt;
-            }) 
-            ->addColumn('estado', function ($item) {
-                return $item->venta_estado->nombre;
+        return Datatables::of($usuarios)
+            ->addColumn('monto', function ($item) {
+                return 0;
             })
-            ->editColumn('cliente_id', function ($item) {
-                $resp="";
-                if ($item->cliente){
-                    if ($item->cliente_id >3){
-                        $resp .= $item->cliente->nombre;
-                    }else{
-                        $resp .= "No especificado ";
-                    }
-                }              
-                $resp .= " (".$item->contacto_nombre ." )"; 
-                return $resp;
-            })
-            ->editColumn('user_id', function ($item) {
+            ->addColumn('vendedor', function ($item) {
                 return $item->user->first_name .  " " . $item->user->last_name;
             })
 
