@@ -251,7 +251,7 @@ Route::get('informe/stockcritico/form/{id?}', [StockCriticoController::class, 'g
 
 // VentasVendedor
 
-Route::get('informe/ventasvendedor', [VentasVendedorController::class, 'index'])->name('informe.ventasvendedorventasvendedor');
+Route::get('informe/ventasvendedor', [VentasVendedorController::class, 'index'])->name('informe.ventasvendedor');
 Route::get('informe/ventasvendedor/tabla', [VentasVendedorController::class, 'getTabla'])->name('informe.ventasvendedor.tabla'); 
 
 
