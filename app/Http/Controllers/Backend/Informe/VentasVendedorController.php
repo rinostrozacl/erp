@@ -24,7 +24,7 @@ class VentasVendedorController extends Controller
     /**
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(){
   
         return view('backend.informe.ventasvendedor.list');
     }
