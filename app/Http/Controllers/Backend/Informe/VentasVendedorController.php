@@ -31,7 +31,7 @@ class VentasVendedorController extends Controller
 
     public function getTabla(Request $request)
     {
-        $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id FROM `venta` 
+        $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id as id FROM `venta` 
         where (venta_estado_id = 2 or venta_estado_id = 3 or venta_estado_id = 4) and 
         (created_at BETWEEN '2019-12-30' AND '2020-09-29')
          GROUP by user_id ");
@@ -57,8 +57,9 @@ class VentasVendedorController extends Controller
        
         return Datatables::of($usuarios)
             ->addColumn('vendedor', function ($item) {
-                return $item->user_id;
-                //return $item->first_name .  " " . $item->last_name;
+                $user = User::find($item->id)
+                
+                return $user->first_name .  " " . $user->last_name;
             })->make(true);
     }
 
