@@ -103,7 +103,7 @@
             var tabla= $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                order: [[ 0, "desc" ]],
+                order: [[ 1, "asc" ]],
                 ajax: {
                     url: '{{route('admin.informe.ventasvendedor.tabla')}}',
                     data: function (d) {
