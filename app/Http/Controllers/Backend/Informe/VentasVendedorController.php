@@ -50,9 +50,8 @@ class VentasVendedorController extends Controller
 
             $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id as id FROM `venta` 
             where (venta_estado_id = 2 or venta_estado_id = 3 or venta_estado_id = 4) and 
-            (created_at BETWEEN '". request->fecha_inicio ."' AND '". $request->fecha_fin ."')
+            (created_at BETWEEN '". $request->fecha_inicio ."' AND '". $request->fecha_fin ."')
              GROUP by user_id ");
-             echo "filtrado";
         }else{
 
             $usuarios = $total = DB::select("SELECT SUM(total) as monto, user_id as id FROM `venta` 
