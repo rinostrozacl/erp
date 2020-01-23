@@ -131,7 +131,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/ventasvendedor')) }}" href="{{ route('admin.informe.ventasvendedor') }}">
-                            Historial de Ventas
+                            Ventas por vendedor
                         </a>
                     </li>
                 </ul>
