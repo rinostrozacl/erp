@@ -105,7 +105,7 @@
                 serverSide: true,
                 order: [[ 0, "desc" ]],
                 ajax: {
-                    url: '{{route('admin.informe.ventas.tabla')}}',
+                    url: '{{route('admin.informe.ventasvendedor.tabla')}}',
                     data: function (d) {
                         d.fecha_inicio = $('input[name=fecha_inicio]').val();
                         d.fecha_fin = $('input[name=fecha_fin]').val();
