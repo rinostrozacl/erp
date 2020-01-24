@@ -219,19 +219,22 @@ class BodegaController extends Controller
                 foreach ($list_productos_entregado_id as $clave => $valor) {
                     //if(is_entregado)
                     $producto = Producto::find($valor);
-                    if($producto->stock_disponible>=$list_cantidades[$clave]){
+                    //if($producto->stock_disponible>=$list_cantidades[$clave]){
                         if($producto->is_fungible==0){
 
                             for ($i = 1; $i <= $list_cantidades[$clave]; $i++) {
                                 $unidad = Unidad::where('is_vendido',0)->where('producto_id',$valor)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
-                                $unidad->ubicacion_id = $request->ubicacion_destino_id;
-                                $unidad->is_vendido = 1;
-                                $unidad->save();
-
-                                $unidad_movimiento = new UnidadMovimiento();
-                                $unidad_movimiento->movimiento_id= $movimiento->id;
-                                $unidad_movimiento->unidad_id= $unidad->id;
-                                $unidad_movimiento->save();
+                                if($unidad){
+                                    $unidad->ubicacion_id = $request->ubicacion_destino_id;
+                                    $unidad->is_vendido = 1;
+                                    $unidad->save();
+    
+                                    $unidad_movimiento = new UnidadMovimiento();
+                                    $unidad_movimiento->movimiento_id= $movimiento->id;
+                                    $unidad_movimiento->unidad_id= $unidad->id;
+                                    $unidad_movimiento->save();
+                                }
+                                
                             }
                         }
                         $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
@@ -240,7 +243,7 @@ class BodegaController extends Controller
                         $p_u->stock_disponible=$p_u->stock_disponible  - $list_cantidades[$clave];
                         $p_u->save();
 
-                    }
+                    //}
                     $producto->save();
                 }
                 $venta = Venta::find($venta_id);
