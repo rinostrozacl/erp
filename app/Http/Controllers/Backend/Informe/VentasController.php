@@ -28,7 +28,7 @@ class VentasController extends Controller
     {
         $usuarios = User::all();
         $venta_estado = VentaEstado::all();
-        return view('backend.informe.ventasvendedor.list')
+        return view('backend.informe.ventas.list')
             ->with('venta_estado', $venta_estado)
             ->with('usuarios', $usuarios);
     }
