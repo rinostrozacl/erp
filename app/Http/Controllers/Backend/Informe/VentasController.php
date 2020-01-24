@@ -11,6 +11,7 @@ use App\Models\Venta;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use DB;
+use App\Models\Cliente;
 use App\Models\Movimiento;
 use Illuminate\Http\Request;
 use DataTables;
