@@ -35,18 +35,55 @@ class VentasController extends Controller
 
     public function getTabla(Request $request)
     {
-        $ventas = Venta::all()->sortBy('id');
 
-       
+
+
         if ($request->venta_estado_id >0) {
+            $whereestado = " and (venta_estado_id = ". $request->venta_estado_id ."  ) ";
+            
+        } else {
 
-            $ventas=$ventas->where('movimiento_tipo_id', $request->venta_estado_id);
+            $whereestado = "";
+        }
+
+        if ($request->fecha_inicio != "" && $request->fecha_fin != "") {
+            $wherefecha = " and 
+            (created_at BETWEEN '". $request->fecha_inicio ."' AND '". $request->fecha_fin ."') ";
+            
+        } else {
+
+            $wherefecha = "";
         }
 
         if ($request->user_id >0) {
 
-            $ventas=$ventas->where('user_id', $request->user_id);
+            $whereusuario=" and (user_id = ". $request->user_id ."  ) "; 
+        } else {
+
+            $whereusuario = "";
         }
+
+
+
+
+      
+
+        $sql = "SELECT * FROM `venta` 
+        where 1  $whereestado $whereusuario $wherefecha ";
+
+
+
+       
+       
+       
+
+        
+
+
+
+        $ventas = $total = DB::select($sql);
+
+
 
 
       /*
@@ -60,10 +97,7 @@ class VentasController extends Controller
             $movimientos=$movimientos->where('movimiento_tipo_id', "<", $request->fecha_fin);
         }
 
-        if ($request->fecha_inicio != "" && $request->fecha_fin != "") {
-
-            $movimientos=$movimientos->where('created_at', ">" , $request->fecha_inicio)->where('movimiento_tipo_id', "<", $request->fecha_fin);
-        }
+  
    */
        
         return Datatables::of($ventas)
@@ -72,13 +106,16 @@ class VentasController extends Controller
                 return $bt;
             }) 
             ->addColumn('estado', function ($item) {
-                return $item->venta_estado->nombre;
+                $venta_estado = VentaEstado::find($item->venta_estado_id);
+                return $venta_estado->nombre;
             })
             ->editColumn('cliente_id', function ($item) {
+                $cliente= Cliente::find($item->cliente_id);
+
                 $resp="";
-                if ($item->cliente){
+                if ($cliente){
                     if ($item->cliente_id >3){
-                        $resp .= $item->cliente->nombre;
+                        $resp .= $cliente->nombre;
                     }else{
                         $resp .= "No especificado ";
                     }
@@ -87,7 +124,8 @@ class VentasController extends Controller
                 return $resp;
             })
             ->editColumn('user_id', function ($item) {
-                return $item->user->first_name .  " " . $item->user->last_name;
+                $user = User::find($item->user_id); 
+                return $user->first_name .  " " . $user->last_name;
             })
 
             ->make(true);
