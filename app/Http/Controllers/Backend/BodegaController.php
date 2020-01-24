@@ -254,17 +254,18 @@ class BodegaController extends Controller
                     $detalle->save();
                 }
 
-                
-                if(count($list_productos_entregado_id) == $venta->venta_detalle->count()){
-                    $venta->venta_estado_id = 3;
-                }else{
-                    $detalle_buscar= VentaDetalle::where("venta_id", $venta->id)->where("is_entregado", 0)->first();
-                    if(!$detalle_buscar){
+                if (!$request->ubicacion_destino_id == 4 ){
+
+                    if(count($list_productos_entregado_id) == $venta->venta_detalle->count()){
                         $venta->venta_estado_id = 3;
                     }else{
-                        $venta->venta_estado_id = 4;
+                        $detalle_buscar= VentaDetalle::where("venta_id", $venta->id)->where("is_entregado", 0)->first();
+                        if(!$detalle_buscar){
+                            $venta->venta_estado_id = 3;
+                        }else{
+                            $venta->venta_estado_id = 4;
+                        } 
                     }
-                    
                 }
                 $venta->movimiento_id=$movimiento->id;
                 $venta->save();
