@@ -467,6 +467,22 @@ class VentaController extends Controller
 
     }
 
+    public function imprimirFacturaTermica($id)
+    {
+        $venta = Venta::find($id);
+        $tipo_documento=   "Factura Electronica" ;
+        $tipo=   "FVE" ;  
+        $timbre_fecha = date('Ymdhis', time());
+        $nombre_archivo = $timbre_fecha ."_".$tipo."_". $id .".pdf";
+        $data = ['titulo' => $nombre_archivo,
+            'venta' => $venta,
+            'tipo_documento' => $tipo_documento  ];
+        $pdf = PDF::loadView('backend/pdf/facturatermica', $data);
+
+        return $pdf->stream($nombre_archivo);
+
+    }
+
 
     public function guardarPrecio(Request $request)
     {
