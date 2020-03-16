@@ -594,6 +594,9 @@
                             data: $("#formulario").serialize(),
                             success: function (data) {
                                 var respuesta = $.parseJSON( data);
+
+
+                                
                                 //console.log(respuesta);
                                 if(respuesta.mensaje){
                                     alert(respuesta.mensaje);
