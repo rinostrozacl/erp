@@ -130,17 +130,25 @@ class BodegaController extends Controller
         DB::beginTransaction();
         try
         { 
-        
-            if($request->movimiento_tipo_id==1 || $request->movimiento_tipo_id==3 || $request->movimiento_tipo_id==4){
-                    // Registra el movimiento
-                    $movimiento = new Movimiento();
-                    $movimiento->cantidad =  count($request->productos_id);
-                    $movimiento->user_id = Auth::id();
-                    $movimiento->movimiento_tipo_id = $request->movimiento_tipo_id;
-                    $movimiento->ubicacion_origen_id = $request->ubicacion_origen_id;
-                    $movimiento->ubicacion_destino_id = $request->ubicacion_destino_id;
-                    $movimiento->save();
+            $guardar=true;
+            if (!is_array($request->productos_id) ){
+                $guardar= false;
+                $respuesta["mensaje"]="Debe agregar productos";
             }
+        
+            if($guardar){
+
+            
+                if($request->movimiento_tipo_id==1 || $request->movimiento_tipo_id==3 || $request->movimiento_tipo_id==4){
+                        // Registra el movimiento
+                        $movimiento = new Movimiento();
+                        $movimiento->cantidad =  count($request->productos_id);
+                        $movimiento->user_id = Auth::id();
+                        $movimiento->movimiento_tipo_id = $request->movimiento_tipo_id;
+                        $movimiento->ubicacion_origen_id = $request->ubicacion_origen_id;
+                        $movimiento->ubicacion_destino_id = $request->ubicacion_destino_id;
+                        $movimiento->save();
+                }
                 
 
                 if($request->ubicacion_destino_id == 7){
@@ -315,16 +323,20 @@ class BodegaController extends Controller
                     $respuesta["correcto"]=1;
                 }
 
-                catch (Throwable $t)
-                {
-                  $respuesta["correcto"]=0;
-                  DB::rollBack();
-                }
+        }
+        catch (Throwable $t)
+        {
+            $respuesta["correcto"]=0;
+            DB::rollBack();
+        } catch ( \Exception $e ) {
+            $respuesta["correcto"]=0;
+            DB::rollBack();
+        }
+
+        if ($respuesta["correcto"]==1){
+            DB::commit();
+        }
         
-                if ($respuesta["correcto"]==1){
-                    DB::commit();
-                }
-         
 
 
 
