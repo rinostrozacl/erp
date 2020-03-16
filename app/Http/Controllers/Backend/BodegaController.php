@@ -328,13 +328,16 @@ class BodegaController extends Controller
         {
             $respuesta["correcto"]=0;
             DB::rollBack();
+            $respuesta["mensaje"]="Se ha detectado un problema, no se ha logrado hacer la transaccion";
         } catch ( \Exception $e ) {
             $respuesta["correcto"]=0;
             DB::rollBack();
+            $respuesta["mensaje"]="Se ha detectado un problema, no se ha logrado hacer la transaccion";
         }
 
         if ($respuesta["correcto"]==1){
             DB::commit();
+            $respuesta["mensaje"]="Transaccion realizada correctamente";
         }
         
 
