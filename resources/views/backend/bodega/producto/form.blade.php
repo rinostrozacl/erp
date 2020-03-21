@@ -216,12 +216,14 @@
                         jQuery.each(data.errors, function(key, value){
                             jQuery('.alert-danger').show();
                             jQuery('.alert-danger').append('<p>'+value+'</p>');
+                           
                         });
                         if(data.estado==1){
                             alert(data.mensaje);
                                 history.back(-1);
-                          
-
+                        }else{
+                            alert(data.mensaje);
+                            $("#guardar").removeAttr("disabled");
                         }
                     }
                 });

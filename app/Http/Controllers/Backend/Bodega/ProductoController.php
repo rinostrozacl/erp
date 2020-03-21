@@ -126,27 +126,38 @@ class ProductoController extends Controller
         {
             return response()->json(['errors'=>$validator->errors()->all()]);
         }else{
-            if($request->id>0){
-                $producto = Producto::findOrFail($request->id);
-                $msg='Registro modificado';
+            if($request->marca_id==0){
+                return response()->json(['estado'=>0,'mensaje'=>"Debe seleccionar marca"]);
+            }else if($request->familia_id==0){
+                return response()->json(['estado'=>0,'mensaje'=>"Debe seleccionar familia"]);
+            }else if($request->unidad_medida_id==0){
+                return response()->json(['estado'=>0,'mensaje'=>"Debe seleccionar Unidad de medida"]);
             }else{
-                $producto = new Producto();
-                $msg='Registro Ingresado';
+
+                if($request->id>0){
+                    $producto = Producto::findOrFail($request->id);
+                    $msg='Registro modificado';
+                }else{
+                    $producto = new Producto();
+                    $msg='Registro Ingresado';
+                }
+    
+                $producto->nombre=$request->nombre;
+                $producto->codigo_ean13=$request->codigo_ean13;
+                $producto->codigo_erp=$request->codigo_erp;
+                $producto->descripcion=$request->descripcion;
+                $producto->unidad_medida_id=$request->unidad_medida_id;
+                $producto->familia_id=$request->familia_id;
+                $producto->marca_id=$request->marca_id;
+                $producto->valor_neto_venta = str_replace(",", ".", $request->valor_neto_venta);
+    
+                $activo=($request->activo==1)? 1:0;
+                $producto->activo=$activo;
+                $producto->save();
+                return response()->json(['estado'=>1,'mensaje'=>$msg]);
             }
 
-            $producto->nombre=$request->nombre;
-            $producto->codigo_ean13=$request->codigo_ean13;
-            $producto->codigo_erp=$request->codigo_erp;
-            $producto->descripcion=$request->descripcion;
-            $producto->unidad_medida_id=$request->unidad_medida_id;
-            $producto->familia_id=$request->familia_id;
-            $producto->marca_id=$request->marca_id;
-            $producto->valor_neto_venta = str_replace(",", ".", $request->valor_neto_venta);
-
-            $activo=($request->activo==1)? 1:0;
-            $producto->activo=$activo;
-            $producto->save();
-            return response()->json(['estado'=>1,'mensaje'=>$msg]);
+            
 
         }
     }
