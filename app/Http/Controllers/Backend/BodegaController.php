@@ -248,9 +248,18 @@ class BodegaController extends Controller
                                         
                                     }
                                 }
+
                                 $producto->stock_disponible=$producto->stock_disponible  - $list_cantidades[$clave];
 
                                 $p_u = ProductoUbicacion::where('producto_id',$producto->id)->where('ubicacion_id',$request->ubicacion_origen_id)->first();
+                                if(!$p_u){
+                                    $p_u = new ProductoUbicacion();
+                                    $p_u->producto_id = $producto->id;
+                                    $p_u->ubicacion_id =  $request->ubicacion_destino_id;
+                                    $p_u->stock_disponible=0;
+    
+                                }
+                                
                                 $p_u->stock_disponible=$p_u->stock_disponible  - $list_cantidades[$clave];
                                 $p_u->save();
 

@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Backend\Auth\UserRepository;
 use App\Http\Requests\Backend\Auth\User\ManageUserRequest;
 use App\Http\Requests\Backend\Auth\User\UpdateUserPasswordRequest;
+use Illuminate\Http\Request;
+use Hash;
+
 
 /**
  * Class UserPasswordController.
@@ -45,10 +48,30 @@ class UserPasswordController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function update(UpdateUserPasswordRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $this->userRepository->updatePassword($user, $request->only('password'));
+        
+       
+        $this->validate($request, [
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $request->user()->fill(['password' => Hash::make($request->password)])->save();
+    
+        $request->session()->flash('success', 'La contraseña ha sido cambiada.');
+       // return back();
+        /*
+        if(Hash::check($request->old, Auth::user()->password)) {
+            //Change the password
+           
+        }
+        else {
+            $request->session()->flash('failure', 'Your password has not been changed.');
+            return back();
+        } 
 
-        return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.updated_password'));
+        //$this->userRepository->updatePassword($user, $request->only('password'));
+        //$user->update(['password'=> Hash::make($request->only('password'))]);*/
+         
+      return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.updated_password'));
     }
 }
