@@ -55,8 +55,10 @@ class UserPasswordController extends Controller
         $this->validate($request, [
             'password' => 'required|min:6|confirmed',
         ]);
-        $request->user()->fill(['password' => Hash::make($request->password)])->save();
+        //dd($user);
+        $user->fill(['password' => Hash::make($request->password)])->save();
     
+
         $request->session()->flash('success', 'La contraseña ha sido cambiada.');
        // return back();
         /*
