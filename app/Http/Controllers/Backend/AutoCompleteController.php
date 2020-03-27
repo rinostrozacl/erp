@@ -25,7 +25,7 @@ class AutoCompleteController extends Controller
                 ->join('marca', 'producto.marca_id', '=', 'marca.id')
                 ->where('producto.nombre', 'LIKE', "%{$query}%")
                 ->limit(60)
-                ->select( "producto.id","producto.nombre","marca.nombre as marca")
+                ->select( "producto.id","producto.nombre","marca.nombre as marca", "producto.stock_disponible")
                 ->get();
 
             echo $data->toJson();

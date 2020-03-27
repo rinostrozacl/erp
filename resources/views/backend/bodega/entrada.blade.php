@@ -308,8 +308,9 @@
                     data:{query:query, _token:_token},
                     success: function (data) {
                        // console.log(data);
+                       $("#producto_id_add").empty();
                         $.each(JSON.parse(data), function(id, item) {
-                            $("#producto_id_add").append('<option value=' + item.id + '>' + item.nombre +  " (" +item.marca +')</option>');
+                            $("#producto_id_add").append('<option value=' + item.id + '>' + item.nombre +  " ("+ item.stock_disponible +") (" +item.marca +') </option>');
                         });
                         $('#bt-agregar').removeAttr("disabled");
                     }
