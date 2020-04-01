@@ -134,6 +134,11 @@
                             Ventas por vendedor
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ active_class(Active::checkUriPattern('admin/informe/cantidadventas')) }}" href="{{ route('admin.informe.cantidadventas') }}">
+                            Cantidad de ventas
+                        </a>
+                    </li>
                 </ul>
             </li>
 

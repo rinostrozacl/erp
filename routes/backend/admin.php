@@ -26,6 +26,8 @@ use App\Http\Controllers\Backend\Caja\CajaController;
 use App\Http\Controllers\Backend\AutoCompleteController;
 use App\Http\Controllers\Backend\Informe\VentasController;
 use App\Http\Controllers\Backend\Informe\VentasVendedorController;
+use App\Http\Controllers\Backend\Informe\CantidadVentasController;
+
 
 
 
@@ -258,6 +260,8 @@ Route::get('informe/ventasvendedor', [VentasVendedorController::class, 'index'])
 Route::get('informe/ventasvendedor/tabla', [VentasVendedorController::class, 'getTabla'])->name('informe.ventasvendedor.tabla'); 
 
 
+Route::get('informe/cantidadventas', [CantidadVentasController::class, 'index'])->name('informe.cantidadventas');
+Route::get('informe/cantidadventas/tabla', [CantidadVentasController::class, 'getTabla'])->name('informe.cantidadventas.tabla'); 
 
 /*
  * Fin sub menu general
