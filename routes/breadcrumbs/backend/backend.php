@@ -210,5 +210,10 @@ Breadcrumbs::for('admin.informe.ventasvendedor', function ($trail) {
 });
 
 
+Breadcrumbs::for('admin.informe.cantidadventas', function ($trail) {
+    $trail->push(__('Informe de cantidad ventas'), route('admin.informe.cantidadventas'));
+});
+
+
 require __DIR__.'/auth.php';
 require __DIR__.'/log-viewer.php';
