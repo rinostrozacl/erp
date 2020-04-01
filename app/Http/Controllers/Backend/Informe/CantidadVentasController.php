@@ -53,14 +53,14 @@ class CantidadVentasController extends Controller
             JOIN producto on producto.id = venta_detalle.producto_id
             where venta.venta_estado_id = 3
             (venta_detalle.created_at BETWEEN '". $request->fecha_inicio ."' AND '". $request->fecha_fin ."')
-             GROUP by producto_id order by cantidad desc ");
+             GROUP by producto_id, producto.nombre order by cantidad desc ");
         }else{
 
             $usuarios = $total = DB::select("SELECT SUM(cantidad_vendida) as cantidad, producto_id as id, producto.nombre as nombre FROM `venta_detalle` 
             JOIN venta on venta.id = venta_detalle.venta_id
             JOIN producto on producto.id = venta_detalle.producto_id
             where venta.venta_estado_id = 3
-                         GROUP by producto_id  order by cantidad desc");
+                         GROUP by producto_id, producto.nombre  order by cantidad desc");
         }
   
        
